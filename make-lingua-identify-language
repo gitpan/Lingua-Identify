@@ -1,0 +1,370 @@
+#!/usr/bin/perl
+use strict;
+use Text::Ngram qw(ngram_counts);
+use Text::ExtractWords qw(words_count words_list);
+use Text::Affixes;
+
+use Getopt::Std qw(getopts);
+
+my $version = '0.01';
+
+our %opts = get_options();
+
+show_help()        if $opts{h};
+show_version()     if $opts{v};
+
+unless (-d || @ARGV) {
+  $opts{d} = 1;
+}
+
+if ($opts{d}) {
+  my @languages = @ARGV || <*-*>;
+  for (@languages) {
+    /(.+)-(.+)/ ||
+      die "Can't figure out the language tag and name out of '$_'\n";
+    make_module($1, $2, <$_/*>);
+  }
+}
+else {
+  my $tag = shift || die "You must provide a language tag.\n";
+  my $language = shift || die "You must provide a language name.\n";
+  @ARGV || die "You must provide at least one file.\n";
+  make_module($tag, $language, @ARGV);
+}
+
+###############
+# subroutines #
+###############
+
+sub verbose {
+  print STDERR $_[0], "\n" if $opts{v};
+}
+
+###
+
+sub get_options {
+        my %opts;
+        getopts('dDhv', \%opts );
+
+        foreach my $key ( keys %opts )
+                {
+                $opts{$key} = 1 unless defined $opts{$key}
+                }
+
+        debug_options( %opts ) if $opts{D};
+
+        %opts;
+        }
+
+###
+
+# Hello... you wouldn't have seen a lost comment around here, would you? :-|
+# He's my soon, you know? :-| I've been looking for him for some time now...
+# He's small, just about two lines long... :-| If you see him, could you please
+# tell me? Thank you :-|
+
+###
+
+sub debug_options {
+        my %opts = @_;
+
+        #local $^W = 0;
+        no warnings;
+                {
+                print STDERR <<"HERE";
+-------------------------------------------------------------------------
+Command line options
+-------------------------------------------------------------------------
+d   $opts{d}
+D   $opts{D}
+h   $opts{h}
+v   $opts{v}
+-------------------------------------------------------------------------
+HERE
+                }
+        }
+
+###
+
+sub show_help {
+  die "Usage: make-lingua-identify-language tag language file1 file2
+ or:   make-lingua-identify-language -d directory1 directory2
+make-lingua-identify-language: creates Lingua::Identify language modules
+
+Examples:
+  make-lingua-identify-language en english file1
+  make-lingua-identify-language -d en-english/ pt-portuguese/
+  make-lingua-identify-language
+
+Options:
+  -d         directory mode
+  -D         debug mode
+  -h         displays this messages and exit
+  -v         show version and exit
+"
+}
+
+###
+  
+sub show_version { 
+  die "make-lingua-identify-language version $version\n";
+}
+
+###
+
+sub make_module {
+  my ($tag, $name, @files) = @_;
+
+  verbose("Studying $name ($tag)");
+
+    # read all files in its directory
+    my $text;
+    for (@files) {
+        open( STDIN, $_ ) || die;
+        $text .= join "\n", <>;
+        close(STDIN);
+    }
+
+    # write some headers
+    open( STDOUT, ">" . ( uc $tag ) . ".pm" ) || die;
+    print "use strict;\n",
+      "\n\${Lingua::Identify::languages{_versions}{$tag}} = '$version';\n",
+      "\n\${Lingua::Identify::languages{_names}{$tag}} = '$name';\n";
+
+    # write POD
+
+    my $module_name = uc $tag;
+    my $podname = ucfirst $name;
+    print <<POD;
+
+=head1 NAME
+
+Lingua::Identify::$module_name - Meta-information on $podname.
+
+=head1 SYNOPSIS
+
+Nothing here is meant for public comsuption. This module is to be loaded by
+Lingua::Identify.
+
+=head1 DESCRIPTION
+
+Automatically generated. Do not change this module yourself (yet).
+
+=head1 SEE ALSO
+
+Lingua::Identify(3).
+
+=head1 AUTHOR
+
+Jose Alves de Castro, E<lt>cog\@cpan.orgE<gt>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2004 by Jose Alves de Castro
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.8.4 or,
+at your option, any later version of Perl 5 you may have available.
+
+=cut
+POD
+
+    # write prefixes information
+    verbose("\tstudying prefixes");
+
+    my $prefixes = get_prefixes( { min => 1, max => 4 }, $text );
+    for my $i ( 1 .. 4 ) {
+        print "\n\${Lingua::Identify::languages{prefixes$i}{$tag}} = {\n";
+        my $total;
+        for ( values %{ $$prefixes{$i} } ) { $total += $_; }
+        for (
+            (
+                sort { $$prefixes{$i}{$b} <=> $$prefixes{$i}{$a} }
+                keys %{ $$prefixes{$i} }
+            )[ 0 .. 19 ]
+          )
+        {
+            print "  '$_'\t=> ", $$prefixes{$i}{$_} / $total, ",\n";
+        }
+        print "};\n";
+    }
+
+    # write suffixes information
+    verbose("\tstudying suffixes");
+
+    my $suffixes = get_suffixes( { min => 1, max => 4 }, $text );
+    for my $i ( 1 .. 4 ) {
+        print "\n\${Lingua::Identify::languages{suffixes$i}{$tag}} = {\n";
+        my $total;
+        for ( values %{ $$suffixes{$i} } ) { $total += $_; }
+        for (
+            (
+                sort { $$suffixes{$i}{$b} <=> $$suffixes{$i}{$a} }
+                keys %{ $$suffixes{$i} }
+            )[ 0 .. 19 ]
+          )
+        {
+            print "  '$_'\t=> ", $$suffixes{$i}{$_} / $total, ",\n";
+        }
+        print "};\n";
+    }
+
+    # write words information
+    verbose("\tstudying words");
+
+    my %hash_w;
+    words_count( \%hash_w, $text );
+    my $total;
+    for ( values %hash_w ) { $total += $_; }
+    print "\n\${Lingua::Identify::languages{smallwords}{$tag}} = {\n";
+    for (
+        ( sort { $hash_w{$b} <=> $hash_w{$a} } grep { !/^\d+$/ } keys %hash_w )
+        [ 0 .. 19 ] )
+    {
+        print "  '$_'\t=> ", $hash_w{$_} / $total, ",\n";
+    }
+    print "};\n";
+
+    # write ngrams information
+    my $f = sub { ngram_counts( $_[0], $_[1]) };
+
+    get_info($tag, 'ngrams', 1, 4, $f, $text );
+
+    # close the file
+    close(STDOUT);
+
+}
+
+###############################
+
+sub get_info {
+  my ($tag, $what, $min, $max, $function, $text) = @_;
+
+  verbose("\tstudying $what");
+
+  for my $gram ( $min .. $max ) {
+
+    #my $hash_r = ngram_counts( $text, $gram );
+    my $hash = &{$function}($text, $gram);
+
+    my $total;
+    for ( values %$hash ) { $total += $_; }
+
+    print "\n\${Lingua::Identify::languages{$what$gram}{$tag}} = {\n";
+
+    for (
+        ( sort { $$hash{$b} <=> $$hash{$a} } keys %$hash )[ 0 .. 19 ]
+      )
+    {
+        print "  '$_' => ", $$hash{$_} / $total, ",\n";
+    }
+
+    print "};\n";
+
+  }
+
+}
+
+###
+
+__END__
+
+=head1 NAME
+
+make-lingua-identify-language - creates language modules for Lingua::Identify
+
+=head1 SYNOPSIS
+
+  make-lingua-identify-language Language-Tag Language-Name file1 [file2 ...]
+
+or
+
+  make-lingua-identify-language -d TAG1-LANGUAGE1/ [TAG2-LANGUAGE2/ ...]
+
+or
+
+  make-lingua-identify
+
+=head1 DESCRIPTION
+
+Creates language modules to be used by Lingua::Identify.
+
+After creating the modules, you still have to install them.
+
+Please note that this script is still at an early stage. Please do not even
+look at the code...
+
+Without parameters, make-lingua-identify-language assumes mode -d and goes
+through all the directories in the current one. This is usefull to be used in a
+directory where you something like this:
+
+  .
+  |-- en-english
+  |   `-- english.txt
+  |-- fr-french
+  |   `-- french.txt
+  `-- pt-portuguese
+      `-- portuguese.txt
+
+=head2 OPTIONS
+
+=head2 -d
+
+Directory mode. Each parameter passed should be a directory whose name
+must be of the form tag-name (e.g., en-english/ ). Each of the
+directories passed should contain text files that can be used to train
+Lingua::Identify.
+
+=head2 -D
+
+Debug mode. Only for development.
+
+=head2 -h
+
+Display help and exit.
+
+=head2 -v
+
+Show version and exit.
+
+=head1 CONTRIBUTING WITH NEW LANGUAGES
+
+Please do not contribute with modules you made yourself. It's easier
+to contribute with unprocessed text, because that allows for new
+versions of Lingua::Identify not having to drop languages down in case
+I can't contact you by that time.
+
+Use I<make-lingua-identify-language> to create a new module for your
+own personal use, if you must, but try to contribute with unprocessed
+text rather than those modules.
+
+=head1 TO DO
+
+=over 6
+
+=item * Recode
+
+=back
+
+=head1 SEE ALSO
+
+Lingua::Identify(3), langident(1)
+
+A linguist and/or a shrink.
+
+The latest CVS version of C<Lingua::Identify> (which includes
+I<make-lingua-identify>) can be attained at
+http://natura.di.uminho.pt/natura/viewcvs.cgi/Lingua/Identify/
+
+=head1 AUTHOR
+
+Jose Alves de Castro, E<lt>cog@cpan.orgE<gt>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2004 by Jose Alves de Castro
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself. 
+
+=cut

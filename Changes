@@ -1,5 +1,8 @@
 Revision history for Perl extension Lingua::Identify.
 
+0.10  Fri Dec 20 11:18:23 2004
+	- added make-lingua-identify-language to the MANIFEST
+
 0.09  Fri Dec 17 15:49:23 2004
 	+ changes on Lingua::Identify
 	minor changes in the documentation

@@ -37,3 +37,4 @@ META.yml                                 Module meta-data (added by MakeMaker)
 langident
 t/03-compile-langident.t
 t/04-compile-make-lingua-identify-language.t
+make-lingua-identify-language
