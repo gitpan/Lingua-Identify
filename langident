@@ -13,7 +13,10 @@ show_version()	        if $opts{v};
 show_languages()        if $opts{l};
 chose_languages()       if $opts{o};
 
-$opts{a} = 1 if $opts{m};
+if ($opts{m}) {
+    $opts{m} > 0 || die "langident: please provide a positive value for -m\n";
+    $opts{a} = $opts{m};
+}
 
 if (@ARGV) {
   my @files = @ARGV;
@@ -100,7 +103,7 @@ Options:
 ###
 
 sub show_version {
-  die "langident version ", Lingua::Identify->VERSION, "\n";
+  die "langident version 0.07 (Lingua::Identify ", Lingua::Identify->VERSION, ")\n";
 }
 
 ###
@@ -109,8 +112,10 @@ sub show_version {
 sub ident {
   if ($opts{a} || $opts{p} || $opts{c}) {
     my @results = langof(get_config(),<>);
+    @results || return ();
     if ($opts{m}) {
-      @results = @results[0 .. (($opts{m} * 2) - 1)];
+      my $m = $opts{m} > @results / 2 ? @results - 1 : (($opts{m} * 2) - 1);
+      @results = @results[0 .. $m];
     }
     my @confidence = $opts{c} ? scalar confidence(@results) * 100 : ();
     @results = @results[0,1] unless $opts{a};
@@ -119,7 +124,7 @@ sub ident {
     return (shift @results, @confidence, @results);
   }
   else {
-    return (get_config(),langof(<>))[0];
+    return (langof(get_config(),<>))[0];
   }
 }
 
@@ -166,14 +171,14 @@ langident - identifies the language files are written in
 
 =head1 SYNOPSIS
 
-langident [OPTION] file1 [file2 ...]
+  langident [OPTIONS] file1 [file2 ...]
 
 =head1 DESCRIPTION
 
 Identifies the language files are written in using Perl module
 Lingua::Identify.
 
-=head2 OPERATIONS
+=head2 OPTIONS
 
 =head2 -a
 
@@ -245,6 +250,14 @@ the first result.
   $ langident -e ngrams2=2,ngrams1 -c -p -m 3 README 
   README:bg 65.7209505939491 7.8971987481393 ga 4.11905889385895 tr 4.08487011400505
   $ 
+
+=head1 TO DO
+
+=over 6
+
+=item * Add a switch to ignore HTML tags (and maybe other formats too)
+
+=back
 
 =head1 SEE ALSO
 

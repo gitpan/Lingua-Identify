@@ -38,7 +38,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(
 );
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 =head1 NAME
 
@@ -694,8 +694,8 @@ Check the language a given text file is written in:
 Check the language a given text file is written in, supposing you
 happen to know it's either Portuguese or English:
 
-  use Lingua::Identify qw/langof activate_language/;
-  activate_language(qw/pt en/);
+  use Lingua::Identify qw/langof set_active_languages/;
+  set_active_languages(qw/pt en/);
 
   my $text = join "\n", <>;
 
@@ -719,15 +719,14 @@ deal with;
 
 =item * WordNgrams based methods;
 
-=item * Easy way to learn new languages;
+=item * Easy way to learn new languages (command
+make-lingua-identify-language);
 
 =item * More languages;
 
 =item * File recognition and treatment;
 
 =item * Create sets of languages and permit their activation/deactivation;
-
-=item * What happens when { method => [] } ?
 
 =back
 
