@@ -35,3 +35,5 @@ lib/Lingua/Identify/SV.pm
 lib/Lingua/Identify/TR.pm
 META.yml                                 Module meta-data (added by MakeMaker)
 langident
+t/03-compile-langident.t
+t/04-compile-make-lingua-identify-language.t

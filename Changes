@@ -1,11 +1,17 @@
 Revision history for Perl extension Lingua::Identify.
 
+0.09  Fri Dec 17 15:49:23 2004
+	+ changes on Lingua::Identify
+	minor changes in the documentation
+
+	+ added make-lingua-identify-language
+
 0.08  Fri Nov 05 11:55:00 2004
 	+ changes on Lingua::Identify
-	- fixed a glitch in the documentation
+	- fixed a glitch in the documentation (thanks to Matti Korttila)
 
 	+ changes on langident
-	- fixed an embarassing bug
+	- fixed an embarassing bug (thanks to Matti Korttila)
 	- fixed a bug on the -m switch
 	- added some validation for the -m switch
 

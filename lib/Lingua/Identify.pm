@@ -38,7 +38,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(
 );
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 =head1 NAME
 
@@ -417,6 +417,14 @@ sub _langof_by_suffix_method {
   return _langof_by_method($method, $$suffixes{$1}, $text);
 }
 
+###
+
+# Have you seen my brother? He's a two line long comment. I think he
+# might be lost... :-\ Me and my father have been looking for him for
+# some time now :-/
+
+###
+
 =head2 Ngram Categorization - B<ngrams1>, B<ngrams2>, B<ngrams3>, B<ngrams4>
 
 Ngrams are sequences of tokens. You can think of them as syllables, but they
@@ -675,6 +683,17 @@ Currently, C<Lingua::Identify> knows the following languages (26 total):
 
 =back
 
+=head1 CONTRIBUTING WITH NEW LANGUAGES
+
+Please do not contribute with modules you made yourself. It's easier
+to contribute with unprocessed text, because that allows for new
+versions of Lingua::Identify not having to drop languages down in case
+I can't contact you by that time.
+
+Use I<make-lingua-identify-language> to create a new module for your
+own personal use, if you must, but try to contribute with unprocessed
+text rather than those modules.
+
 =head1 EXAMPLES
 
 =head2 THE BASIC EXAMPLE
@@ -707,6 +726,8 @@ happen to know it's either Portuguese or English:
 
 =over 6
 
+=item * Explain how the confidence level is calculated;
+
 =item * Add more examples in the documentation;
 
 =item * Add examples of the values returned;
@@ -719,12 +740,11 @@ deal with;
 
 =item * WordNgrams based methods;
 
-=item * Easy way to learn new languages (command
-make-lingua-identify-language);
-
 =item * More languages;
 
 =item * File recognition and treatment;
+
+=item * Deal with different encodings;
 
 =item * Create sets of languages and permit their activation/deactivation;
 

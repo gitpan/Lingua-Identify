@@ -1,5 +1,7 @@
-Lingua/Identify version 0.08
+Lingua/Identify version 0.09
 ============================
+
+=head1 NAME
 
 Lingua::Identify - Language identification
 
@@ -319,10 +321,6 @@ Given the two letter tag of a language, returns its name
 
   my $language_name = name_of('pt');
 
-=back
-
-=cut
-
 =head1 KNOWN LANGUAGES
 
 Currently, C<Lingua::Identify> knows the following languages (26 total):
@@ -383,6 +381,17 @@ Currently, C<Lingua::Identify> knows the following languages (26 total):
 
 =back
 
+=head1 CONTRIBUTING WITH NEW LANGUAGES
+
+Please do not contribute with modules you made yourself. It's easier
+to contribute with unprocessed text, because that allows for new
+versions of Lingua::Identify not having to drop languages down in case
+I can't contact you by that time.
+
+Use I<make-lingua-identify-language> to create a new module for your
+own personal use, if you must, but try to contribute with unprocessed
+text rather than those modules.
+
 =head1 EXAMPLES
 
 =head2 THE BASIC EXAMPLE
@@ -415,6 +424,8 @@ happen to know it's either Portuguese or English:
 
 =over 6
 
+=item * Explain how the confidence level is calculated;
+
 =item * Add more examples in the documentation;
 
 =item * Add examples of the values returned;
@@ -427,12 +438,11 @@ deal with;
 
 =item * WordNgrams based methods;
 
-=item * Easy way to learn new languages (command
-make-lingua-identify-language);
-
 =item * More languages;
 
 =item * File recognition and treatment;
+
+=item * Deal with different encodings;
 
 =item * Create sets of languages and permit their activation/deactivation;
 
@@ -459,3 +469,4 @@ This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
 
 =cut
+

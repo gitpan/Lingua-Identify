@@ -130,6 +130,11 @@ sub ident {
 
 ###
 
+# HELP!!! I'm an innocent comment trapped in here by an evil programmer :-(
+# Please get me out of here :-( My family is probably looking for me :-(
+
+###
+
 sub get_config {
   my %config;
 
@@ -248,7 +253,7 @@ with its percentages (-p switch) and also the confidence level (-c switch) of
 the first result.
 
   $ langident -e ngrams2=2,ngrams1 -c -p -m 3 README 
-  README:bg 65.7209505939491 7.8971987481393 ga 4.11905889385895 tr 4.08487011400505
+  README:en 65.7209505939491 7.8971987481393 ga 4.11905889385895 tr 4.08487011400505
   $ 
 
 =head1 TO DO
