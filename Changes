@@ -1,9 +1,19 @@
 Revision history for Perl extension Lingua::Identify.
 
-0.02  Thu Apr 29 14:57:39 2004
-	- first release (beta)
+0.03  Wed Oct 27 10:13:10 2004
+        - major changes in the architecture
+	- major changes in the documentation
+	- more languages
+	- more methods
+	- more stuff (see the documentation)
+	- more power
 
-0.01  Thu Apr 29 19:16:39 2004
-	- original version; created by h2xs 1.22 with options
+0.02  Mon Jul 26 23:43:39 2004
+        - basic functionality
+        - added the `langident` command
+        - improved documentation
+
+0.01  Fri Oct  1 11:59:44 2004
+	- original version; created by h2xs 1.23 with options
 		-XAn Lingua::Identify
 

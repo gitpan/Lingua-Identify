@@ -1,14 +1,15 @@
 Changes
-Identify.pm
-ngrams3.pm
-ngrams4.pm
-ngrams5.pm
-ngrams6.pm
-ngrams7.pm
-ngrams8.pm
-words.pm
 Makefile.PL
 MANIFEST
 README
-t/01-language_activation.t
-t/02-basic_identification.t
+t/01-language_manipulation.t
+t/02-language_identification.t
+lib/Lingua/Identify.pm
+lib/Lingua/Identify/DE.pm
+lib/Lingua/Identify/EN.pm
+lib/Lingua/Identify/ES.pm
+lib/Lingua/Identify/FR.pm
+lib/Lingua/Identify/IT.pm
+lib/Lingua/Identify/PT.pm
+META.yml                                 Module meta-data (added by MakeMaker)
+langident

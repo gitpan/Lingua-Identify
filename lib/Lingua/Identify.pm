@@ -1,5 +1,39 @@
-Lingua/Identify version 0.03
-============================
+package Lingua::Identify;
+
+use 5.006;
+use strict;
+use warnings;
+
+require Exporter;
+
+our @ISA = qw(Exporter);
+
+our %EXPORT_TAGS = (
+	'all' => [ qw(
+			langof init_all
+			activate_all_languages	deactivate_all_languages
+			get_all_languages	get_active_languages
+			get_inactive_languages	is_active
+			is_valid_language	activate_language
+			deactivate_language	set_active_languages
+		) ],
+	'language_manipulation' => [ qw(
+			activate_all_languages	deactivate_all_languages
+			get_all_languages	get_active_languages
+			get_inactive_languages	is_active
+			is_valid_language	activate_language
+			deactivate_language	set_active_languages
+		) ],
+);
+
+our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
+
+our @EXPORT = qw(
+);
+
+our $VERSION = '0.03';
+
+=head1 NAME
 
 Lingua::Identify - Language identification
 
@@ -21,6 +55,26 @@ Lingua::Identify - Language identification
 
 C<Lingua::Identify> identifies the language a given string or file is
 written in.
+
+=cut
+
+# initialization
+
+our (@all_languages,@active_languages,%languages,%regexen,@methods);
+BEGIN {
+
+  use Class::Factory::Util;
+  for ( Lingua::Identify->subclasses() ) {
+    eval "require Lingua::Identify::$_ ;";
+    $languages{_versions}{lc $_} >= 0.01 ||
+      die "Required version of language $_ not found.\n";
+  } 
+  
+  @all_languages = @active_languages = keys %{$languages{_names}};
+
+  @methods = qw/smallwords/;
+
+}
 
 =head1 HOW TO PERFORM IDENTIFICATION
 
@@ -81,6 +135,71 @@ following (this might change in the future):
 
 =back
 
+=cut
+
+sub langof {
+  my %config = ();
+  if (ref($_[0]) eq 'HASH') {%config = (%config, %{+shift})}
+
+  my $text = join "\n", @_;
+
+  # select the methods
+  my %methods;
+  if (defined $config{method}) {
+    for (ref($config{method})) {
+      if (/^HASH$/) {
+        %methods = %{$config{method}};
+      }
+      elsif (/^ARRAY$/) {
+        for (@{$config{method}}) {
+          $methods{$_}++;
+        }
+      }
+      else {
+        $methods{$config{method}} = 1;
+      }
+    }
+  }
+  else {
+    %methods = (qw/smallwords 0.5 prefixes2 1 suffixes3 1 ngrams3 1.3/);
+  }
+
+  # use the methods
+  my (%result,$total,$weight);
+  for (keys %methods) {
+    my %temp_result;
+
+    if (/^smallwords$/) {
+      %temp_result = langof_by_word_method('smallwords', $text);
+    }
+    elsif (/^(prefixes[1-4])$/) {
+      %temp_result = langof_by_prefix_method($1, $text);
+    }
+    elsif (/^(suffixes[1-4])$/) {
+      %temp_result = langof_by_suffix_method($1, $text);
+    }
+    elsif (/^(ngrams[1-4])$/) {
+      %temp_result = langof_by_ngram_method($1, $text);
+    }
+
+    $weight = $methods{$_};
+    my $temp;
+    for (keys %temp_result) {
+      $temp = $temp_result{$_} * $weight;
+      $result{$_} += $temp;
+      $total += $temp;
+    }
+  }
+
+  # report the results
+  my @result = (
+    map { ( $_, ($total ? $result{$_} / $total : 0)) }
+      sort { $result{$b} <=> $result{$a} } keys %result
+  );
+
+  return wantarray ? @result : $result[0];
+}
+
 =head1 LANGUAGE IDENTIFICATION IN GENERAL
 
 Language identification is based in patterns.
@@ -93,6 +212,31 @@ prefixes, suffixes, common words, ngrams or even sequences of words.
 After repeating the process for each language, the total score for each of them
 is then used to compute the probability (in percentage) for each language to be
 the one of that text.
+
+=cut
+
+sub langof_by_method {
+  my ($method, $elements, $text) = @_;
+  my (%result, $total);
+
+  for my $language (get_active_languages()) {
+    for (keys %{$languages{$method}{$language}}) {
+      if (exists $$elements{$_}) {
+        $result{$language} +=
+          $$elements{$_} * ${languages{$method}{$language}{$_}};
+        $total +=
+          $$elements{$_} * ${languages{$method}{$language}{$_}};
+      }
+    }
+  }
+
+  my @result = (
+    map { ( $_, ($total ? $result{$_} / $total : 0)) }
+      sort { $result{$b} <=> $result{$a} } keys %result
+  );
+
+  return wantarray ? @result : $result[0];
+}
 
 =head1 METHODS OF LANGUAGE IDENTIFICATION
 
@@ -128,11 +272,37 @@ to be (usually) the shortest words of the language; hence, the method name.
 This is usually a good method for big texts, especially if you happen to have
 few languages active.
 
+=cut
+
+sub langof_by_word_method {
+  use Text::ExtractWords qw(words_count);
+
+  my ($method, $text) = (shift, shift);
+
+  my %words;
+  words_count(\%words, $text);
+
+  return langof_by_method($method, \%words, $text);
+}
+
 =item * Prefix Analysis - B<prefixes1>, B<prefixes2>, B<prefixes3>, B<prefixes4>
 
 This method analyses text for the common prefixes of each active language.
 
 The methods are, respectively, for prefixes of size 1, 2, 3 and 4.
+
+=cut
+
+sub langof_by_prefix_method {
+  use Text::Affixes;
+
+  (my $method = shift) =~ /^prefixes(\d)$/;
+  my $text = shift;
+
+  my $prefixes = get_prefixes({min => $1, max => $1}, $text);
+
+  return langof_by_method($method, $$prefixes{$1}, $text);
+}
 
 =item * Suffix Analysis - B<suffixes1>, B<suffixes2>, B<suffixes3>, B<suffixes4>
 
@@ -140,6 +310,19 @@ Similar to the Prefix Analysis (see above), but instead analysing common
 suffixes.
 
 The methods are, respectively, for suffixes of size 1, 2, 3 and 4.
+
+=cut
+
+sub langof_by_suffix_method {
+  use Text::Affixes;
+
+  (my $method = shift) =~ /^suffixes(\d)$/;
+  my $text = shift;
+
+  my $suffixes = get_suffixes({min => $1, max => $1}, $text);
+
+  return langof_by_method($method, $$suffixes{$1}, $text);
+}
 
 =item * Ngram Categorization - B<ngrams1>, B<ngrams2>, B<ngrams3>, B<ngrams4>
 
@@ -154,6 +337,19 @@ This is usually the best method for small amounts of text or too many active
 languages.
 
 The methods are, respectively, for ngrams of size 1, 2, 3 and 4.
+
+=cut
+
+sub langof_by_ngram_method {
+  use Text::Ngram qw(ngram_counts);
+
+  (my $method = shift) =~ /^ngrams([2-4])$/;
+  my $text = shift;
+
+  my $ngrams = ngram_counts($text, $1);
+
+  return langof_by_method($method, $ngrams, $text);
+}
 
 =back
 
@@ -185,11 +381,26 @@ Activate a language
 
   activate_language($_) for get_all_languages();
 
+=cut
+
+sub activate_language {
+  unless (grep { $_ eq $_[0] } @active_languages) {
+    push @active_languages, $_[0];
+  }
+  @active_languages;
+}
+
 =item B<activate_all_languages>
 
 Activates all languages
 
   activate_all_languages();
+
+=cut
+
+sub activate_all_languages {
+  @active_languages = get_all_languages();
+}
 
 =item B<deactivate_language>
 
@@ -197,11 +408,23 @@ Deactivates a language
 
   deactivate_language('en');
 
+=cut
+
+sub deactivate_language {
+  @active_languages = grep { ! ($_ eq $_[0]) } @active_languages;
+}
+
 =item B<deactivate_all_languages>
 
 Deactivates all languages
 
   deactivate_all_languages();
+
+=cut
+
+sub deactivate_all_languages {
+  @active_languages = ();
+}
 
 =item B<get_all_languages>
 
@@ -209,17 +432,35 @@ Returns the names of all available languages
 
   my @all_languages = get_all_languages();
 
+=cut
+
+sub get_all_languages {
+  @all_languages;
+}
+
 =item B<get_active_languages>
 
 Returns the names of all active languages
 
   my @active_languages = get_active_languages();
 
+=cut
+
+sub get_active_languages {
+  @active_languages;
+}
+
 =item B<get_inactive_languages>
 
 Returns the names of all inactive languages
 
   my @active_languages = get_inactive_languages();
+
+=cut
+
+sub get_inactive_languages {
+  grep { ! is_active($_) } get_all_languages();
+}
 
 =item B<is_active>
 
@@ -229,6 +470,12 @@ Returns the name of the language if it is active, an empty list otherwise
     # YOUR CODE HERE
   }
 
+=cut
+
+sub is_active {
+  grep { $_ eq $_[0] } get_active_languages();
+}
+
 =item B<is_valid_language>
 
 Returns the name of the language if it exists, an empty list otherwise
@@ -236,6 +483,12 @@ Returns the name of the language if it exists, an empty list otherwise
   if (is_valid_language('en')) {
     # YOUR CODE HERE
   }
+
+=cut
+
+sub is_valid_language {
+  grep { $_ eq $_[0] } get_all_languages();
+}
 
 =item B<set_active_languages>
 
@@ -247,7 +500,18 @@ Sets the active languages
 
   set_active_languages(get_all_languages());
 
+=cut
+
+sub set_active_languages {
+  @active_languages = grep { is_valid_language($_) } @_;
+}
+
 =back
+
+=cut
+
+1;
+__END__
 
 =head1 KNOWN LANGUAGES
 
@@ -273,13 +537,17 @@ Currently, C<Lingua::Identify> knows the following languages:
 
 =over 6
 
+=item * Configuration parameter to let the user chose which part(s) of the text
+to use;
+
+=item * Configuration parameter to let the user chose a maximum size of text to
+deal with;
+
 =item * WordNgrams based methods;
 
 =item * Easy way to learn new languages;
 
 =item * More languages;
-
-=item * Add more tests;
 
 =item * File recognition and treatment;
 

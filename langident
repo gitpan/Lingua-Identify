@@ -1,0 +1,132 @@
+#!/usr/bin/perl -s
+use warnings;
+use strict;
+use 5.006;
+
+use Lingua::Identify qw(langof);
+
+our ($a,$d,$h,$p,$v);
+
+show_help()	if $h;
+show_version()	if $v;
+
+my @files = @ARGV;
+
+if (@files) {
+  for (sort @files) {
+    -f && -r && -s || next;
+    open (STDIN, $_) || do {print STDERR "Could not open $_ ($!)\n" ; next};
+    print $_, ":", (join $", ident()), "\n";
+    close (STDIN);
+  }
+}
+else {
+  print "", (join $", ident()), "\n";
+}
+
+sub ident {
+  if ($a || $p) {
+    my @results = langof(<>);
+    @results = @results[0,1] unless $a;
+    @results = grep /[a-z]{2}/, @results unless $p;
+    for (@results) {$_*=100 if /\d/}
+    return @results;
+  }
+  else {
+    return (langof(<>))[0];
+  }
+}
+
+# subroutines
+
+sub show_help {
+  die "Usage: langident file1 file2
+ or:   langident -a -p file
+ or:   cat file | langident
+langident: identifies the languages files are written in
+
+Options:
+  -a  show all results
+  -d  debug
+  -h  displays this messages and exits
+  -p  also show percentages
+  -v  show version and exit
+"
+}
+
+sub show_version {
+  die "langident version 0.02\n";
+}
+
+__END__
+
+=head1 NAME
+
+langident - identifies the language files are written in
+
+=head1 SYNOPSIS
+
+langident [OPERATION] file1 [file2 ...]
+
+=head1 DESCRIPTION
+
+Identifies the language files are written in using Perl module
+Lingua::Identify.
+
+=head2 OPERATIONS
+
+=head2 -a
+
+show all results
+
+=head2 -d
+
+debug
+
+=head2 -h
+
+displays this messages and exits
+
+=head2 -p
+
+also show percentages
+
+=head2 -v
+
+show version and exit
+
+=head2 -h
+
+prints help and exits
+
+=head1 TO DO
+
+=over 6
+
+=item * Allow activation/deactivation/selection of languages
+
+=item * Allow usage of configuration parameters allowed by Lingua::Identify
+
+=back
+
+=head1 SEE ALSO
+
+Lingua::Identify(3), Text::ExtractWords(3), Text::Ngram(3), Text::Affixes(3).
+
+A linguistic.
+
+The latest CVS version of C<Lingua::Identify> (which includes I<langident>) can
+be attained at http://natura.di.uminho.pt/natura/viewcvs.cgi/Lingua/Identify/
+
+=head1 AUTHOR
+
+Jose Alves de Castro, E<lt>cog@cpan.orgE<gt>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2004 by Jose Alves de Castro
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself. 
+
+=cut
