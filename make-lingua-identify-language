@@ -135,38 +135,40 @@ sub make_module {
 
     my $module_name = uc $tag;
     my $podname = ucfirst $name;
-    print <<POD;
 
-=head1 NAME
+    #print <<POD;
+    print pod_unindent << POD;
 
-Lingua::Identify::$module_name - Meta-information on $podname.
+    =head1 NAME
 
-=head1 SYNOPSIS
+    Lingua::Identify::$module_name - Meta-information on $podname.
 
-Nothing here is meant for public comsuption. This module is to be loaded by
-Lingua::Identify.
+    =head1 SYNOPSIS
 
-=head1 DESCRIPTION
+    Nothing here is meant for public comsuption. This module is to be loaded by
+    Lingua::Identify.
 
-Automatically generated. Do not change this module yourself (yet).
+    =head1 DESCRIPTION
 
-=head1 SEE ALSO
+    Automatically generated. Do not change this module yourself (yet).
 
-Lingua::Identify(3).
+    =head1 SEE ALSO
 
-=head1 AUTHOR
+    Lingua::Identify(3).
 
-Jose Alves de Castro, E<lt>cog\@cpan.orgE<gt>
+    =head1 AUTHOR
 
-=head1 COPYRIGHT AND LICENSE
+    Jose Alves de Castro, E<lt>cog\@cpan.orgE<gt>
 
-Copyright (C) 2004 by Jose Alves de Castro
+    =head1 COPYRIGHT AND LICENSE
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.8.4 or,
-at your option, any later version of Perl 5 you may have available.
+    Copyright (C) 2004 by Jose Alves de Castro
 
-=cut
+    This library is free software; you can redistribute it and/or modify
+    it under the same terms as Perl itself, either Perl version 5.8.4 or,
+    at your option, any later version of Perl 5 you may have available.
+
+    =cut
 POD
 
     # write prefixes information
@@ -228,7 +230,7 @@ POD
     # write ngrams information
     my $f = sub { ngram_counts( $_[0], $_[1]) };
 
-    get_info($tag, 'ngrams', 1, 4, $f, $text );
+    get_ngrams($tag, 'ngrams', 1, 4, $f, $text );
 
     # close the file
     close(STDOUT);
@@ -237,7 +239,7 @@ POD
 
 ###############################
 
-sub get_info {
+sub get_ngrams {
   my ($tag, $what, $min, $max, $function, $text) = @_;
 
   verbose("\tstudying $what");
@@ -266,6 +268,8 @@ sub get_info {
 }
 
 ###
+
+sub pod_unindent { ( local $_ = shift ) =~ s/^\s*//mg; $_ }
 
 __END__
 

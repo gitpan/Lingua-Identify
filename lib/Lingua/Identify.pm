@@ -38,7 +38,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(
 );
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 =head1 NAME
 
@@ -282,8 +282,41 @@ computing its confidence level.
   use Lingua::Identify qw/:language_identification/;
   my @results = langof($text);
   my $confidence_level = confidence(@results);
-  # $confidence_level now return a value between 0 and 1; the higher that
+  # $confidence_level now holds a value between 0.5 and 1; the higher that
   # value, the more accurate the results seem to be
+
+The formula used is pretty simple: p1 / (p1 + p2) , where p1 is the
+probability of the most likely language and p2 is the probability of
+the language which came in second. A couple of examples to illustrate
+this:
+
+English 50% Portuguese 10% ...
+
+confidence level: 50 / (50 + 10) = 0.83
+
+Another example:
+
+Spanish 30% Portuguese 10% ...
+
+confidence level: 30 / (25 + 30) = 0.55
+
+French 10% German 5% ...
+
+confidence level: 10 / (10 + 5) = 0.67
+
+As you can see, the first example is probably the most accurate one.
+Are there any doubts? The English language has five times the
+probability of the second language.
+
+The second example is a bit more tricky. 55% confidence. The
+confidence level is always above 50%, for obvious reasons. 55% doesn't
+make anyone confident in the results, and one shouldn't be, with
+results such as these.
+
+Notice the third example. The confidence level goes up to 67%, but the
+probability of French is of mere 10%. So what? It's twice as much as
+the second language. The low probability may well be caused by a great
+number of languages in play.
 
 =cut
 
@@ -726,8 +759,6 @@ happen to know it's either Portuguese or English:
 
 =over 6
 
-=item * Explain how the confidence level is calculated;
-
 =item * Add more examples in the documentation;
 
 =item * Add examples of the values returned;
@@ -735,8 +766,8 @@ happen to know it's either Portuguese or English:
 =item * Configuration parameter to let the user chose which part(s) of the text
 to use;
 
-=item * Configuration parameter to let the user chose a maximum size of text to
-deal with;
+=item * Configuration parameter to let the user choose a maximum size of text
+to deal with;
 
 =item * WordNgrams based methods;
 
@@ -746,7 +777,7 @@ deal with;
 
 =item * Deal with different encodings;
 
-=item * Create sets of languages and permit their activation/deactivation;
+=item * Create sets of languages and allow their activation/deactivation;
 
 =back
 
