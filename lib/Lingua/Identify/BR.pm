@@ -6,7 +6,7 @@ ${Lingua::Identify::languages{_names}{br}} = 'breton';
 
 =head1 NAME
 
-Lingua::Identify::BR - Meta-information on the Breton natural language.
+Lingua::Identify::BR - Meta-information on Breton.
 
 =head1 SYNOPSIS
 

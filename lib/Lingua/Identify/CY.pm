@@ -6,7 +6,7 @@ ${Lingua::Identify::languages{_names}{cy}} = 'welsh';
 
 =head1 NAME
 
-Lingua::Identify::CY - Meta-information on the Welsh natural language.
+Lingua::Identify::CY - Meta-information on Welsh.
 
 =head1 SYNOPSIS
 

@@ -6,7 +6,7 @@ ${Lingua::Identify::languages{_names}{la}} = 'latin';
 
 =head1 NAME
 
-Lingua::Identify::LA - Meta-information on the Latin natural language.
+Lingua::Identify::LA - Meta-information on Latin.
 
 =head1 SYNOPSIS
 

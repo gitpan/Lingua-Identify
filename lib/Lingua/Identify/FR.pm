@@ -6,7 +6,7 @@ ${Lingua::Identify::languages{_names}{fr}} = 'french';
 
 =head1 NAME
 
-Lingua::Identify::FR - Meta-information on the French natural language.
+Lingua::Identify::FR - Meta-information on French.
 
 =head1 SYNOPSIS
 

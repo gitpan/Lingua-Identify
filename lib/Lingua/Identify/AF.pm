@@ -6,7 +6,7 @@ ${Lingua::Identify::languages{_names}{af}} = 'afrikaans';
 
 =head1 NAME
 
-Lingua::Identify::AF - Meta-information on the Afrikaans natural language.
+Lingua::Identify::AF - Meta-information on Afrikaans.
 
 =head1 SYNOPSIS
 

@@ -11,6 +11,7 @@ our @ISA = qw(Exporter);
 our %EXPORT_TAGS = (
 	'all' => [ qw(
 			langof			confidence
+			get_all_methods
 			activate_all_languages	deactivate_all_languages
 			get_all_languages	get_active_languages
 			get_inactive_languages	is_active
@@ -20,6 +21,7 @@ our %EXPORT_TAGS = (
 		) ],
 	'language_identification' => [ qw(
 			langof			confidence
+			get_all_methods
 		) ],
 	'language_manipulation' => [ qw(
 			activate_all_languages	deactivate_all_languages
@@ -36,7 +38,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(
 );
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 =head1 NAME
 
@@ -95,21 +97,21 @@ Here's a list of Lingua::Identify's strong points:
 
 =over 6
 
-=item * it's free and its source is open;
+=item * it's free and it's open-source;
 
 =item * it's portable (it's Perl, which means it will work in lots of different
 platforms);
 
-=item * 4 different methods of language identification and still growing (see
+=item * 26 languages and growing;
+
+=item * 4 different methods of language identification and growing (see
 METHODS OF LANGUAGE IDENTIFICATION for more details on this one);
 
 =item * it's a module, which means you can easily write your own application
-(be it CGI, TK, whatever) using it;
+(be it CGI, TK, whatever) around it;
 
 =item * it comes with I<langident>, which means you don't actually need to
 write your own application;
-
-=item * 19 languages and growing;
 
 =item * it's flexible (you can actually chose the methods to use and their
 relevance, and pretty soon you'll be able to chose some other things)
@@ -118,7 +120,7 @@ relevance, and pretty soon you'll be able to chose some other things)
 ones you chose whenever you want to, which can improve your times and
 accuracy);
 
-=item * and other things too, probably.
+=item * it's being maintained.
 
 =back
 
@@ -145,6 +147,8 @@ BEGIN {
 
 =head1 HOW TO PERFORM IDENTIFICATION
 
+=head2 langof
+
 To identify the language a given text is written in, use the I<langof> function.
 To get a single value, do:
 
@@ -168,28 +172,7 @@ sub langof {
 
   my $text = join "\n", @_;
 
-  # select the methods
-  my %methods;
-  if (defined $config{method}) {
-    for (ref($config{method})) {
-      if (/^HASH$/) {
-        %methods = %{$config{method}};
-      }
-      elsif (/^ARRAY$/) {
-        for (@{$config{method}}) {
-          $methods{$_}++;
-        }
-      }
-      else {
-        $methods{$config{method}} = 1;
-      }
-    }
-  }
-  else {
-    %methods = (qw/smallwords 0.5 prefixes2 1 suffixes3 1 ngrams3 1.3/);
-  }
-
-=head2 OPTIONS
+=head3 OPTIONS
 
 I<langof> can also be given some configuration parameters, in this way:
 
@@ -233,22 +216,43 @@ following (this might change in the future):
 
 =cut
 
+  # select the methods
+  my %methods;
+  if (defined $config{method}) {
+    for (ref($config{method})) {
+      if (/^HASH$/) {
+        %methods = %{$config{method}};
+      }
+      elsif (/^ARRAY$/) {
+        for (@{$config{method}}) {
+          $methods{$_}++;
+        }
+      }
+      else {
+        $methods{$config{method}} = 1;
+      }
+    }
+  }
+  else {
+    %methods = (qw/smallwords 0.5 prefixes2 1 suffixes3 1 ngrams3 1.3/);
+  }
+
   # use the methods
   my (%result,$total);
   for (keys %methods) {
     my %temp_result;
 
     if (/^smallwords$/) {
-      %temp_result = langof_by_word_method('smallwords', $text);
+      %temp_result = _langof_by_word_method('smallwords', $text);
     }
     elsif (/^(prefixes[1-4])$/) {
-      %temp_result = langof_by_prefix_method($1, $text);
+      %temp_result = _langof_by_prefix_method($1, $text);
     }
     elsif (/^(suffixes[1-4])$/) {
-      %temp_result = langof_by_suffix_method($1, $text);
+      %temp_result = _langof_by_suffix_method($1, $text);
     }
     elsif (/^(ngrams[1-4])$/) {
-      %temp_result = langof_by_ngram_method($1, $text);
+      %temp_result = _langof_by_ngram_method($1, $text);
     }
 
     for my $l (keys %temp_result) {
@@ -267,7 +271,7 @@ following (this might change in the future):
   return wantarray ? @result : $result[0];
 }
 
-=head2 ACCURACY
+=head2 confidence
 
 After getting the results into an array, its first element is the most probable
 language. That doesn't mean it is very probable or not.
@@ -284,8 +288,21 @@ computing its confidence level.
 =cut
 
 sub confidence {
-  defined $_[1] and defined $_[3] || return 0;
+  defined $_[1] and $_[1] or return 0;
+  defined $_[3] and $_[3] or return 1;
   $_[1] / ($_[1] + $_[3]);
+}
+
+=head2 get_all_methods
+
+Returns a list comprised of all the available methods for language
+identification.
+
+=cut
+
+sub get_all_methods {
+  qw/smallwords prefixes1 prefixes2 prefixes3 prefixes4 suffixes1 suffixes2
+     suffixes3 suffixes4 ngrams1 ngrams2 ngrams3 ngrams4/
 }
 
 =head3
@@ -305,7 +322,7 @@ the one of that text.
 
 =cut
 
-sub langof_by_method {
+sub _langof_by_method {
   my ($method, $elements, $text) = @_;
   my (%result, $total);
 
@@ -350,7 +367,7 @@ few languages active.
 
 =cut
 
-sub langof_by_word_method {
+sub _langof_by_word_method {
   use Text::ExtractWords qw(words_count);
 
   my ($method, $text) = (shift, shift);
@@ -358,7 +375,7 @@ sub langof_by_word_method {
   my %words;
   words_count(\%words, $text);
 
-  return langof_by_method($method, \%words, $text);
+  return _langof_by_method($method, \%words, $text);
 }
 
 =head2 Prefix Analysis - B<prefixes1>, B<prefixes2>, B<prefixes3>, B<prefixes4>
@@ -369,7 +386,7 @@ The methods are, respectively, for prefixes of size 1, 2, 3 and 4.
 
 =cut
 
-sub langof_by_prefix_method {
+sub _langof_by_prefix_method {
   use Text::Affixes;
 
   (my $method = shift) =~ /^prefixes(\d)$/;
@@ -377,7 +394,7 @@ sub langof_by_prefix_method {
 
   my $prefixes = get_prefixes({min => $1, max => $1}, $text);
 
-  return langof_by_method($method, $$prefixes{$1}, $text);
+  return _langof_by_method($method, $$prefixes{$1}, $text);
 }
 
 =head2 Suffix Analysis - B<suffixes1>, B<suffixes2>, B<suffixes3>, B<suffixes4>
@@ -389,7 +406,7 @@ The methods are, respectively, for suffixes of size 1, 2, 3 and 4.
 
 =cut
 
-sub langof_by_suffix_method {
+sub _langof_by_suffix_method {
   use Text::Affixes;
 
   (my $method = shift) =~ /^suffixes(\d)$/;
@@ -397,7 +414,7 @@ sub langof_by_suffix_method {
 
   my $suffixes = get_suffixes({min => $1, max => $1}, $text);
 
-  return langof_by_method($method, $$suffixes{$1}, $text);
+  return _langof_by_method($method, $$suffixes{$1}, $text);
 }
 
 =head2 Ngram Categorization - B<ngrams1>, B<ngrams2>, B<ngrams3>, B<ngrams4>
@@ -416,15 +433,15 @@ The methods are, respectively, for ngrams of size 1, 2, 3 and 4.
 
 =cut
 
-sub langof_by_ngram_method {
+sub _langof_by_ngram_method {
   use Text::Ngram qw(ngram_counts);
 
-  (my $method = shift) =~ /^ngrams([2-4])$/;
+  (my $method = shift) =~ /^ngrams([1-4])$/;
   my $text = shift;
 
   my $ngrams = ngram_counts($text, $1);
 
-  return langof_by_method($method, $ngrams, $text);
+  return _langof_by_method($method, $ngrams, $text);
 }
 
 =head1 LANGUAGE MANIPULATION
@@ -600,11 +617,13 @@ __END__
 
 =head1 KNOWN LANGUAGES
 
-Currently, C<Lingua::Identify> knows the following languages:
+Currently, C<Lingua::Identify> knows the following languages (26 total):
 
 =over 6
 
 =item AF - Afrikaans
+
+=item BG - Bulgarian
 
 =item BR - Breton
 
@@ -628,6 +647,14 @@ Currently, C<Lingua::Identify> knows the following languages:
 
 =item FY - Frisian
 
+=item GA - Irish
+
+=item HR - Croatian
+
+=item HU - Hungarian
+
+=item IS - Icelandic
+
 =item IT - Italian
 
 =item LA - Latin
@@ -636,11 +663,15 @@ Currently, C<Lingua::Identify> knows the following languages:
 
 =item NO - Norwegian
 
+=item PL - Polish
+
 =item PT - Portuguese
 
 =item SQ - Albanian
 
 =item SV - Swedish
+
+=item TR - Turkish
 
 =back
 

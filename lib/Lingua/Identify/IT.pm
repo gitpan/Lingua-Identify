@@ -6,7 +6,7 @@ ${Lingua::Identify::languages{_names}{it}} = 'italian';
 
 =head1 NAME
 
-Lingua::Identify::IT - Meta-information on the Italian natural language.
+Lingua::Identify::IT - Meta-information on Italian.
 
 =head1 SYNOPSIS
 

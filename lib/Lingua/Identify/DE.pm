@@ -6,7 +6,7 @@ ${Lingua::Identify::languages{_names}{de}} = 'german';
 
 =head1 NAME
 
-Lingua::Identify::DE - Meta-information on the German natural language.
+Lingua::Identify::DE - Meta-information on German.
 
 =head1 SYNOPSIS
 

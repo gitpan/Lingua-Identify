@@ -6,7 +6,7 @@ ${Lingua::Identify::languages{_names}{nl}} = 'dutch';
 
 =head1 NAME
 
-Lingua::Identify::NL - Meta-information on the Dutch natural language.
+Lingua::Identify::NL - Meta-information on Dutch.
 
 =head1 SYNOPSIS
 

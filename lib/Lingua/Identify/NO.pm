@@ -6,7 +6,7 @@ ${Lingua::Identify::languages{_names}{no}} = 'norwegian';
 
 =head1 NAME
 
-Lingua::Identify::NO - Meta-information on the Norwegian natural language.
+Lingua::Identify::NO - Meta-information on Norwegian.
 
 =head1 SYNOPSIS
 

@@ -6,7 +6,7 @@ ${Lingua::Identify::languages{_names}{fy}} = 'frisian';
 
 =head1 NAME
 
-Lingua::Identify::FY - Meta-information on the Frisian natural language.
+Lingua::Identify::FY - Meta-information on Frisian.
 
 =head1 SYNOPSIS
 

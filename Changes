@@ -1,5 +1,20 @@
 Revision history for Perl extension Lingua::Identify.
 
+0.07  Thu Nov 04 01:57:02 2004
+	+ changes on Lingua::Identify
+	- added 7 more languages (BG, GA, HR, HU, IS, PL, TR)
+	- added pod-coverage.t to the tests directory
+
+	+ changes on langident
+	- improved the documentation (and added examples to it)
+	- added the -o switch (work only with specified languages)
+	- added the -e switch (chose the methods to use)
+	- added the -c switch (show confidence level for most probable
+	  language)
+	- the -d switch (debug) now actually prints something (the values of
+	  the command-line options).
+	- command-line options are now parsed with Getopt::Std (much better)
+
 0.06  Wed Nov 03 12:20:14 2004
 	+ changes on Lingua::Identify
 	- fixed a bug in the submodules documentation
@@ -12,6 +27,7 @@ Revision history for Perl extension Lingua::Identify.
 	- added pod.t to the tests directory
 	- added a section with examples in the documentation
 	- added function name_of
+
 	+ changes on langident
 	- added the -l switch: list all languages
 
@@ -24,6 +40,7 @@ Revision history for Perl extension Lingua::Identify.
 	- added a small test to avoid confusing possible future submodules of
 	  Lingua::Identify with languages
 	- improved the documentation
+
 	+ changes on langident
 	- added the -m switch (limit number of languages shown)
 	- langident version is now the version of Lingua::Identify

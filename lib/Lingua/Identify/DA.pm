@@ -6,7 +6,7 @@ ${Lingua::Identify::languages{_names}{da}} = 'danish';
 
 =head1 NAME
 
-Lingua::Identify::DA - Meta-information on the Danish natural language.
+Lingua::Identify::DA - Meta-information on Danish.
 
 =head1 SYNOPSIS
 

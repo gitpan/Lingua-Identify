@@ -6,7 +6,7 @@ ${Lingua::Identify::languages{_names}{pt}} = 'portuguese';
 
 =head1 NAME
 
-Lingua::Identify::PT - Meta-information on the Portuguese natural language.
+Lingua::Identify::PT - Meta-information on Portuguese.
 
 =head1 SYNOPSIS
 

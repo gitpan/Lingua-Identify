@@ -5,8 +5,10 @@ README
 t/01-language_manipulation.t
 t/02-language_identification.t
 t/pod.t
+t/pod-coverage.t
 lib/Lingua/Identify.pm
 lib/Lingua/Identify/AF.pm
+lib/Lingua/Identify/BG.pm
 lib/Lingua/Identify/BR.pm
 lib/Lingua/Identify/BS.pm
 lib/Lingua/Identify/CY.pm
@@ -18,12 +20,18 @@ lib/Lingua/Identify/ES.pm
 lib/Lingua/Identify/FI.pm
 lib/Lingua/Identify/FR.pm
 lib/Lingua/Identify/FY.pm
+lib/Lingua/Identify/GA.pm
+lib/Lingua/Identify/HR.pm
+lib/Lingua/Identify/HU.pm
+lib/Lingua/Identify/IS.pm
 lib/Lingua/Identify/IT.pm
 lib/Lingua/Identify/LA.pm
 lib/Lingua/Identify/NL.pm
 lib/Lingua/Identify/NO.pm
+lib/Lingua/Identify/PL.pm
 lib/Lingua/Identify/PT.pm
 lib/Lingua/Identify/SQ.pm
 lib/Lingua/Identify/SV.pm
+lib/Lingua/Identify/TR.pm
 META.yml                                 Module meta-data (added by MakeMaker)
 langident

@@ -6,7 +6,7 @@ ${Lingua::Identify::languages{_names}{eo}} = 'esperanto';
 
 =head1 NAME
 
-Lingua::Identify::EO - Meta-information on the Esperanto natural language.
+Lingua::Identify::EO - Meta-information on Esperanto.
 
 =head1 SYNOPSIS
 

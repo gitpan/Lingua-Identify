@@ -6,7 +6,7 @@ ${Lingua::Identify::languages{_names}{es}} = 'spanish';
 
 =head1 NAME
 
-Lingua::Identify::ES - Meta-information on the Spanish natural language.
+Lingua::Identify::ES - Meta-information on Spanish.
 
 =head1 SYNOPSIS
 

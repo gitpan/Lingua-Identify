@@ -1,21 +1,22 @@
-#!/usr/bin/perl -s
+#!/usr/bin/perl
 use warnings;
 use strict;
 use 5.006;
 
-use Lingua::Identify qw(langof);
+use Getopt::Std qw(getopts);
+use Lingua::Identify qw(:all);
 
-our ($a,$d,$h,$l,$m,$p,$v);
+our %opts    = get_options();
 
-show_help()	if $h;
-show_version()	if $v;
-show_languages()if $l;
+show_help()	        if $opts{h};
+show_version()	        if $opts{v};
+show_languages()        if $opts{l};
+chose_languages()       if $opts{o};
 
-$a = 1 if $m;
+$opts{a} = 1 if $opts{m};
 
-my @files = @ARGV;
-
-if (@files) {
+if (@ARGV) {
+  my @files = @ARGV;
   for (sort @files) {
     -f && -r && -s || next;
     open (STDIN, $_) || do {print STDERR "Could not open $_ ($!)\n" ; next};
@@ -24,12 +25,57 @@ if (@files) {
   }
 }
 else {
-  print "", (join $", ident()), "\n";
+  print ((join $", ident()), "\n");
 }
 
 #
 # subroutines
 #
+
+###
+
+sub get_options {
+        my %opts;
+        getopts('acde:hlo:pvm:', \%opts );
+
+        foreach my $key ( keys %opts )
+                {
+                $opts{$key} = 1 unless defined $opts{$key}
+                }
+
+        debug_options( %opts ) if $opts{d};
+
+        %opts;
+        }
+
+###
+
+sub debug_options {
+        my %opts = @_;
+
+        #local $^W = 0;
+	no warnings;
+		{
+        	print STDERR <<"HERE";
+-------------------------------------------------------------------------
+Command line options
+-------------------------------------------------------------------------
+a   $opts{a}
+c   $opts{c}
+d   $opts{d}
+e   $opts{e}
+h   $opts{h}
+l   $opts{l}
+m   $opts{m}
+o   $opts{o}
+p   $opts{p}
+v   $opts{v}
+-------------------------------------------------------------------------
+HERE
+		}
+        }
+
+###
 
 sub show_help {
   die "Usage: langident file1 file2
@@ -39,39 +85,73 @@ langident: identifies the languages files are written in
 
 Options:
   -a         show all results
+  -c         show confidence level
   -d         debug
+  -e METHODS select the method(s) to use
   -h         displays this messages and exit
   -l         list available languages and exit
-  -m=NUMBER  sets maximum number of results (languages) to display
+  -m NUMBER  sets maximum number of results (languages) to display
+  -o LANGS   work only with specified languages
   -p         also show percentages
   -v         show version and exit
 "
 }
 
+###
+
 sub show_version {
   die "langident version ", Lingua::Identify->VERSION, "\n";
 }
 
+###
+
 # identify the language
 sub ident {
-  if ($a || $p) {
-    my @results = langof(<>);
-    if ($m) {
-      @results = @results[0 .. (($m * 2) - 1)];
+  if ($opts{a} || $opts{p} || $opts{c}) {
+    my @results = langof(get_config(),<>);
+    if ($opts{m}) {
+      @results = @results[0 .. (($opts{m} * 2) - 1)];
     }
-    @results = @results[0,1] unless $a;
-    @results = grep /[a-z]{2}/, @results unless $p;
+    my @confidence = $opts{c} ? scalar confidence(@results) * 100 : ();
+    @results = @results[0,1] unless $opts{a};
+    @results = grep /[a-z]{2}/, @results unless $opts{p};
     for (@results) {$_*=100 if /\d/}
-    return @results;
+    return (shift @results, @confidence, @results);
   }
   else {
-    return (langof(<>))[0];
+    return (get_config(),langof(<>))[0];
   }
 }
 
-# show the available languages
+###
+
+sub get_config {
+  my %config;
+
+  # get the methods to use
+  if (defined $opts{e}) {
+    my %methods;
+    for (get_all_methods()) { $methods{$_} = 0 }
+    for (split /,/, $opts{e}) {
+      my ($m, $v) = split /=/;
+      defined $methods{$_} || next;
+      $methods{$_} = $v || 1;
+    }
+    $config{method} = \%methods;
+  }
+
+  return \%config;
+}
+
+###
+
+sub chose_languages {
+  my $t = set_active_languages(split /,/, $opts{o});
+  $opts{m} = $t if $opts{m} > $t;
+}
+
+# show all available languages
 sub show_languages {
-  use Lingua::Identify qw/get_all_languages name_of/;
   for (sort (get_all_languages())) {
     print uc $_, " - ", ucfirst name_of($_) ,"\n";
   }
@@ -86,7 +166,7 @@ langident - identifies the language files are written in
 
 =head1 SYNOPSIS
 
-langident [OPERATION] file1 [file2 ...]
+langident [OPTION] file1 [file2 ...]
 
 =head1 DESCRIPTION
 
@@ -97,39 +177,74 @@ Lingua::Identify.
 
 =head2 -a
 
-show all results
+Show all results (not just the most probable language).
+
+=head2 -c
+
+Show confidence level for most probable language (it will be the first value
+right after the most probable language).
 
 =head2 -d
 
-debug
+Debug (development only).
+
+=head2 -e METHODS
+
+Select the method(s) to use. There are three ways of doing this:
+
+  # simply using a method
+  langident -e ngrams3 file
+
+  # using several methods (separate them with a comma)
+  langident -e prefixes3,suffixes3
+
+  # using several methods and assign different weights to each of them
+  langident -e smallwords=2,prefixes=1,ngrams3=1.3
+
+The available methods are the following: B<smallwords>, B<prefixes1>,
+B<prefixes2>, B<prefixes3>, B<prefixes4>, B<suffixes1>, B<suffixes2>,
+B<suffixes3>, B<suffixes4>, B<ngrams1>, B<ngrams2>, B<ngrams3> and B<ngrams4>.
 
 =head2 -h
 
-displays this messages and exits
+Display help message and exit.
+
+=head2 -l
+
+List all available languages and exit.
+
+=head2 -m NUMBER
+
+Set maximum number of results (languages) to display (shows the N most probable
+languages, by descending order of probability).
+
+Overrides the -a switch.
+
+=head2 -o LANGUAGES
+
+Only work with specified languages.
+
+  # identify between Portuguese and English only
+  langident -o pt,en *
 
 =head2 -p
 
-also show percentages
+Also show percentages.
 
 =head2 -v
 
-show version and exit
+Show version and exit.
 
-=head2 -h
+=head1 EXAMPLES
 
-prints help and exits
+Use methods ngrams2 and ngrams1, assigning the double of importance to ngrams2
+(-e switch); output will include the three most probable languages (-m switch)
+with its percentages (-p switch) and also the confidence level (-c switch) of
+the first result.
 
-=head1 TO DO
-
-=over 6
-
-=item * Add a -c switch, for confidence levels
-
-=item * Allow activation/deactivation/selection of languages
-
-=item * Allow usage of configuration parameters allowed by Lingua::Identify
-
-=back
+  $ langident -e ngrams2=2,ngrams1 -c -p -m 3 README 
+  README:bg 65.7209505939491 7.8971987481393 ga 4.11905889385895 tr 4.08487011400505
+  $ 
 
 =head1 SEE ALSO
 

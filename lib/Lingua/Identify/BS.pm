@@ -6,7 +6,7 @@ ${Lingua::Identify::languages{_names}{bs}} = 'bosnian';
 
 =head1 NAME
 
-Lingua::Identify::BS - Meta-information on the Bosnian natural language.
+Lingua::Identify::BS - Meta-information on Bosnian.
 
 =head1 SYNOPSIS
 

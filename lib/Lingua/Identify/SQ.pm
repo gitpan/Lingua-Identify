@@ -6,7 +6,7 @@ ${Lingua::Identify::languages{_names}{sq}} = 'albanian';
 
 =head1 NAME
 
-Lingua::Identify::SQ - Meta-information on the Albanian natural language.
+Lingua::Identify::SQ - Meta-information on Albanian.
 
 =head1 SYNOPSIS
 

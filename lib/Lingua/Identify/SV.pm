@@ -6,7 +6,7 @@ ${Lingua::Identify::languages{_names}{sv}} = 'swedish';
 
 =head1 NAME
 
-Lingua::Identify::SV - Meta-information on the Swedish natural language.
+Lingua::Identify::SV - Meta-information on Swedish.
 
 =head1 SYNOPSIS
 

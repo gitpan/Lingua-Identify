@@ -6,7 +6,7 @@ ${Lingua::Identify::languages{_names}{fi}} = 'finnish';
 
 =head1 NAME
 
-Lingua::Identify::FI - Meta-information on the Finnish natural language.
+Lingua::Identify::FI - Meta-information on Finnish.
 
 =head1 SYNOPSIS
 
