@@ -1,5 +1,18 @@
 Revision history for Perl extension Lingua::Identify.
 
+0.04  Sat Oct 30 17:43:00 2004
+	+ changes on Lingua::Identify
+	- Perl required version is now 5.006
+	- tests for language manipulation are now automated
+	- added 11 more languages (AF, BR, BS, CY, DA, EO, FI, FY, LA, NL, NO,
+	  SQ, SV)
+	- added a small test to avoid confusing possible future submodules of
+	  Lingua::Identify with languages
+	- improved the documentation
+	+ changes on langident
+	- added the -m switch (limit number of languages shown)
+	- langident version is now the version of Lingua::Identify
+
 0.03  Wed Oct 27 10:13:10 2004
         - major changes in the architecture
 	- major changes in the documentation

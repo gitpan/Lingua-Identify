@@ -10,7 +10,7 @@ our @ISA = qw(Exporter);
 
 our %EXPORT_TAGS = (
 	'all' => [ qw(
-			langof init_all
+			langof
 			activate_all_languages	deactivate_all_languages
 			get_all_languages	get_active_languages
 			get_inactive_languages	is_active
@@ -31,7 +31,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(
 );
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 =head1 NAME
 
@@ -47,7 +47,8 @@ Lingua::Identify - Language identification
 
   %a = langof($textstring); # gives a hash of language / probability
 
-  # or the hard (expert?) way
+  # or the hard (expert) way (see section OPTIONS, under HOW TO PERFORM
+  # IDENTIFICATION)
 
   $a = langof({ method => [qw/smallwords prefix2 suffix2/] },$textstring);
 
@@ -55,6 +56,64 @@ Lingua::Identify - Language identification
 
 C<Lingua::Identify> identifies the language a given string or file is
 written in.
+
+See section WHY LINGUA::IDENTIFY for a list of C<Lingua::Identify>'s strong
+points.
+
+See section KNOWN LANGUAGES for a list of available languages and HOW TO
+PERFORM IDENTIFICATION to know how to really use this module.
+
+If you're in a hurry, jump to section EXAMPLES, way down below.
+
+Also, don't forget to read the following section, IMPORTANT WARNING.
+
+=head1 IMPORTANT WARNING
+
+Take a word that exists in two different languages, take a good look at it and
+answer this question: "What language does this word belong to?".
+
+You can't give an answer like "Language X", right? You can only say it looks
+like any of a set of languages.
+
+Similarly, it isn't always easy to identify the language of a text if the only
+two active languages are very similar.
+
+Now that we've taken out of the way the warning that language identification
+is not 100% accurate, please keep reading the documentation.
+
+=head1 WHY LINGUA::IDENTIFY
+
+You might be wondering why you should use Lingua::Identify instead of any other
+tool for language identification.
+
+Here's a list of Lingua::Identify's strong points:
+
+=over 6
+
+=item * 4 different methods of language identification and still growing (see
+METHODS OF LANGUAGE IDENTIFICATION for more details on this one);
+
+=item * it's free and its source is open;
+
+=item * it's portable (its Perl, which means it will work in lots of different
+platforms);
+
+=item * it's easy to deal with (being a module, you can easily write your own
+application (be it CGI, TK, whatever) using it;
+
+=item * lots of languages (OK, so I only have 19 so far... but that is
+intencional!! Just wait a little while);
+
+=item * it's flexible (you can actually chose the methods to use and their
+relevance, and pretty soon you'll be able to chose some other things)
+
+=item * it's easy to deal with languages (you can activate and deactivate the
+ones you chose whenever you want to, which can improve your times and
+accuracy);
+
+=item * and other things too, probably.
+
+=back
 
 =cut
 
@@ -65,6 +124,7 @@ BEGIN {
 
   use Class::Factory::Util;
   for ( Lingua::Identify->subclasses() ) {
+    /^[A-Z][A-Z]$/ || next;
     eval "require Lingua::Identify::$_ ;";
     $languages{_versions}{lc $_} >= 0.01 ||
       die "Required version of language $_ not found.\n";
@@ -108,15 +168,15 @@ These parameters are detailed here:
 You can chose which method or methods to use, and also the relevance of each of
 them.
 
-To chose a single method to use, use:
+To chose a single method to use:
 
   langof( {method => 'smallwords' }, $text);
 
-To chose several methods, use:
+To chose several methods:
 
   langof( {method => [qw/prefixes2 suffixes2/]}, $text);
 
-To chose several methods and give them different weight, use:
+To chose several methods and give them different weight:
 
   langof( {method => {smallwords => 0.5, ngrams3 => 1.5} }, $text);
 
@@ -128,9 +188,9 @@ following (this might change in the future):
 
   method => {
     smallwords => 0.5,
-    prefixes2 => 1,
-    suffixes3 => 1,
-    ngrams3 1.3
+    prefixes2  => 1,
+    suffixes3  => 1,
+    ngrams3    => 1.3
   };
 
 =back
@@ -243,27 +303,13 @@ sub langof_by_method {
 C<Lingua::Identify> currently comprises four different ways for language
 identification, in a total of thirteen variations of those.
 
-The available methods are the following:
-
-B<smallwords>,
-B<prefixes1>,
-B<prefixes2>,
-B<prefixes3>,
-B<prefixes4>,
-B<suffixes1>,
-B<suffixes2>,
-B<suffixes3>,
-B<suffixes4>,
-B<ngrams1>,
-B<ngrams2>,
-B<ngrams3> and
-B<ngrams4>.
+The available methods are the following: B<smallwords>, B<prefixes1>,
+B<prefixes2>, B<prefixes3>, B<prefixes4>, B<suffixes1>, B<suffixes2>,
+B<suffixes3>, B<suffixes4>, B<ngrams1>, B<ngrams2>, B<ngrams3> and B<ngrams4>.
 
 Here's a more detailed explanation of each of those ways and those methods
 
-=over 6
-
-=item * Small Word Technique - B<smallwords>
+=head2 Small Word Technique - B<smallwords>
 
 The "Small Word Technique" searches the text for the most common words of each
 active language. These words are usually articles, pronouns, etc, which happen
@@ -285,7 +331,7 @@ sub langof_by_word_method {
   return langof_by_method($method, \%words, $text);
 }
 
-=item * Prefix Analysis - B<prefixes1>, B<prefixes2>, B<prefixes3>, B<prefixes4>
+=head2 Prefix Analysis - B<prefixes1>, B<prefixes2>, B<prefixes3>, B<prefixes4>
 
 This method analyses text for the common prefixes of each active language.
 
@@ -304,7 +350,7 @@ sub langof_by_prefix_method {
   return langof_by_method($method, $$prefixes{$1}, $text);
 }
 
-=item * Suffix Analysis - B<suffixes1>, B<suffixes2>, B<suffixes3>, B<suffixes4>
+=head2 Suffix Analysis - B<suffixes1>, B<suffixes2>, B<suffixes3>, B<suffixes4>
 
 Similar to the Prefix Analysis (see above), but instead analysing common
 suffixes.
@@ -324,7 +370,7 @@ sub langof_by_suffix_method {
   return langof_by_method($method, $$suffixes{$1}, $text);
 }
 
-=item * Ngram Categorization - B<ngrams1>, B<ngrams2>, B<ngrams3>, B<ngrams4>
+=head2 Ngram Categorization - B<ngrams1>, B<ngrams2>, B<ngrams3>, B<ngrams4>
 
 Ngrams are sequences of tokens. You can think of them as syllables, but they
 are also more than that, as they are not only comprised by characters, but also
@@ -350,10 +396,6 @@ sub langof_by_ngram_method {
 
   return langof_by_method($method, $ngrams, $text);
 }
-
-=back
-
-=cut
 
 =head1 LANGUAGES MANIPULATION
 
@@ -519,23 +561,37 @@ Currently, C<Lingua::Identify> knows the following languages:
 
 =over 6
 
+=item AF - Afrikaans
+=item BR - Breton
+=item BS - Bosnian
+=item CY - Welsh
+=item DA - Danish
 =item DE - German
-
 =item EN - English
-
+=item EO - Esperanto
 =item ES - Spanish
-
+=item FI - Finnish
 =item FR - French
-
+=item FY - Frisian
 =item IT - Italian
-
+=item LA - Latin
+=item NL - Dutch
+=item NO - Norwegian
 =item PT - Portuguese
+=item SQ - Albanian
+=item SV - Swedish
 
 =back
 
 =head1 TO DO
 
 =over 6
+
+=item * Implement something like a confidence_level(@results)
+
+=item * Add a section with examples, in the documentation;
+
+=item * Add examples of the values returned;
 
 =item * Configuration parameter to let the user chose which part(s) of the text
 to use;
@@ -559,7 +615,7 @@ deal with;
 
 langident(1), Text::ExtractWords(3), Text::Ngram(3), Text::Affixes(3).
 
-A linguistic.
+A linguist and/or a shrink.
 
 The latest CVS version of C<Lingua::Identify> can be attained at
 http://natura.di.uminho.pt/natura/viewcvs.cgi/Lingua/Identify/

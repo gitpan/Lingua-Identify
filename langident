@@ -5,10 +5,12 @@ use 5.006;
 
 use Lingua::Identify qw(langof);
 
-our ($a,$d,$h,$p,$v);
+our ($a,$d,$h,$m,$p,$v);
 
 show_help()	if $h;
 show_version()	if $v;
+
+$a = 1 if $m;
 
 my @files = @ARGV;
 
@@ -27,6 +29,9 @@ else {
 sub ident {
   if ($a || $p) {
     my @results = langof(<>);
+    if ($m) {
+      @results = @results[0 .. (($m * 2) - 1)];
+    }
     @results = @results[0,1] unless $a;
     @results = grep /[a-z]{2}/, @results unless $p;
     for (@results) {$_*=100 if /\d/}
@@ -46,16 +51,17 @@ sub show_help {
 langident: identifies the languages files are written in
 
 Options:
-  -a  show all results
-  -d  debug
-  -h  displays this messages and exits
-  -p  also show percentages
-  -v  show version and exit
+  -a         show all results
+  -d         debug
+  -h         displays this messages and exits
+  -m=NUMBER  sets maximum number of results (languages) to display
+  -p         also show percentages
+  -v         show version and exit
 "
 }
 
 sub show_version {
-  die "langident version 0.02\n";
+  die "langident version ", Lingua::Identify->VERSION, "\n";
 }
 
 __END__
@@ -113,7 +119,7 @@ prints help and exits
 
 Lingua::Identify(3), Text::ExtractWords(3), Text::Ngram(3), Text::Affixes(3).
 
-A linguistic.
+A linguist and/or a shrink.
 
 The latest CVS version of C<Lingua::Identify> (which includes I<langident>) can
 be attained at http://natura.di.uminho.pt/natura/viewcvs.cgi/Lingua/Identify/
