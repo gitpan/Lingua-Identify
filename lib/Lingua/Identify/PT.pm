@@ -4,6 +4,37 @@ ${Lingua::Identify::languages{_versions}{pt}} = '0.01';
 
 ${Lingua::Identify::languages{_names}{pt}} = 'portuguese';
 
+=head1 NAME
+
+Lingua::Identify::PT - Meta-information on the Portuguese natural language.
+
+=head1 SYNOPSIS
+
+Nothing here is meant for public comsuption. This module is to be loaded by
+Lingua::Identify.
+
+=head1 DESCRIPTION
+
+Automatically generated. Do not change this module yourself (yet).
+
+=head1 SEE ALSO
+
+Lingua::Identify(3).
+
+=head1 AUTHOR
+
+Jose Alves de Castro, E<lt>cog@cpan.orgE<gt>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2004 by Jose Alves de Castro
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.8.4 or,
+at your option, any later version of Perl 5 you may have available.
+
+=cut
+
 ${Lingua::Identify::languages{prefixes1}{pt}} = {
   'd'	=> 0.140883977900552,
   'p'	=> 0.0814917127071823,

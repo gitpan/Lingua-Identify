@@ -16,6 +16,7 @@ our %EXPORT_TAGS = (
 			get_inactive_languages	is_active
 			is_valid_language	activate_language
 			deactivate_language	set_active_languages
+			name_of
 		) ],
 	'language_manipulation' => [ qw(
 			activate_all_languages	deactivate_all_languages
@@ -23,6 +24,7 @@ our %EXPORT_TAGS = (
 			get_inactive_languages	is_active
 			is_valid_language	activate_language
 			deactivate_language	set_active_languages
+			name_of
 		) ],
 );
 
@@ -31,7 +33,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(
 );
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 =head1 NAME
 
@@ -90,19 +92,21 @@ Here's a list of Lingua::Identify's strong points:
 
 =over 6
 
+=item * it's free and its source is open;
+
+=item * it's portable (it's Perl, which means it will work in lots of different
+platforms);
+
 =item * 4 different methods of language identification and still growing (see
 METHODS OF LANGUAGE IDENTIFICATION for more details on this one);
 
-=item * it's free and its source is open;
+=item * it's a module, which means you can easily write your own application
+(be it CGI, TK, whatever) using it;
 
-=item * it's portable (its Perl, which means it will work in lots of different
-platforms);
+=item * it comes with I<langident>, which means you don't actually need to
+write your own application;
 
-=item * it's easy to deal with (being a module, you can easily write your own
-application (be it CGI, TK, whatever) using it;
-
-=item * lots of languages (OK, so I only have 19 so far... but that is
-intencional!! Just wait a little while);
+=item * 19 languages and growing;
 
 =item * it's flexible (you can actually chose the methods to use and their
 relevance, and pretty soon you'll be able to chose some other things)
@@ -153,6 +157,35 @@ use this:
 
   %languages = langof($text);
 
+=cut
+
+sub langof {
+  my %config = ();
+  if (ref($_[0]) eq 'HASH') {%config = (%config, %{+shift})}
+
+  my $text = join "\n", @_;
+
+  # select the methods
+  my %methods;
+  if (defined $config{method}) {
+    for (ref($config{method})) {
+      if (/^HASH$/) {
+        %methods = %{$config{method}};
+      }
+      elsif (/^ARRAY$/) {
+        for (@{$config{method}}) {
+          $methods{$_}++;
+        }
+      }
+      else {
+        $methods{$config{method}} = 1;
+      }
+    }
+  }
+  else {
+    %methods = (qw/smallwords 0.5 prefixes2 1 suffixes3 1 ngrams3 1.3/);
+  }
+
 =head2 OPTIONS
 
 I<langof> can also be given some configuration parameters, in this way:
@@ -197,35 +230,8 @@ following (this might change in the future):
 
 =cut
 
-sub langof {
-  my %config = ();
-  if (ref($_[0]) eq 'HASH') {%config = (%config, %{+shift})}
-
-  my $text = join "\n", @_;
-
-  # select the methods
-  my %methods;
-  if (defined $config{method}) {
-    for (ref($config{method})) {
-      if (/^HASH$/) {
-        %methods = %{$config{method}};
-      }
-      elsif (/^ARRAY$/) {
-        for (@{$config{method}}) {
-          $methods{$_}++;
-        }
-      }
-      else {
-        $methods{$config{method}} = 1;
-      }
-    }
-  }
-  else {
-    %methods = (qw/smallwords 0.5 prefixes2 1 suffixes3 1 ngrams3 1.3/);
-  }
-
   # use the methods
-  my (%result,$total,$weight);
+  my (%result,$total);
   for (keys %methods) {
     my %temp_result;
 
@@ -242,11 +248,9 @@ sub langof {
       %temp_result = langof_by_ngram_method($1, $text);
     }
 
-    $weight = $methods{$_};
-    my $temp;
-    for (keys %temp_result) {
-      $temp = $temp_result{$_} * $weight;
-      $result{$_} += $temp;
+    for my $l (keys %temp_result) {
+      my $temp = $temp_result{$l} * $methods{$_};
+      $result{$l} += $temp;
       $total += $temp;
     }
   }
@@ -397,7 +401,7 @@ sub langof_by_ngram_method {
   return langof_by_method($method, $ngrams, $text);
 }
 
-=head1 LANGUAGES MANIPULATION
+=head1 LANGUAGE MANIPULATION
 
 When trying to perform language identification, C<Lingua::Identify> works not with
 all available languages, but instead with the ones that are active.
@@ -548,6 +552,19 @@ sub set_active_languages {
   @active_languages = grep { is_valid_language($_) } @_;
 }
 
+=item B<name_of>
+
+Given the two letter tag of a language, returns its name
+
+  my $language_name = name_of('pt');
+
+=cut
+
+sub name_of {
+  my $tag = shift || return undef;
+  $languages{_names}{$tag};
+}
+
 =back
 
 =cut
@@ -583,13 +600,41 @@ Currently, C<Lingua::Identify> knows the following languages:
 
 =back
 
+=head1 EXAMPLES
+
+=head2 THE BASIC EXAMPLE
+
+Check the language a given text file is written in:
+
+  use Lingua::Identify qw/langof/;
+
+  my $text = join "\n", <>;
+
+  # identify the language by letting the module decide on the best way
+  # to do so
+  my $language = langof($text);
+
+=head2 IDENTIFYING BETWEEN TWO LANGUAGES
+
+Check the language a given text file is written in, supposing you
+happen to know it's either Portuguese or English:
+
+  use Lingua::Identify qw/langof activate_language/;
+  activate_language(qw/pt en/);
+
+  my $text = join "\n", <>;
+
+  # identify the language by letting the module decide on the best way
+  # to do so
+  my $language = langof($text);
+
 =head1 TO DO
 
 =over 6
 
 =item * Implement something like a confidence_level(@results)
 
-=item * Add a section with examples, in the documentation;
+=item * Add more examples in the documentation;
 
 =item * Add examples of the values returned;
 
@@ -622,14 +667,13 @@ http://natura.di.uminho.pt/natura/viewcvs.cgi/Lingua/Identify/
 
 =head1 AUTHOR
 
-Jose Alves de Castro, E<lt>cog@cpan.orgE<gt>
+Jose Castro, C<< <cog@cpan.org> >>
 
-=head1 COPYRIGHT AND LICENSE
+=head1 COPYRIGHT & LICENSE
 
-Copyright (C) 2004 by Jose Alves de Castro
+Copyright 2004 Jose Castro, All Rights Reserved.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.8.4 or,
-at your option, any later version of Perl 5 you may have available.
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
 
 =cut

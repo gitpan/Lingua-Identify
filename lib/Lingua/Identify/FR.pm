@@ -4,6 +4,37 @@ ${Lingua::Identify::languages{_versions}{fr}} = '0.01';
 
 ${Lingua::Identify::languages{_names}{fr}} = 'french';
 
+=head1 NAME
+
+Lingua::Identify::PT - Meta-information on the French natural language.
+
+=head1 SYNOPSIS
+
+Nothing here is meant for public comsuption. This module is to be loaded by
+Lingua::Identify.
+
+=head1 DESCRIPTION
+
+Automatically generated. Do not change this module yourself (yet).
+
+=head1 SEE ALSO
+
+Lingua::Identify(3).
+
+=head1 AUTHOR
+
+Jose Alves de Castro, E<lt>cog@cpan.orgE<gt>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2004 by Jose Alves de Castro
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.8.4 or,
+at your option, any later version of Perl 5 you may have available.
+
+=cut
+
 ${Lingua::Identify::languages{prefixes1}{fr}} = {
   'd'	=> 0.127764127764128,
   'l'	=> 0.0884520884520884,

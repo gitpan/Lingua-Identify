@@ -1,5 +1,5 @@
-#use Test::More qw/no_plan/;#tests => 25;
-use Test::More tests => 38;
+#use Test::More qw/no_plan/;
+use Test::More tests => 39;
 BEGIN { use_ok('Lingua::Identify', ':language_manipulation') };
 
 my @languages = qw/af br bs cy da de en eo es fi fr fy it la nl no pt sq sv/;
@@ -38,3 +38,5 @@ is_deeply([sort (set_active_languages(qw/it fr/))], [qw/fr it/]);
 is_deeply([sort (get_active_languages())], [qw/fr it/]);
 
 is_deeply([activate_all_languages()], [get_all_languages()]);
+
+is(name_of('pt'), portuguese);

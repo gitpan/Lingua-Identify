@@ -1,5 +1,15 @@
 Revision history for Perl extension Lingua::Identify.
 
+0.05  Mon Nov 01 20:00:00 2004
+	+ changes on Lingua::Identify
+	- some more changes in the documentation
+	- language modules now have some generic documentation
+	- added pod.t to the tests directory
+	- added a section with examples in the documentation
+	- added function name_of
+	+ changes on langident
+	- added the -l switch: list all languages
+
 0.04  Sat Oct 30 17:43:00 2004
 	+ changes on Lingua::Identify
 	- Perl required version is now 5.006

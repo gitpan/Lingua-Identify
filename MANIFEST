@@ -4,6 +4,7 @@ MANIFEST
 README
 t/01-language_manipulation.t
 t/02-language_identification.t
+t/pod.t
 lib/Lingua/Identify.pm
 lib/Lingua/Identify/AF.pm
 lib/Lingua/Identify/BR.pm

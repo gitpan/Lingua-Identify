@@ -5,10 +5,11 @@ use 5.006;
 
 use Lingua::Identify qw(langof);
 
-our ($a,$d,$h,$m,$p,$v);
+our ($a,$d,$h,$l,$m,$p,$v);
 
 show_help()	if $h;
 show_version()	if $v;
+show_languages()if $l;
 
 $a = 1 if $m;
 
@@ -26,6 +27,32 @@ else {
   print "", (join $", ident()), "\n";
 }
 
+#
+# subroutines
+#
+
+sub show_help {
+  die "Usage: langident file1 file2
+ or:   langident -a -p file
+ or:   cat file | langident
+langident: identifies the languages files are written in
+
+Options:
+  -a         show all results
+  -d         debug
+  -h         displays this messages and exit
+  -l         list available languages and exit
+  -m=NUMBER  sets maximum number of results (languages) to display
+  -p         also show percentages
+  -v         show version and exit
+"
+}
+
+sub show_version {
+  die "langident version ", Lingua::Identify->VERSION, "\n";
+}
+
+# identify the language
 sub ident {
   if ($a || $p) {
     my @results = langof(<>);
@@ -42,26 +69,13 @@ sub ident {
   }
 }
 
-# subroutines
-
-sub show_help {
-  die "Usage: langident file1 file2
- or:   langident -a -p file
- or:   cat file | langident
-langident: identifies the languages files are written in
-
-Options:
-  -a         show all results
-  -d         debug
-  -h         displays this messages and exits
-  -m=NUMBER  sets maximum number of results (languages) to display
-  -p         also show percentages
-  -v         show version and exit
-"
-}
-
-sub show_version {
-  die "langident version ", Lingua::Identify->VERSION, "\n";
+# show the available languages
+sub show_languages {
+  use Lingua::Identify qw/get_all_languages name_of/;
+  for (sort (get_all_languages())) {
+    print uc $_, " - ", ucfirst name_of($_) ,"\n";
+  }
+  exit;
 }
 
 __END__
@@ -108,6 +122,8 @@ prints help and exits
 =head1 TO DO
 
 =over 6
+
+=item * Add a -c switch, for confidence levels
 
 =item * Allow activation/deactivation/selection of languages
 
