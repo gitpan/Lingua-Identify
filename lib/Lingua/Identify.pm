@@ -10,13 +10,16 @@ our @ISA = qw(Exporter);
 
 our %EXPORT_TAGS = (
 	'all' => [ qw(
-			langof
+			langof			confidence
 			activate_all_languages	deactivate_all_languages
 			get_all_languages	get_active_languages
 			get_inactive_languages	is_active
 			is_valid_language	activate_language
 			deactivate_language	set_active_languages
 			name_of
+		) ],
+	'language_identification' => [ qw(
+			langof			confidence
 		) ],
 	'language_manipulation' => [ qw(
 			activate_all_languages	deactivate_all_languages
@@ -33,7 +36,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(
 );
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 =head1 NAME
 
@@ -41,7 +44,7 @@ Lingua::Identify - Language identification
 
 =head1 SYNOPSIS
 
-  use Lingua::Identify qw(langof);
+  use Lingua::Identify qw(:language_identification);
   $a = langof($textstring); # gives the most probable language
 
   @a = langof($textstring); # gives pairs of languages / probabilities
@@ -263,6 +266,29 @@ following (this might change in the future):
 
   return wantarray ? @result : $result[0];
 }
+
+=head2 ACCURACY
+
+After getting the results into an array, its first element is the most probable
+language. That doesn't mean it is very probable or not.
+
+You can find more about the likeliness of the results to be accurate by
+computing its confidence level.
+
+  use Lingua::Identify qw/:language_identification/;
+  my @results = langof($text);
+  my $confidence_level = confidence(@results);
+  # $confidence_level now return a value between 0 and 1; the higher that
+  # value, the more accurate the results seem to be
+
+=cut
+
+sub confidence {
+  defined $_[1] and defined $_[3] || return 0;
+  $_[1] / ($_[1] + $_[3]);
+}
+
+=head3
 
 =head1 LANGUAGE IDENTIFICATION IN GENERAL
 
@@ -579,23 +605,41 @@ Currently, C<Lingua::Identify> knows the following languages:
 =over 6
 
 =item AF - Afrikaans
+
 =item BR - Breton
+
 =item BS - Bosnian
+
 =item CY - Welsh
+
 =item DA - Danish
+
 =item DE - German
+
 =item EN - English
+
 =item EO - Esperanto
+
 =item ES - Spanish
+
 =item FI - Finnish
+
 =item FR - French
+
 =item FY - Frisian
+
 =item IT - Italian
+
 =item LA - Latin
+
 =item NL - Dutch
+
 =item NO - Norwegian
+
 =item PT - Portuguese
+
 =item SQ - Albanian
+
 =item SV - Swedish
 
 =back
@@ -632,8 +676,6 @@ happen to know it's either Portuguese or English:
 
 =over 6
 
-=item * Implement something like a confidence_level(@results)
-
 =item * Add more examples in the documentation;
 
 =item * Add examples of the values returned;
@@ -653,6 +695,8 @@ deal with;
 =item * File recognition and treatment;
 
 =item * Create sets of languages and permit their activation/deactivation;
+
+=item * What happens when { method => [] } ?
 
 =back
 

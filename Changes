@@ -1,5 +1,10 @@
 Revision history for Perl extension Lingua::Identify.
 
+0.06  Wed Nov 03 12:20:14 2004
+	+ changes on Lingua::Identify
+	- fixed a bug in the submodules documentation
+	- added the function confidence
+
 0.05  Mon Nov 01 20:00:00 2004
 	+ changes on Lingua::Identify
 	- some more changes in the documentation

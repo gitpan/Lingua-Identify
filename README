@@ -1,11 +1,11 @@
-Lingua/Identify version 0.05
+Lingua/Identify version 0.06
 ============================
 
 Lingua::Identify - Language identification
 
 =head1 SYNOPSIS
 
-  use Lingua::Identify qw(langof);
+  use Lingua::Identify qw(:language_identification);
   $a = langof($textstring); # gives the most probable language
 
   @a = langof($textstring); # gives pairs of languages / probabilities
@@ -56,13 +56,13 @@ Here's a list of Lingua::Identify's strong points:
 
 =over 6
 
-=item * 4 different methods of language identification and still growing (see
-METHODS OF LANGUAGE IDENTIFICATION for more details on this one);
-
 =item * it's free and its source is open;
 
 =item * it's portable (it's Perl, which means it will work in lots of different
 platforms);
+
+=item * 4 different methods of language identification and still growing (see
+METHODS OF LANGUAGE IDENTIFICATION for more details on this one);
 
 =item * it's a module, which means you can easily write your own application
 (be it CGI, TK, whatever) using it;
@@ -70,8 +70,7 @@ platforms);
 =item * it comes with I<langident>, which means you don't actually need to
 write your own application;
 
-=item * lots of languages (OK, so I only have 19 so far... but that is
-intencional!! Just wait a little while);
+=item * 19 languages and growing;
 
 =item * it's flexible (you can actually chose the methods to use and their
 relevance, and pretty soon you'll be able to chose some other things)
@@ -143,6 +142,22 @@ following (this might change in the future):
 
 =back
 
+=head2 ACCURACY
+
+After getting the results into an array, its first element is the most probable
+language. That doesn't mean it is very probable or not.
+
+You can find more about the likeliness of the results to be accurate by
+computing its confidence level.
+
+  use Lingua::Identify qw/:language_identification/;
+  my @results = langof($text);
+  my $confidence_level = confidence(@results);
+  # $confidence_level now return a value between 0 and 1; the higher that
+  # value, the more accurate the results seem to be
+
+=head3
+
 =head1 LANGUAGE IDENTIFICATION IN GENERAL
 
 Language identification is based in patterns.
@@ -203,7 +218,7 @@ languages.
 
 The methods are, respectively, for ngrams of size 1, 2, 3 and 4.
 
-=head1 LANGUAGES MANIPULATION
+=head1 LANGUAGE MANIPULATION
 
 When trying to perform language identification, C<Lingua::Identify> works not with
 all available languages, but instead with the ones that are active.
@@ -291,6 +306,12 @@ Sets the active languages
 
   set_active_languages(get_all_languages());
 
+=item B<name_of>
+
+Given the two letter tag of a language, returns its name
+
+  my $language_name = name_of('pt');
+
 =back
 
 =head1 KNOWN LANGUAGES
@@ -300,34 +321,78 @@ Currently, C<Lingua::Identify> knows the following languages:
 =over 6
 
 =item AF - Afrikaans
+
 =item BR - Breton
+
 =item BS - Bosnian
+
 =item CY - Welsh
+
 =item DA - Danish
+
 =item DE - German
+
 =item EN - English
+
 =item EO - Esperanto
+
 =item ES - Spanish
+
 =item FI - Finnish
+
 =item FR - French
+
 =item FY - Frisian
+
 =item IT - Italian
+
 =item LA - Latin
+
 =item NL - Dutch
+
 =item NO - Norwegian
+
 =item PT - Portuguese
+
 =item SQ - Albanian
+
 =item SV - Swedish
 
 =back
+
+=head1 EXAMPLES
+
+=head2 THE BASIC EXAMPLE
+
+Check the language a given text file is written in:
+
+  use Lingua::Identify qw/langof/;
+
+  my $text = join "\n", <>;
+
+  # identify the language by letting the module decide on the best way
+  # to do so
+  my $language = langof($text);
+
+=head2 IDENTIFYING BETWEEN TWO LANGUAGES
+
+Check the language a given text file is written in, supposing you
+happen to know it's either Portuguese or English:
+
+  use Lingua::Identify qw/langof activate_language/;
+  activate_language(qw/pt en/);
+
+  my $text = join "\n", <>;
+
+  # identify the language by letting the module decide on the best way
+  # to do so
+  my $language = langof($text);
 
 =head1 TO DO
 
 =over 6
 
-=item * Implement something like a confidence_level(@results)
-
-=item * Add a section with examples, in the documentation;
+=item * Add more examples in the documentation;
 
 =item * Add examples of the values returned;
 
@@ -347,6 +412,8 @@ deal with;
 
 =item * Create sets of languages and permit their activation/deactivation;
 
+=item * What happens when { method => [] } ?
+
 =back
 
 =head1 SEE ALSO
@@ -360,12 +427,13 @@ http://natura.di.uminho.pt/natura/viewcvs.cgi/Lingua/Identify/
 
 =head1 AUTHOR
 
-Jose Alves de Castro, E<lt>cog@cpan.orgE<gt>
+Jose Castro, C<< <cog@cpan.org> >>
 
-=head1 COPYRIGHT AND LICENSE
+=head1 COPYRIGHT & LICENSE
 
-Copyright (C) 2004 by Jose Alves de Castro
+Copyright 2004 Jose Castro, All Rights Reserved.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.8.4 or,
-at your option, any later version of Perl 5 you may have available.
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+
+=cut

@@ -1,5 +1,5 @@
 use Test::More qw/no_plan/;#tests => 9;
-BEGIN { use_ok('Lingua::Identify', qw/:language_manipulation langof/) };
+BEGIN { use_ok('Lingua::Identify', qw/:language_manipulation :language_identification/) };
 
 my @de = langof(<<EOT);
 soviel nehmen darf, als man ihr giebt, wenn sie nur ihre Tugend
@@ -10,7 +10,8 @@ auch deine ehrbare Ergoetzung haben.
 EOT
 
 is($de[0],'de');
-#cmp_ok($de[1],'>','0.50');
+cmp_ok($de[1],'>','0.19');
+cmp_ok(confidence(@de),'>','0.60');
 
 my @pt = langof(<<EOT);
 As armas e os barões assinalados 
@@ -19,7 +20,8 @@ Por mares nunca de antes navegados
 EOT
 
 is($pt[0],'pt');
-#cmp_ok($pt[1],'>','0.30');
+cmp_ok($pt[1],'>','0.27');
+cmp_ok(confidence(@pt),'>','0.55');
 
 my @en = langof(<<EOT);
 this is an example of an English text; hopefully, it won't be mistaken
@@ -27,7 +29,8 @@ for a Gaelic text, this time! That is not the purpose for this line.
 EOT
 
 is($en[0],'en');
-#cmp_ok($pt[1],'>','0.30');
+cmp_ok($en[1],'>','0.36');
+cmp_ok(confidence(@en),'>','0.79');
 
 @pt = langof(<<EOT);
 As armas e os barões assinalados 
@@ -181,4 +184,5 @@ De África as terras e do Oriente os mares.
 EOT
 
 is($pt[0],'pt');
-#cmp_ok($pt[1],'>','0.35');
+cmp_ok($pt[1],'>','0.20');
+cmp_ok(confidence(@pt),'>','0.50');
