@@ -141,7 +141,7 @@ sub make_module {
 
     =head1 NAME
 
-    Lingua::Identify::$module_name - Meta-information on $podname.
+    Lingua::Identify::$module_name - Meta-information on $podname
 
     =head1 SYNOPSIS
 

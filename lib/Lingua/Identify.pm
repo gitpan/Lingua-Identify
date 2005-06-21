@@ -38,8 +38,14 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(
 );
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
+# DEFAULT VALUES #
+
+  my %default_methods     = qw/smallwords 0.5 prefixes2 1 suffixes3 1 ngrams3 1.3/;
+  my $default_maxsize     = 1_000_000;
+  my %default_extractfrom = qw/head 1/;
+ 
 =head1 NAME
 
 Lingua::Identify - Language identification
@@ -57,7 +63,11 @@ Lingua::Identify - Language identification
   # or the hard (expert) way (see section OPTIONS, under HOW TO PERFORM
   # IDENTIFICATION)
 
-  $a = langof({ method => [qw/smallwords prefix2 suffix2/] },$textstring);
+  $a = langof( { method => [qw/smallwords prefix2 suffix2/] }, $text);
+
+  $a = langof( { 'max-size' => 3_000_000 }, $text);
+
+  $a = langof( { 'extract_from' => ( 'head' => 1, 'tail' => 2)}, $text);
 
 =head1 DESCRIPTION
 
@@ -74,7 +84,7 @@ If you're in a hurry, jump to section EXAMPLES, way down below.
 
 Also, don't forget to read the following section, IMPORTANT WARNING.
 
-=head1 IMPORTANT WARNING
+=head1 A WARNING ON THE ACCURACY OF LANGUAGE IDENTIFICATION METHODS
 
 Take a word that exists in two different languages, take a good look at it and
 answer this question: "What language does this word belong to?".
@@ -100,7 +110,7 @@ Here's a list of Lingua::Identify's strong points:
 =item * it's free and it's open-source;
 
 =item * it's portable (it's Perl, which means it will work in lots of different
-platforms);
+  platforms);
 
 =item * 26 languages and growing;
 
@@ -113,14 +123,18 @@ METHODS OF LANGUAGE IDENTIFICATION for more details on this one);
 =item * it comes with I<langident>, which means you don't actually need to
 write your own application;
 
-=item * it's flexible (you can actually chose the methods to use and their
-relevance, and pretty soon you'll be able to chose some other things)
+=item * it's flexible (at the moment, you can actually choose the
+methods to use and their relevance, the max size of input to analyze
+each time, which part(s) of the input to analyze)
 
-=item * it's easy to deal with languages (you can activate and deactivate the
-ones you chose whenever you want to, which can improve your times and
-accuracy);
+=item * it supports big inputs (through the 'max-size' and
+'extract_from' options)
 
-=item * it's being maintained.
+=item * it's easy to deal with languages (you can activate and
+deactivate the ones you choose whenever you want to, which can improve
+your times and accuracy);
+
+=item * it's maintained.
 
 =back
 
@@ -170,8 +184,6 @@ sub langof {
   my %config = ();
   if (ref($_[0]) eq 'HASH') {%config = (%config, %{+shift})}
 
-  my $text = join "\n", @_;
-
 =head3 OPTIONS
 
 I<langof> can also be given some configuration parameters, in this way:
@@ -182,20 +194,64 @@ These parameters are detailed here:
 
 =over 6
 
+=item * B<extract-from>
+
+When the size of the input exceeds the C'max-size', C<langof> analyzes
+only the beginning of the file. You can specify which part of the file
+is analyzed with the 'extract-from' option:
+
+  langof( { 'extract_from' => 'tail' } , $text );
+
+Possible values are 'head' and 'tail' (for now).
+
+You can also specify more than one part of the file, so that text is
+extracted from those parts:
+
+  langof( { 'extract_from' => [ 'head', 'tail' ] } , $text );
+
+(this will be useful when more than two possibilities exist)
+
+You can also specify different values for each part of the file (not
+necessarily for all of them:
+
+ langof( { 'extract_from' => { head => 40, tail => 60 } } , $text);
+
+The line above, for instance, retrives 40% of the text from the
+beginning and 60% from the end. Note, however, that those values are
+not percentages. You'd get the same behavior with:
+
+ langof( { 'extract_from' => { head => 80, tail => 120 } } , $text);
+
+The percentages would be the same.
+
+=item * B<max-size>
+
+By default, C<langof> analyzes only 1,000,000 bytes. You can specify
+how many bytes (at the most) can be analyzed (if not enough exist, the
+whole input is still analyzed).
+
+  langof( { 'max-size' => 2000 }, $text);
+
+If you want all the text to be analyzed, set max-size to 0:
+
+  langof( { 'max-size' => 0 }, $text);
+
+See also C<set_max_size>.
+
 =item * B<method>
 
-You can chose which method or methods to use, and also the relevance of each of
+You can choose which method or methods to use, and also the relevance of each of
 them.
 
-To chose a single method to use:
+To choose a single method to use:
 
   langof( {method => 'smallwords' }, $text);
 
-To chose several methods:
+To choose several methods:
 
   langof( {method => [qw/prefixes2 suffixes2/]}, $text);
 
-To chose several methods and give them different weight:
+To choose several methods and give them different weight:
 
   langof( {method => {smallwords => 0.5, ngrams3 => 1.5} }, $text);
 
@@ -217,24 +273,40 @@ following (this might change in the future):
 =cut
 
   # select the methods
-  my %methods;
-  if (defined $config{method}) {
-    for (ref($config{method})) {
-      if (/^HASH$/) {
-        %methods = %{$config{method}};
-      }
-      elsif (/^ARRAY$/) {
-        for (@{$config{method}}) {
-          $methods{$_}++;
-        }
+  my %methods = defined $config{method} ? _make_hash($config{method})
+                                        : %default_methods;
+
+  # select max-size
+  my $maxsize = defined $config{'max-size'} ? $config{'max-size'}
+                                            : $default_maxsize;
+
+  #my $text = join "\n", map { ref $_ eq 'ARRAY' ? join ' ', @$_ : $_ } @_;
+  my $text = join "\n", @_;
+
+  # this is the support for big files; if the input is bigger than the $maxsize, we act
+  if ($maxsize < length $text) {
+
+    # select extract_from
+    my %extractfrom = defined $config{'extract_from'} ? _make_hash($config{'extract_from'})
+                                                    : %default_extractfrom;
+    my $total_weight = 0;
+    for (keys %extractfrom) {
+      if ($_ eq 'head' or $_ eq 'tail') {
+        $total_weight += $extractfrom{$_};
+        next;
       }
       else {
-        $methods{$config{method}} = 1;
+        delete $extractfrom{$_};
       }
     }
-  }
-  else {
-    %methods = (qw/smallwords 0.5 prefixes2 1 suffixes3 1 ngrams3 1.3/);
+    for (keys %extractfrom) {
+      $extractfrom{$_} = $extractfrom{$_} / $total_weight;
+    }
+
+    $extractfrom{'head'} ||= 0;
+    $extractfrom{'tail'} ||= 0;
+
+    substr( $text, int $maxsize * $extractfrom{'head'}, int $maxsize * $extractfrom{'tail'} ) = '';
   }
 
   # use the methods
@@ -270,6 +342,26 @@ following (this might change in the future):
 
   return wantarray ? @result : $result[0];
 }
+
+sub _make_hash {
+  my %hash;
+  my $temp = shift;
+  for (ref($temp)) {
+    if (/^HASH$/) {
+      %hash = %{$temp};
+    }
+    elsif (/^ARRAY$/) {
+      for (@{$temp}) {
+        $hash{$_}++;
+      }
+    }
+    else {
+      $hash{$temp} = 1;
+    }
+  }
+  %hash;
+}
+
 
 =head2 confidence
 
@@ -762,12 +854,6 @@ happen to know it's either Portuguese or English:
 =item * Add more examples in the documentation;
 
 =item * Add examples of the values returned;
-
-=item * Configuration parameter to let the user chose which part(s) of the text
-to use;
-
-=item * Configuration parameter to let the user choose a maximum size of text
-to deal with;
 
 =item * WordNgrams based methods;
 

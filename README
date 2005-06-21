@@ -1,5 +1,5 @@
-Lingua/Identify version 0.11
-============================
+Lingua::Identify version 0.12
+=============================
 
 =head1 NAME
 
@@ -35,7 +35,7 @@ If you're in a hurry, jump to section EXAMPLES, way down below.
 
 Also, don't forget to read the following section, IMPORTANT WARNING.
 
-=head1 IMPORTANT WARNING
+=head1 A WARNING ON THE ACCURACY OF LANGUAGE IDENTIFICATION METHODS
 
 Take a word that exists in two different languages, take a good look at it and
 answer this question: "What language does this word belong to?".
@@ -74,14 +74,18 @@ METHODS OF LANGUAGE IDENTIFICATION for more details on this one);
 =item * it comes with I<langident>, which means you don't actually need to
 write your own application;
 
-=item * it's flexible (you can actually chose the methods to use and their
-relevance, and pretty soon you'll be able to chose some other things)
+=item * it's flexible (at the moment, you can actually choose the
+methods to use and their relevance, the max size of input to analyze
+each time, which part(s) of the input to analyze)
 
-=item * it's easy to deal with languages (you can activate and deactivate the
-ones you chose whenever you want to, which can improve your times and
-accuracy);
+=item * it supports big inputs (through the 'max-size' and
+'extract_from' options)
 
-=item * it's being maintained.
+=item * it's easy to deal with languages (you can activate and
+deactivate the ones you choose whenever you want to, which can improve
+your times and accuracy);
+
+=item * it's maintained.
 
 =back
 
@@ -114,20 +118,64 @@ These parameters are detailed here:
 
 =over 6
 
+=item * B<extract-from>
+
+When the size of the input exceeds the C'max-size', C<langof> analyzes
+only the beginning of the file. You can specify which part of the file
+is analyzed with the 'extract-from' option:
+
+  langof( { 'extract_from' => 'tail' } , $text );
+
+Possible values are 'head' and 'tail' (for now).
+
+You can also specify more than one part of the file, so that text is
+extracted from those parts:
+
+  langof( { 'extract_from' => [ 'head', 'tail' ] } , $text );
+
+(this will be useful when more than two possibilities exist)
+
+You can also specify different values for each part of the file (not
+necessarily for all of them:
+
+ langof( { 'extract_from' => { head => 40, tail => 60 } } , $text);
+
+The line above, for instance, retrives 40% of the text from the
+beginning and 60% from the end. Note, however, that those values are
+not percentages. You'd get the same behavior with:
+
+ langof( { 'extract_from' => { head => 80, tail => 120 } } , $text);
+
+The percentages would be the same.
+
+=item * B<max-size>
+
+By default, C<langof> analyzes only 1,000,000 bytes. You can specify
+how many bytes (at the most) can be analyzed (if not enough exist, the
+whole input is still analyzed).
+
+  langof( { 'max-size' => 2000 }, $text);
+
+If you want all the text to be analyzed, set max-size to 0:
+
+  langof( { 'max-size' => 0 }, $text);
+
+See also C<set_max_size>.
+
 =item * B<method>
 
-You can chose which method or methods to use, and also the relevance of each of
+You can choose which method or methods to use, and also the relevance of each of
 them.
 
-To chose a single method to use:
+To choose a single method to use:
 
   langof( {method => 'smallwords' }, $text);
 
-To chose several methods:
+To choose several methods:
 
   langof( {method => [qw/prefixes2 suffixes2/]}, $text);
 
-To chose several methods and give them different weight:
+To choose several methods and give them different weight:
 
   langof( {method => {smallwords => 0.5, ngrams3 => 1.5} }, $text);
 
@@ -354,6 +402,8 @@ Given the two letter tag of a language, returns its name
 
   my $language_name = name_of('pt');
 
+=back
+
 =head1 KNOWN LANGUAGES
 
 Currently, C<Lingua::Identify> knows the following languages (26 total):
@@ -457,17 +507,9 @@ happen to know it's either Portuguese or English:
 
 =over 6
 
-=item * Explain how the confidence level is calculated;
-
 =item * Add more examples in the documentation;
 
 =item * Add examples of the values returned;
-
-=item * Configuration parameter to let the user chose which part(s) of the text
-to use;
-
-=item * Configuration parameter to let the user chose a maximum size of text to
-deal with;
 
 =item * WordNgrams based methods;
 
@@ -477,7 +519,7 @@ deal with;
 
 =item * Deal with different encodings;
 
-=item * Create sets of languages and permit their activation/deactivation;
+=item * Create sets of languages and allow their activation/deactivation;
 
 =back
 
@@ -500,6 +542,4 @@ Copyright 2004 Jose Castro, All Rights Reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
-
-=cut
 

@@ -22,13 +22,13 @@ if (@ARGV) {
   my @files = @ARGV;
   for (sort @files) {
     -f && -r && -s || next;
-    open (STDIN, $_) || do {print STDERR "Could not open $_ ($!)\n" ; next};
-    print $_, ":", (join $", ident()), "\n";
-    close (STDIN);
+    open (FILE, $_) || do {print STDERR "Could not open $_ ($!)\n" ; next};
+    print $_, ":", (join $", ident(<FILE>)), "\n";
+    close (FILE);
   }
 }
 else {
-  print ((join $", ident()), "\n");
+  print ((join $", ident(<>)), "\n");
 }
 
 #
@@ -103,7 +103,7 @@ Options:
 ###
 
 sub show_version {
-  die "langident version 0.07 (Lingua::Identify ", Lingua::Identify->VERSION, ")\n";
+  die "langident version 0.08 (Lingua::Identify ", Lingua::Identify->VERSION, ")\n";
 }
 
 ###
@@ -111,7 +111,7 @@ sub show_version {
 # identify the language
 sub ident {
   if ($opts{a} || $opts{p} || $opts{c}) {
-    my @results = langof(get_config(),<>);
+    my @results = langof(get_config(),@_);
     @results || return ();
     if ($opts{m}) {
       my $m = $opts{m} > @results / 2 ? @results - 1 : (($opts{m} * 2) - 1);
@@ -124,7 +124,7 @@ sub ident {
     return (shift @results, @confidence, @results);
   }
   else {
-    return (langof(get_config(),<>))[0];
+    return (langof(get_config(),@_))[0];
   }
 }
 

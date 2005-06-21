@@ -1,4 +1,16 @@
-Revision history for Perl extension Lingua::Identify.
+Revision history for Lingua-Identify
+
+0.12  Mon Jun 21 15:38:00 2005
+	+ changes on Lingua::Identify
+	- minor changes in the documentation
+	- added support for big files (through options 'extract-from'
+	  and 'max-size'; see HOW TO PERFORM IDENTIFICATION -> langof
+	  -> OPTIONS)
+
+	+ changes on langident
+	- fixed a weird bug (results would vary for a file if there
+	  were others being processed too; that is, `langident a` and
+	  `langident a b` would return different results for "a"
 
 0.11  Tue Dec 21 16:28:00 2004
 	+ changes on Lingua::Identify
@@ -36,9 +48,10 @@ Revision history for Perl extension Lingua::Identify.
 	- added the -e switch (chose the methods to use)
 	- added the -c switch (show confidence level for most probable
 	  language)
-	- the -d switch (debug) now actually prints something (the values of
-	  the command-line options).
-	- command-line options are now parsed with Getopt::Std (much better)
+	- the -d switch (debug) now actually prints something (the
+	  values of the command-line options).
+	- command-line options are now parsed with Getopt::Std (much
+	  better)
 
 0.06  Wed Nov 03 12:20:14 2004
 	+ changes on Lingua::Identify
