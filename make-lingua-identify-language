@@ -136,8 +136,7 @@ sub make_module {
     my $module_name = uc $tag;
     my $podname = ucfirst $name;
 
-    #print <<POD;
-    print pod_unindent('
+    print pod_unindent("
 
     =head1 NAME
 
@@ -169,7 +168,7 @@ sub make_module {
     at your option, any later version of Perl 5 you may have available.
 
     =cut
-');
+");
 
     # write prefixes information
     verbose("\tstudying prefixes");

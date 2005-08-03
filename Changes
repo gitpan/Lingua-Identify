@@ -1,5 +1,12 @@
 Revision history for Lingua-Identify
 
+0.14  Wed Aug 02 11:48:00 2005
+	+ changes on make-lingua-identify-language
+	- fixed a bug that was printing POD wrongly
+
+	+ changes on languages modules
+	- fixed the POD
+
 0.13  Wed Aug 02 09:30:00 2005
 	+ changes on Lingua::Identify
 	- added dummy mode, for debugging, so you know what's going on
