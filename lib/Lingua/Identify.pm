@@ -38,7 +38,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(
 );
 
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 # DEFAULT VALUES #
 
@@ -110,9 +110,9 @@ Here's a list of Lingua::Identify's strong points:
 =item * it's free and it's open-source;
 
 =item * it's portable (it's Perl, which means it will work in lots of different
-  platforms);
+platforms);
 
-=item * 26 languages and growing;
+=item * 33 languages and growing;
 
 =item * 4 different methods of language identification and growing (see
 METHODS OF LANGUAGE IDENTIFICATION for more details on this one);
@@ -152,7 +152,7 @@ BEGIN {
     $languages{_versions}{lc $_} >= 0.01 ||
       die "Required version of language $_ not found.\n";
   } 
-  
+
   @all_languages = @active_languages = keys %{$languages{_names}};
 
   @methods = qw/smallwords/;
@@ -268,19 +268,44 @@ following (this might change in the future):
     ngrams3    => 1.3
   };
 
+=item * B<mode>
+
+By default, C<Lingua::Identify> assumes C<normal> mode, but others are
+available.
+
+In C<dummy> mode, instead of actually calculating anything,
+C<Lingua::Identify> only does the preparation it has to and then
+returns a bunch of information, including the list of the active
+languages, the selected methods, etc. It also returns the text meant
+to be analised.
+
+  langof( { 'mode' => 'dummy' }, $text);
+
+This returns something like this:
+
+  { 'methods'          => {   'smallwords' => '0.5',
+                              'prefixes2'  => '1',
+                          },
+    'config'           => {   'mode' => 'dummy' },
+    'maxsize'          => 1000000,
+    'active-languages' => [ 'es', 'pt' ],
+    'text'             => $text,
+    'mode'             => 'dummy',
+  }
+
 =back
 
 =cut
 
   # select the methods
-  my %methods = defined $config{method} ? _make_hash($config{method})
-                                        : %default_methods;
+  my %methods = defined $config{'method'}   ? _make_hash($config{'method'})
+                                            : %default_methods;
 
   # select max-size
   my $maxsize = defined $config{'max-size'} ? $config{'max-size'}
                                             : $default_maxsize;
 
-  #my $text = join "\n", map { ref $_ eq 'ARRAY' ? join ' ', @$_ : $_ } @_;
+  # get the text
   my $text = join "\n", @_;
 
   # this is the support for big files; if the input is bigger than the $maxsize, we act
@@ -288,7 +313,7 @@ following (this might change in the future):
 
     # select extract_from
     my %extractfrom = defined $config{'extract_from'} ? _make_hash($config{'extract_from'})
-                                                    : %default_extractfrom;
+                                                      : %default_extractfrom;
     my $total_weight = 0;
     for (keys %extractfrom) {
       if ($_ eq 'head' or $_ eq 'tail') {
@@ -307,6 +332,20 @@ following (this might change in the future):
     $extractfrom{'tail'} ||= 0;
 
     substr( $text, int $maxsize * $extractfrom{'head'}, int $maxsize * $extractfrom{'tail'} ) = '';
+
+  }
+
+  # dummy mode exits here
+  $config{'mode'} ||= 'normal';
+  if ($config{'mode'} eq 'dummy') {
+    return {
+      'method'           => \%methods,
+      'maxsize'          => $maxsize,
+      'config'           => \%config,
+      'active-languages' => [ sort (get_active_languages()) ],
+      'text'             => $text,
+      'mode'             => $config{'mode'},
+    };
   }
 
   # use the methods
@@ -361,7 +400,6 @@ sub _make_hash {
   }
   %hash;
 }
-
 
 =head2 confidence
 
@@ -429,8 +467,6 @@ sub get_all_methods {
   qw/smallwords prefixes1 prefixes2 prefixes3 prefixes4 suffixes1 suffixes2
      suffixes3 suffixes4 ngrams1 ngrams2 ngrams3 ngrams4/
 }
-
-=head3
 
 =head1 LANGUAGE IDENTIFICATION IN GENERAL
 
@@ -609,7 +645,7 @@ sub activate_language {
   unless (grep { $_ eq $_[0] } @active_languages) {
     push @active_languages, $_[0];
   }
-  @active_languages;
+  return @active_languages;
 }
 
 =item B<activate_all_languages>
@@ -622,6 +658,7 @@ Activates all languages
 
 sub activate_all_languages {
   @active_languages = get_all_languages();
+  return @active_languages;
 }
 
 =item B<deactivate_language>
@@ -634,6 +671,7 @@ Deactivates a language
 
 sub deactivate_language {
   @active_languages = grep { ! ($_ eq $_[0]) } @active_languages;
+  return @active_languages;
 }
 
 =item B<deactivate_all_languages>
@@ -646,6 +684,7 @@ Deactivates all languages
 
 sub deactivate_all_languages {
   @active_languages = ();
+  return @active_languages;
 }
 
 =item B<get_all_languages>
@@ -657,7 +696,7 @@ Returns the names of all available languages
 =cut
 
 sub get_all_languages {
-  @all_languages;
+  return @all_languages;
 }
 
 =item B<get_active_languages>
@@ -669,7 +708,7 @@ Returns the names of all active languages
 =cut
 
 sub get_active_languages {
-  @active_languages;
+  return @active_languages;
 }
 
 =item B<get_inactive_languages>
@@ -681,7 +720,7 @@ Returns the names of all inactive languages
 =cut
 
 sub get_inactive_languages {
-  grep { ! is_active($_) } get_all_languages();
+  return grep { ! is_active($_) } get_all_languages();
 }
 
 =item B<is_active>
@@ -695,7 +734,7 @@ Returns the name of the language if it is active, an empty list otherwise
 =cut
 
 sub is_active {
-  grep { $_ eq $_[0] } get_active_languages();
+  return grep { $_ eq $_[0] } get_active_languages();
 }
 
 =item B<is_valid_language>
@@ -709,7 +748,7 @@ Returns the name of the language if it exists, an empty list otherwise
 =cut
 
 sub is_valid_language {
-  grep { $_ eq $_[0] } get_all_languages();
+  return grep { $_ eq $_[0] } get_all_languages();
 }
 
 =item B<set_active_languages>
@@ -726,6 +765,7 @@ Sets the active languages
 
 sub set_active_languages {
   @active_languages = grep { is_valid_language($_) } @_;
+  return @active_languages;
 }
 
 =item B<name_of>
@@ -738,7 +778,7 @@ Given the two letter tag of a language, returns its name
 
 sub name_of {
   my $tag = shift || return undef;
-  $languages{_names}{$tag};
+  return $languages{_names}{$tag};
 }
 
 =back
@@ -786,11 +826,15 @@ Currently, C<Lingua::Identify> knows the following languages (26 total):
 
 =item HU - Hungarian
 
+=item ID - Indonesian
+
 =item IS - Icelandic
 
 =item IT - Italian
 
 =item LA - Latin
+
+=item MS - Malay
 
 =item NL - Dutch
 
@@ -800,9 +844,19 @@ Currently, C<Lingua::Identify> knows the following languages (26 total):
 
 =item PT - Portuguese
 
+=item RO - Romanian
+
+=item RU - Russian
+
+=item SL - Slovene
+
+=item SO - Somali
+
 =item SQ - Albanian
 
 =item SV - Swedish
+
+=item SW - Swahili
 
 =item TR - Turkish
 
@@ -865,6 +919,12 @@ happen to know it's either Portuguese or English:
 
 =item * Create sets of languages and allow their activation/deactivation;
 
+=item * There should be a way of knowing the default configuration
+(other than using the dummy mode, of course, or than accessing the variables
+directly);
+
+=item * Add a section about other similar tools.
+
 =back
 
 =head1 SEE ALSO
@@ -875,6 +935,8 @@ A linguist and/or a shrink.
 
 The latest CVS version of C<Lingua::Identify> can be attained at
 http://natura.di.uminho.pt/natura/viewcvs.cgi/Lingua/Identify/
+
+ISO 639 Language Codes, at http://www.w3.org/WAI/ER/IG/ert/iso639.htm
 
 =head1 AUTHOR
 

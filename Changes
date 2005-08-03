@@ -1,9 +1,28 @@
 Revision history for Lingua-Identify
 
+0.13  Wed Aug 02 09:30:00 2005
+	+ changes on Lingua::Identify
+	- added dummy mode, for debugging, so you know what's going on
+	  under the hood
+	- fixed some minor glitches in the documentation
+	- added some more tests
+	- reorganized existing tests
+	- added 7 more languages, thanks to George Wilson (ID, MS, RO,
+	  RU, SL, SO, SW)
+
+	+ changes on langident
+	- added some crude form of support for big files, with the -s
+	  switch
+
+	+ changes on make-lingua-identify-language
+	- fixed a potential glitch for languages with two letter codes
+	  that happen to be Perl reserved words
+	- fixed some POD issues
+
 0.12  Mon Jun 21 15:38:00 2005
 	+ changes on Lingua::Identify
 	- minor changes in the documentation
-	- added support for big files (through options 'extract-from'
+	- added support for big inputs (through options 'extract-from'
 	  and 'max-size'; see HOW TO PERFORM IDENTIFICATION -> langof
 	  -> OPTIONS)
 
@@ -24,7 +43,7 @@ Revision history for Lingua-Identify
 
 0.09  Fri Dec 17 15:49:23 2004
 	+ changes on Lingua::Identify
-	minor changes in the documentation
+	- minor changes in the documentation
 
 	+ added make-lingua-identify-language
 

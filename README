@@ -1,4 +1,4 @@
-Lingua::Identify version 0.12
+Lingua::Identify version 0.13
 =============================
 
 =head1 NAME
@@ -18,7 +18,11 @@ Lingua::Identify - Language identification
   # or the hard (expert) way (see section OPTIONS, under HOW TO PERFORM
   # IDENTIFICATION)
 
-  $a = langof({ method => [qw/smallwords prefix2 suffix2/] },$textstring);
+  $a = langof( { method => [qw/smallwords prefix2 suffix2/] }, $text);
+
+  $a = langof( { 'max-size' => 3_000_000 }, $text);
+
+  $a = langof( { 'extract_from' => ( 'head' => 1, 'tail' => 2)}, $text);
 
 =head1 DESCRIPTION
 
@@ -63,7 +67,7 @@ Here's a list of Lingua::Identify's strong points:
 =item * it's portable (it's Perl, which means it will work in lots of different
 platforms);
 
-=item * 26 languages and growing;
+=item * 33 languages and growing;
 
 =item * 4 different methods of language identification and growing (see
 METHODS OF LANGUAGE IDENTIFICATION for more details on this one);
@@ -192,6 +196,31 @@ following (this might change in the future):
     ngrams3    => 1.3
   };
 
+=item * B<mode>
+
+By default, C<Lingua::Identify> assumes C<normal> mode, but others are
+available.
+
+In C<dummy> mode, instead of actually calculating anything,
+C<Lingua::Identify> only does the preparation it has to and then
+returns a bunch of information, including the list of the active
+languages, the selected methods, etc. It also returns the text meant
+to be analised.
+
+  langof( { 'mode' => 'dummy' }, $text);
+
+This returns something like this:
+
+  { 'methods'          => {   'smallwords' => '0.5',
+                              'prefixes2'  => '1',
+                          },
+    'config'           => {   'mode' => 'dummy' },
+    'maxsize'          => 1000000,
+    'active-languages' => [ 'es', 'pt' ],
+    'text'             => $text,
+    'mode'             => 'dummy',
+  }
+
 =back
 
 =head2 confidence
@@ -245,8 +274,6 @@ number of languages in play.
 
 Returns a list comprised of all the available methods for language
 identification.
-
-=head3
 
 =head1 LANGUAGE IDENTIFICATION IN GENERAL
 
@@ -442,11 +469,15 @@ Currently, C<Lingua::Identify> knows the following languages (26 total):
 
 =item HU - Hungarian
 
+=item ID - Indonesian
+
 =item IS - Icelandic
 
 =item IT - Italian
 
 =item LA - Latin
+
+=item MS - Malay
 
 =item NL - Dutch
 
@@ -456,9 +487,19 @@ Currently, C<Lingua::Identify> knows the following languages (26 total):
 
 =item PT - Portuguese
 
+=item RO - Romanian
+
+=item RU - Russian
+
+=item SL - Slovene
+
+=item SO - Somali
+
 =item SQ - Albanian
 
 =item SV - Swedish
+
+=item SW - Swahili
 
 =item TR - Turkish
 
@@ -521,6 +562,12 @@ happen to know it's either Portuguese or English:
 
 =item * Create sets of languages and allow their activation/deactivation;
 
+=item * There should be a way of knowing the default configuration
+(other than using the dummy mode, of course, or than accessing the variables
+directly);
+
+=item * Add a section about other similar tools.
+
 =back
 
 =head1 SEE ALSO
@@ -531,6 +578,8 @@ A linguist and/or a shrink.
 
 The latest CVS version of C<Lingua::Identify> can be attained at
 http://natura.di.uminho.pt/natura/viewcvs.cgi/Lingua/Identify/
+
+ISO 639 Language Codes, at http://www.w3.org/WAI/ER/IG/ert/iso639.htm
 
 =head1 AUTHOR
 

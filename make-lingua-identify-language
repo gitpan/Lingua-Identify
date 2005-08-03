@@ -128,8 +128,8 @@ sub make_module {
     # write some headers
     open( STDOUT, ">" . ( uc $tag ) . ".pm" ) || die;
     print "use strict;\n",
-      "\n\${Lingua::Identify::languages{_versions}{$tag}} = '$version';\n",
-      "\n\${Lingua::Identify::languages{_names}{$tag}} = '$name';\n";
+      "\n\${Lingua::Identify::languages{'_versions'}{'$tag'}} = '$version';\n",
+      "\n\${Lingua::Identify::languages{'_names'}{'$tag'}} = '$name';\n";
 
     # write POD
 
@@ -137,7 +137,7 @@ sub make_module {
     my $podname = ucfirst $name;
 
     #print <<POD;
-    print pod_unindent << POD;
+    print pod_unindent('
 
     =head1 NAME
 
@@ -169,14 +169,14 @@ sub make_module {
     at your option, any later version of Perl 5 you may have available.
 
     =cut
-POD
+');
 
     # write prefixes information
     verbose("\tstudying prefixes");
 
     my $prefixes = get_prefixes( { min => 1, max => 4 }, $text );
     for my $i ( 1 .. 4 ) {
-        print "\n\${Lingua::Identify::languages{prefixes$i}{$tag}} = {\n";
+        print "\n\${Lingua::Identify::languages{'prefixes$i'}{'$tag'}} = {\n";
         my $total;
         for ( values %{ $$prefixes{$i} } ) { $total += $_; }
         for (
@@ -196,7 +196,7 @@ POD
 
     my $suffixes = get_suffixes( { min => 1, max => 4 }, $text );
     for my $i ( 1 .. 4 ) {
-        print "\n\${Lingua::Identify::languages{suffixes$i}{$tag}} = {\n";
+        print "\n\${Lingua::Identify::languages{'suffixes$i'}{'$tag'}} = {\n";
         my $total;
         for ( values %{ $$suffixes{$i} } ) { $total += $_; }
         for (
@@ -218,7 +218,7 @@ POD
     words_count( \%hash_w, $text );
     my $total;
     for ( values %hash_w ) { $total += $_; }
-    print "\n\${Lingua::Identify::languages{smallwords}{$tag}} = {\n";
+    print "\n\${Lingua::Identify::languages{'smallwords'}{'$tag'}} = {\n";
     for (
         ( sort { $hash_w{$b} <=> $hash_w{$a} } grep { !/^\d+$/ } keys %hash_w )
         [ 0 .. 19 ] )
@@ -252,7 +252,7 @@ sub get_ngrams {
     my $total;
     for ( values %$hash ) { $total += $_; }
 
-    print "\n\${Lingua::Identify::languages{$what$gram}{$tag}} = {\n";
+    print "\n\${Lingua::Identify::languages{'$what$gram'}{'$tag'}} = {\n";
 
     for (
         ( sort { $$hash{$b} <=> $$hash{$a} } keys %$hash )[ 0 .. 19 ]
@@ -269,7 +269,7 @@ sub get_ngrams {
 
 ###
 
-sub pod_unindent { ( local $_ = shift ) =~ s/^\s*//mg; $_ }
+sub pod_unindent { ( local $_ = shift ) =~ s/^ +//mg; $_ }
 
 __END__
 
@@ -359,6 +359,8 @@ A linguist and/or a shrink.
 The latest CVS version of C<Lingua::Identify> (which includes
 I<make-lingua-identify>) can be attained at
 http://natura.di.uminho.pt/natura/viewcvs.cgi/Lingua/Identify/
+
+ISO 639 Language Codes, at http://www.w3.org/WAI/ER/IG/ert/iso639.htm
 
 =head1 AUTHOR
 

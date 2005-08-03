@@ -30,9 +30,16 @@ lib/Lingua/Identify/NL.pm
 lib/Lingua/Identify/NO.pm
 lib/Lingua/Identify/PL.pm
 lib/Lingua/Identify/PT.pm
+lib/Lingua/Identify/SO.pm
 lib/Lingua/Identify/SQ.pm
 lib/Lingua/Identify/SV.pm
 lib/Lingua/Identify/TR.pm
+lib/Lingua/Identify/SW.pm
+lib/Lingua/Identify/SL.pm
+lib/Lingua/Identify/RU.pm
+lib/Lingua/Identify/RO.pm
+lib/Lingua/Identify/MS.pm
+lib/Lingua/Identify/ID.pm
 META.yml                                 Module meta-data (added by MakeMaker)
 langident
 t/03-compile-langident.t
