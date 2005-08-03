@@ -1,5 +1,8 @@
 Revision history for Lingua-Identify
 
+0.15  Wed Aug 02 14:11:00 2005
+	- er... I don't want to talk about it O:-)
+
 0.14  Wed Aug 02 11:48:00 2005
 	+ changes on make-lingua-identify-language
 	- fixed a bug that was printing POD wrongly

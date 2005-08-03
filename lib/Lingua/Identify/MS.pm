@@ -7,7 +7,7 @@ ${Lingua::Identify::languages{'_names'}{'ms'}} = 'malay';
 
 =head1 NAME
 
-Lingua::Identify::$module_name - Meta-information on $podname
+Lingua::Identify::MS - Meta-information on Malay
 
 =head1 SYNOPSIS
 
@@ -24,7 +24,7 @@ Lingua::Identify(3).
 
 =head1 AUTHOR
 
-Jose Alves de Castro, E<lt>cog\@cpan.orgE<gt>
+Jose Alves de Castro, E<lt>cog@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
