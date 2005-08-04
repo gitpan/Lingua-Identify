@@ -37,14 +37,14 @@ else {
 ###############
 
 sub verbose {
-  print STDERR $_[0], "\n" if $opts{v};
+  print STDERR $_[0], "\n" if $opts{V};
 }
 
 ###
 
 sub get_options {
         my %opts;
-        getopts('dDhv', \%opts );
+        getopts('dDhvV', \%opts );
 
         foreach my $key ( keys %opts )
                 {
@@ -68,7 +68,6 @@ sub get_options {
 sub debug_options {
         my %opts = @_;
 
-        #local $^W = 0;
         no warnings;
                 {
                 print STDERR <<"HERE";
@@ -79,6 +78,7 @@ d   $opts{d}
 D   $opts{D}
 h   $opts{h}
 v   $opts{v}
+V   $opts{V}
 -------------------------------------------------------------------------
 HERE
                 }
@@ -101,6 +101,7 @@ Options:
   -D         debug mode
   -h         displays this messages and exit
   -v         show version and exit
+  -V         verbose mode
 "
 }
 
@@ -144,12 +145,13 @@ sub make_module {
 
     =head1 SYNOPSIS
 
-    Nothing here is meant for public comsuption. This module is to be loaded by
-    Lingua::Identify.
+    Nothing here is meant for public consumption. This module is to be
+    loaded by Lingua::Identify.
 
     =head1 DESCRIPTION
 
-    Automatically generated. Do not change this module yourself (yet).
+    Automatically generated. Do not change this module yourself unless
+    you know what you're doing.
 
     =head1 SEE ALSO
 
@@ -157,7 +159,7 @@ sub make_module {
 
     =head1 AUTHOR
 
-    Jose Alves de Castro, E<lt>cog\@cpan.orgE<gt>
+    Jose Castro, C<< <cog\@cpan.org> >>
 
     =head1 COPYRIGHT AND LICENSE
 
@@ -305,7 +307,8 @@ directory where you something like this:
   |-- en-english
   |   `-- english.txt
   |-- fr-french
-  |   `-- french.txt
+  |   `-- french1.txt
+  |   `-- french2.txt
   `-- pt-portuguese
       `-- portuguese.txt
 
@@ -330,6 +333,10 @@ Display help and exit.
 
 Show version and exit.
 
+=head2 -V
+
+Verbose mode.
+
 =head1 CONTRIBUTING WITH NEW LANGUAGES
 
 Please do not contribute with modules you made yourself. It's easier
@@ -340,14 +347,6 @@ I can't contact you by that time.
 Use I<make-lingua-identify-language> to create a new module for your
 own personal use, if you must, but try to contribute with unprocessed
 text rather than those modules.
-
-=head1 TO DO
-
-=over 6
-
-=item * Recode
-
-=back
 
 =head1 SEE ALSO
 

@@ -1,21 +1,23 @@
 use strict;
 
-${Lingua::Identify::languages{_versions}{bg}} = '0.01';
+${Lingua::Identify::languages{'_versions'}{'bg'}} = '0.01';
 
-${Lingua::Identify::languages{_names}{bg}} = 'bulgarian';
+${Lingua::Identify::languages{'_names'}{'bg'}} = 'bulgarian';
+
 
 =head1 NAME
 
-Lingua::Identify::BG - Meta-information on Bulgarian.
+Lingua::Identify::BG - Meta-information on Bulgarian
 
 =head1 SYNOPSIS
 
-Nothing here is meant for public comsuption. This module is to be loaded by
-Lingua::Identify.
+Nothing here is meant for public consumption. This module is to be
+loaded by Lingua::Identify.
 
 =head1 DESCRIPTION
 
-Automatically generated. Do not change this module yourself (yet).
+Automatically generated. Do not change this module yourself unless
+you know what you're doing.
 
 =head1 SEE ALSO
 
@@ -23,7 +25,7 @@ Lingua::Identify(3).
 
 =head1 AUTHOR
 
-Jose Alves de Castro, E<lt>cog@cpan.orgE<gt>
+Jose Castro, C<< <cog@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
@@ -35,176 +37,56 @@ at your option, any later version of Perl 5 you may have available.
 
 =cut
 
-${Lingua::Identify::languages{prefixes1}{bg}} = {
-  '1'	=> 0.44,
-  '5'	=> 0.2,
-  '6'	=> 0.12,
-  '3'	=> 0.12,
-  '0'	=> 0.08,
-  '2'	=> 0.04,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
+${Lingua::Identify::languages{'prefixes1'}{'bg'}} = {
 };
 
-${Lingua::Identify::languages{prefixes2}{bg}} = {
-  '18'	=> 0.333333333333333,
-  '60'	=> 0.166666666666667,
-  '56'	=> 0.166666666666667,
-  '19'	=> 0.166666666666667,
-  '00'	=> 0.111111111111111,
-  '50'	=> 0.0555555555555556,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
+${Lingua::Identify::languages{'prefixes2'}{'bg'}} = {
 };
 
-${Lingua::Identify::languages{prefixes3}{bg}} = {
-  '192'	=> 0.222222222222222,
-  '184'	=> 0.222222222222222,
-  '197'	=> 0.111111111111111,
-  '181'	=> 0.111111111111111,
-  '182'	=> 0.111111111111111,
-  '183'	=> 0.111111111111111,
-  '186'	=> 0.111111111111111,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
+${Lingua::Identify::languages{'prefixes3'}{'bg'}} = {
 };
 
-${Lingua::Identify::languages{prefixes4}{bg}} = {
+${Lingua::Identify::languages{'prefixes4'}{'bg'}} = {
 };
 
-${Lingua::Identify::languages{suffixes1}{bg}} = {
-  '3'	=> 0.2,
-  '2'	=> 0.2,
-  '0'	=> 0.2,
-  '1'	=> 0.12,
-  '6'	=> 0.08,
-  '9'	=> 0.08,
-  '8'	=> 0.08,
-  '5'	=> 0.04,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
+${Lingua::Identify::languages{'suffixes1'}{'bg'}} = {
 };
 
-${Lingua::Identify::languages{suffixes2}{bg}} = {
-  '63'	=> 0.166666666666667,
-  '02'	=> 0.166666666666667,
-  '00'	=> 0.166666666666667,
-  '33'	=> 0.0555555555555556,
-  '28'	=> 0.0555555555555556,
-  '61'	=> 0.0555555555555556,
-  '26'	=> 0.0555555555555556,
-  '78'	=> 0.0555555555555556,
-  '22'	=> 0.0555555555555556,
-  '49'	=> 0.0555555555555556,
-  '19'	=> 0.0555555555555556,
-  '43'	=> 0.0555555555555556,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
+${Lingua::Identify::languages{'suffixes2'}{'bg'}} = {
 };
 
-${Lingua::Identify::languages{suffixes3}{bg}} = {
-  '833'	=> 0.111111111111111,
-  '849'	=> 0.111111111111111,
-  '978'	=> 0.111111111111111,
-  '928'	=> 0.111111111111111,
-  '819'	=> 0.111111111111111,
-  '826'	=> 0.111111111111111,
-  '922'	=> 0.111111111111111,
-  '861'	=> 0.111111111111111,
-  '843'	=> 0.111111111111111,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
-  ''	=> 0,
+${Lingua::Identify::languages{'suffixes3'}{'bg'}} = {
 };
 
-${Lingua::Identify::languages{suffixes4}{bg}} = {
+${Lingua::Identify::languages{'suffixes4'}{'bg'}} = {
 };
 
-${Lingua::Identify::languages{smallwords}{bg}} = {
-  'ýð'	=> 0.0596026490066225,
-  'ø'	=> 0.0291390728476821,
-  'áõ'	=> 0.0278145695364238,
-  'ôð'	=> 0.023841059602649,
-  'ò'	=> 0.0225165562913907,
-  'õ'	=> 0.0145695364238411,
-  '×ð'	=> 0.0132450331125828,
-  'á'	=> 0.0132450331125828,
-  'þâ'	=> 0.0119205298013245,
-  'èðäðàøú'	=> 0.00794701986754967,
-  'áð'	=> 0.00794701986754967,
-  'àðèúþ'	=> 0.00794701986754967,
-  'ßþ'	=> 0.00794701986754967,
-  'ôþ'	=> 0.00662251655629139,
-  'õ×øú'	=> 0.00662251655629139,
-  'ýõ'	=> 0.00662251655629139,
-  'úþõâþ'	=> 0.00662251655629139,
-  'øûø'	=> 0.00529801324503311,
-  '·ðùúþò'	=> 0.00529801324503311,
-  '¿'	=> 0.00529801324503311,
+${Lingua::Identify::languages{'smallwords'}{'bg'}} = {
+  'ÝÐ'	=> 0.0603085553997195,
+  'Ø'	=> 0.02945301542777,
+  'áÕ'	=> 0.0280504908835905,
+  'Ò'	=> 0.0252454417952314,
+  'ÔÐ'	=> 0.0238429172510519,
+  'Õ'	=> 0.0140252454417952,
+  'Þâ'	=> 0.0140252454417952,
+  '×Ð'	=> 0.0140252454417952,
+  'á'	=> 0.00981767180925666,
+  'áÐ'	=> 0.00841514726507714,
+  'ÀÐèÚÞ'	=> 0.00841514726507714,
+  'ÈÐäÐàØÚ'	=> 0.00701262272089762,
+  'Õ×ØÚ'	=> 0.00701262272089762,
+  'ÚÞÕâÞ'	=> 0.00701262272089762,
+  'ßÞ'	=> 0.00701262272089762,
+  'ÝÕ'	=> 0.00701262272089762,
+  'ÚÐâÞ'	=> 0.00561009817671809,
+  'ÚêÔÕâÞ'	=> 0.00561009817671809,
+  '·ÐÙÚÞÒ'	=> 0.00561009817671809,
+  'ÔÞ'	=> 0.00561009817671809,
 };
 
-${Lingua::Identify::languages{ngrams1}{bg}} = {
-  ' ' => 0.984848484848485,
-  'r' => 0.0151515151515152,
+${Lingua::Identify::languages{'ngrams1'}{'bg'}} = {
+  ' ' => 0.983606557377049,
+  'r' => 0.0163934426229508,
   '' => 0,
   '' => 0,
   '' => 0,
@@ -225,7 +107,7 @@ ${Lingua::Identify::languages{ngrams1}{bg}} = {
   '' => 0,
 };
 
-${Lingua::Identify::languages{ngrams2}{bg}} = {
+${Lingua::Identify::languages{'ngrams2'}{'bg'}} = {
   ' r' => 0.5,
   'r ' => 0.5,
   '' => 0,
@@ -248,7 +130,7 @@ ${Lingua::Identify::languages{ngrams2}{bg}} = {
   '' => 0,
 };
 
-${Lingua::Identify::languages{ngrams3}{bg}} = {
+${Lingua::Identify::languages{'ngrams3'}{'bg'}} = {
   ' r ' => 1,
   '' => 0,
   '' => 0,
@@ -271,5 +153,5 @@ ${Lingua::Identify::languages{ngrams3}{bg}} = {
   '' => 0,
 };
 
-${Lingua::Identify::languages{ngrams4}{bg}} = {
+${Lingua::Identify::languages{'ngrams4'}{'bg'}} = {
 };

@@ -1,21 +1,23 @@
 use strict;
 
-${Lingua::Identify::languages{_versions}{af}} = '0.01';
+${Lingua::Identify::languages{'_versions'}{'af'}} = '0.01';
 
-${Lingua::Identify::languages{_names}{af}} = 'afrikaans';
+${Lingua::Identify::languages{'_names'}{'af'}} = 'afrikaans';
+
 
 =head1 NAME
 
-Lingua::Identify::AF - Meta-information on Afrikaans.
+Lingua::Identify::AF - Meta-information on Afrikaans
 
 =head1 SYNOPSIS
 
-Nothing here is meant for public comsuption. This module is to be loaded by
-Lingua::Identify.
+Nothing here is meant for public consumption. This module is to be
+loaded by Lingua::Identify.
 
 =head1 DESCRIPTION
 
-Automatically generated. Do not change this module yourself (yet).
+Automatically generated. Do not change this module yourself unless
+you know what you're doing.
 
 =head1 SEE ALSO
 
@@ -23,7 +25,7 @@ Lingua::Identify(3).
 
 =head1 AUTHOR
 
-Jose Alves de Castro, E<lt>cog@cpan.orgE<gt>
+Jose Castro, C<< <cog@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
@@ -35,7 +37,7 @@ at your option, any later version of Perl 5 you may have available.
 
 =cut
 
-${Lingua::Identify::languages{prefixes1}{af}} = {
+${Lingua::Identify::languages{'prefixes1'}{'af'}} = {
   'd'	=> 0.0971098265895954,
   'h'	=> 0.0901734104046243,
   'v'	=> 0.0820809248554913,
@@ -58,7 +60,7 @@ ${Lingua::Identify::languages{prefixes1}{af}} = {
   'l'	=> 0.0104046242774566,
 };
 
-${Lingua::Identify::languages{prefixes2}{af}} = {
+${Lingua::Identify::languages{'prefixes2'}{'af'}} = {
   'di'	=> 0.0902366863905325,
   'ni'	=> 0.0488165680473373,
   'wa'	=> 0.0473372781065089,
@@ -81,7 +83,7 @@ ${Lingua::Identify::languages{prefixes2}{af}} = {
   'so'	=> 0.014792899408284,
 };
 
-${Lingua::Identify::languages{prefixes3}{af}} = {
+${Lingua::Identify::languages{'prefixes3'}{'af'}} = {
   'ver'	=> 0.0280612244897959,
   'moe'	=> 0.0255102040816327,
   'maa'	=> 0.0229591836734694,
@@ -104,7 +106,7 @@ ${Lingua::Identify::languages{prefixes3}{af}} = {
   'soo'	=> 0.0102040816326531,
 };
 
-${Lingua::Identify::languages{prefixes4}{af}} = {
+${Lingua::Identify::languages{'prefixes4'}{'af'}} = {
   'enig'	=> 0.0180505415162455,
   'praa'	=> 0.0144404332129964,
   'prob'	=> 0.0144404332129964,
@@ -127,7 +129,7 @@ ${Lingua::Identify::languages{prefixes4}{af}} = {
   'moei'	=> 0.0072202166064982,
 };
 
-${Lingua::Identify::languages{suffixes1}{af}} = {
+${Lingua::Identify::languages{'suffixes1'}{'af'}} = {
   'e'	=> 0.213872832369942,
   'n'	=> 0.126011560693642,
   't'	=> 0.121387283236994,
@@ -150,7 +152,7 @@ ${Lingua::Identify::languages{suffixes1}{af}} = {
   'i'	=> 0.00115606936416185,
 };
 
-${Lingua::Identify::languages{suffixes2}{af}} = {
+${Lingua::Identify::languages{'suffixes2'}{'af'}} = {
   'ie'	=> 0.144970414201183,
   'et'	=> 0.0724852071005917,
   'an'	=> 0.0680473372781065,
@@ -173,7 +175,7 @@ ${Lingua::Identify::languages{suffixes2}{af}} = {
   'es'	=> 0.0133136094674556,
 };
 
-${Lingua::Identify::languages{suffixes3}{af}} = {
+${Lingua::Identify::languages{'suffixes3'}{'af'}} = {
   'aar'	=> 0.048469387755102,
   'aan'	=> 0.0357142857142857,
   'eer'	=> 0.0229591836734694,
@@ -196,7 +198,7 @@ ${Lingua::Identify::languages{suffixes3}{af}} = {
   'eur'	=> 0.0102040816326531,
 };
 
-${Lingua::Identify::languages{suffixes4}{af}} = {
+${Lingua::Identify::languages{'suffixes4'}{'af'}} = {
   'nige'	=> 0.0180505415162455,
   'ders'	=> 0.0180505415162455,
   'raat'	=> 0.0144404332129964,
@@ -219,7 +221,7 @@ ${Lingua::Identify::languages{suffixes4}{af}} = {
   'erde'	=> 0.0072202166064982,
 };
 
-${Lingua::Identify::languages{smallwords}{af}} = {
+${Lingua::Identify::languages{'smallwords'}{'af'}} = {
   'die'	=> 0.055045871559633,
   'nie'	=> 0.0378440366972477,
   'hy'	=> 0.0286697247706422,
@@ -242,7 +244,7 @@ ${Lingua::Identify::languages{smallwords}{af}} = {
   'dit'	=> 0.00917431192660551,
 };
 
-${Lingua::Identify::languages{ngrams1}{af}} = {
+${Lingua::Identify::languages{'ngrams1'}{'af'}} = {
   ' ' => 0.326269638290099,
   'e' => 0.113262696382901,
   'a' => 0.0608330288637194,
@@ -265,7 +267,7 @@ ${Lingua::Identify::languages{ngrams1}{af}} = {
   'b' => 0.0100474972597735,
 };
 
-${Lingua::Identify::languages{ngrams2}{af}} = {
+${Lingua::Identify::languages{'ngrams2'}{'af'}} = {
   'e ' => 0.0404283216783217,
   'n ' => 0.0270979020979021,
   'ie' => 0.0268793706293706,
@@ -288,7 +290,7 @@ ${Lingua::Identify::languages{ngrams2}{af}} = {
   ' e' => 0.0122377622377622,
 };
 
-${Lingua::Identify::languages{ngrams3}{af}} = {
+${Lingua::Identify::languages{'ngrams3'}{'af'}} = {
   'ie ' => 0.0265798752373203,
   ' di' => 0.0170870626525631,
   'die' => 0.0141036072687822,
@@ -311,7 +313,7 @@ ${Lingua::Identify::languages{ngrams3}{af}} = {
   'te ' => 0.00623813398426905,
 };
 
-${Lingua::Identify::languages{ngrams4}{af}} = {
+${Lingua::Identify::languages{'ngrams4'}{'af'}} = {
   'die ' => 0.0178635226866738,
   ' die' => 0.0171489817792069,
   'nie ' => 0.0121471954269382,

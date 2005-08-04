@@ -1,21 +1,23 @@
 use strict;
 
-${Lingua::Identify::languages{_versions}{ga}} = '0.01';
+${Lingua::Identify::languages{'_versions'}{'ga'}} = '0.01';
 
-${Lingua::Identify::languages{_names}{ga}} = 'irish';
+${Lingua::Identify::languages{'_names'}{'ga'}} = 'irish';
+
 
 =head1 NAME
 
-Lingua::Identify::GA - Meta-information on Irish.
+Lingua::Identify::GA - Meta-information on Irish
 
 =head1 SYNOPSIS
 
-Nothing here is meant for public comsuption. This module is to be loaded by
-Lingua::Identify.
+Nothing here is meant for public consumption. This module is to be
+loaded by Lingua::Identify.
 
 =head1 DESCRIPTION
 
-Automatically generated. Do not change this module yourself (yet).
+Automatically generated. Do not change this module yourself unless
+you know what you're doing.
 
 =head1 SEE ALSO
 
@@ -23,7 +25,7 @@ Lingua::Identify(3).
 
 =head1 AUTHOR
 
-Jose Alves de Castro, E<lt>cog@cpan.orgE<gt>
+Jose Castro, C<< <cog@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
@@ -35,7 +37,7 @@ at your option, any later version of Perl 5 you may have available.
 
 =cut
 
-${Lingua::Identify::languages{prefixes1}{ga}} = {
+${Lingua::Identify::languages{'prefixes1'}{'ga'}} = {
   'a'	=> 0.222531293463143,
   'i'	=> 0.109874826147427,
   'b'	=> 0.0723226703755216,
@@ -58,7 +60,7 @@ ${Lingua::Identify::languages{prefixes1}{ga}} = {
   'A'	=> 0.0166898470097357,
 };
 
-${Lingua::Identify::languages{prefixes2}{ga}} = {
+${Lingua::Identify::languages{'prefixes2'}{'ga'}} = {
   'ag'	=> 0.0528541226215645,
   'bh'	=> 0.0465116279069767,
   'ch'	=> 0.040169133192389,
@@ -81,7 +83,7 @@ ${Lingua::Identify::languages{prefixes2}{ga}} = {
   'fa'	=> 0.0105708245243129,
 };
 
-${Lingua::Identify::languages{prefixes3}{ga}} = {
+${Lingua::Identify::languages{'prefixes3'}{'ga'}} = {
   'agu'	=> 0.0504201680672269,
   'chu'	=> 0.0224089635854342,
   'bhe'	=> 0.0196078431372549,
@@ -104,7 +106,7 @@ ${Lingua::Identify::languages{prefixes3}{ga}} = {
   'lai'	=> 0.00840336134453781,
 };
 
-${Lingua::Identify::languages{prefixes4}{ga}} = {
+${Lingua::Identify::languages{'prefixes4'}{'ga'}} = {
   'bhea'	=> 0.020746887966805,
   'bhfu'	=> 0.020746887966805,
   'sean'	=> 0.016597510373444,
@@ -127,7 +129,7 @@ ${Lingua::Identify::languages{prefixes4}{ga}} = {
   'uasa'	=> 0.00829875518672199,
 };
 
-${Lingua::Identify::languages{suffixes1}{ga}} = {
+${Lingua::Identify::languages{'suffixes1'}{'ga'}} = {
   'h'	=> 0.182197496522949,
   'n'	=> 0.136300417246175,
   'r'	=> 0.122392211404729,
@@ -150,7 +152,7 @@ ${Lingua::Identify::languages{suffixes1}{ga}} = {
   'E'	=> 0.00139082058414465,
 };
 
-${Lingua::Identify::languages{suffixes2}{ga}} = {
+${Lingua::Identify::languages{'suffixes2'}{'ga'}} = {
   'ch'	=> 0.0634249471458774,
   'nn'	=> 0.0443974630021142,
   'ir'	=> 0.040169133192389,
@@ -173,7 +175,7 @@ ${Lingua::Identify::languages{suffixes2}{ga}} = {
   'ra'	=> 0.0169133192389006,
 };
 
-${Lingua::Identify::languages{suffixes3}{ga}} = {
+${Lingua::Identify::languages{'suffixes3'}{'ga'}} = {
   'gus'	=> 0.0504201680672269,
   'ach'	=> 0.0420168067226891,
   'ith'	=> 0.0336134453781513,
@@ -196,7 +198,7 @@ ${Lingua::Identify::languages{suffixes3}{ga}} = {
   'ile'	=> 0.0140056022408964,
 };
 
-${Lingua::Identify::languages{suffixes4}{ga}} = {
+${Lingua::Identify::languages{'suffixes4'}{'ga'}} = {
   'aith'	=> 0.029045643153527,
   'aigh'	=> 0.024896265560166,
   'hair'	=> 0.024896265560166,
@@ -219,30 +221,30 @@ ${Lingua::Identify::languages{suffixes4}{ga}} = {
   'ling'	=> 0.012448132780083,
 };
 
-${Lingua::Identify::languages{smallwords}{ga}} = {
-  'a'	=> 0.0592592592592593,
-  'an'	=> 0.045679012345679,
-  'sé'	=> 0.0296296296296296,
-  'agus'	=> 0.0222222222222222,
-  'ar'	=> 0.0222222222222222,
-  'go'	=> 0.0172839506172839,
-  'ag'	=> 0.0172839506172839,
-  'bhí'	=> 0.0172839506172839,
-  'tá'	=> 0.0148148148148148,
-  'ach'	=> 0.0135802469135802,
-  'mé'	=> 0.00987654320987654,
-  'sí'	=> 0.00864197530864197,
-  'ní'	=> 0.00864197530864197,
-  'deir'	=> 0.00864197530864197,
-  'ina'	=> 0.00740740740740741,
-  'le'	=> 0.00740740740740741,
-  'i'	=> 0.00740740740740741,
-  'leis'	=> 0.00617283950617284,
-  'bhfuil'	=> 0.00617283950617284,
-  'na'	=> 0.00617283950617284,
+${Lingua::Identify::languages{'smallwords'}{'ga'}} = {
+  'a'	=> 0.0590405904059041,
+  'an'	=> 0.046740467404674,
+  'sé'	=> 0.029520295202952,
+  'agus'	=> 0.022140221402214,
+  'ar'	=> 0.022140221402214,
+  'go'	=> 0.017220172201722,
+  'ag'	=> 0.017220172201722,
+  'bhí'	=> 0.017220172201722,
+  'tá'	=> 0.014760147601476,
+  'ach'	=> 0.013530135301353,
+  'mé'	=> 0.00984009840098401,
+  'sí'	=> 0.00861008610086101,
+  'ní'	=> 0.00861008610086101,
+  'deir'	=> 0.00861008610086101,
+  'ina'	=> 0.00738007380073801,
+  'le'	=> 0.00738007380073801,
+  'i'	=> 0.00738007380073801,
+  'leis'	=> 0.00615006150061501,
+  'bhfuil'	=> 0.00615006150061501,
+  'na'	=> 0.00615006150061501,
 };
 
-${Lingua::Identify::languages{ngrams1}{ga}} = {
+${Lingua::Identify::languages{'ngrams1'}{'ga'}} = {
   ' ' => 0.382970297029703,
   'a' => 0.11029702970297,
   'i' => 0.0613861386138614,
@@ -265,7 +267,7 @@ ${Lingua::Identify::languages{ngrams1}{ga}} = {
   'y' => 0.00138613861386139,
 };
 
-${Lingua::Identify::languages{ngrams2}{ga}} = {
+${Lingua::Identify::languages{'ngrams2'}{'ga'}} = {
   ' a' => 0.0541205412054121,
   'n ' => 0.0334563345633456,
   'h ' => 0.0327183271832718,
@@ -288,7 +290,7 @@ ${Lingua::Identify::languages{ngrams2}{ga}} = {
   'l ' => 0.0130381303813038,
 };
 
-${Lingua::Identify::languages{ngrams3}{ga}} = {
+${Lingua::Identify::languages{'ngrams3'}{'ga'}} = {
   'an ' => 0.0173354735152488,
   ' an' => 0.0170144462279294,
   ' a ' => 0.0154093097913323,
@@ -311,7 +313,7 @@ ${Lingua::Identify::languages{ngrams3}{ga}} = {
   'dh ' => 0.00642054574638844,
 };
 
-${Lingua::Identify::languages{ngrams4}{ga}} = {
+${Lingua::Identify::languages{'ngrams4'}{'ga'}} = {
   ' an ' => 0.0175519630484988,
   'ach ' => 0.0120092378752887,
   ' ar ' => 0.010161662817552,

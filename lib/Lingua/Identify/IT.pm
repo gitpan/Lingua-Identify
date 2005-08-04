@@ -1,21 +1,23 @@
 use strict;
 
-${Lingua::Identify::languages{_versions}{it}} = '0.01';
+${Lingua::Identify::languages{'_versions'}{'it'}} = '0.01';
 
-${Lingua::Identify::languages{_names}{it}} = 'italian';
+${Lingua::Identify::languages{'_names'}{'it'}} = 'italian';
+
 
 =head1 NAME
 
-Lingua::Identify::IT - Meta-information on Italian.
+Lingua::Identify::IT - Meta-information on Italian
 
 =head1 SYNOPSIS
 
-Nothing here is meant for public comsuption. This module is to be loaded by
-Lingua::Identify.
+Nothing here is meant for public consumption. This module is to be
+loaded by Lingua::Identify.
 
 =head1 DESCRIPTION
 
-Automatically generated. Do not change this module yourself (yet).
+Automatically generated. Do not change this module yourself unless
+you know what you're doing.
 
 =head1 SEE ALSO
 
@@ -23,7 +25,7 @@ Lingua::Identify(3).
 
 =head1 AUTHOR
 
-Jose Alves de Castro, E<lt>cog@cpan.orgE<gt>
+Jose Castro, C<< <cog@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
@@ -35,7 +37,7 @@ at your option, any later version of Perl 5 you may have available.
 
 =cut
 
-${Lingua::Identify::languages{prefixes1}{it}} = {
+${Lingua::Identify::languages{'prefixes1'}{'it'}} = {
   'c'	=> 0.114634146341463,
   'd'	=> 0.107317073170732,
   's'	=> 0.103658536585366,
@@ -58,7 +60,7 @@ ${Lingua::Identify::languages{prefixes1}{it}} = {
   'S'	=> 0.00975609756097561,
 };
 
-${Lingua::Identify::languages{prefixes2}{it}} = {
+${Lingua::Identify::languages{'prefixes2'}{'it'}} = {
   'co'	=> 0.0570987654320988,
   'ch'	=> 0.0385802469135802,
   'de'	=> 0.037037037037037,
@@ -81,7 +83,7 @@ ${Lingua::Identify::languages{prefixes2}{it}} = {
   'al'	=> 0.0154320987654321,
 };
 
-${Lingua::Identify::languages{prefixes3}{it}} = {
+${Lingua::Identify::languages{'prefixes3'}{'it'}} = {
   'com'	=> 0.029585798816568,
   'cas'	=> 0.0216962524654832,
   'del'	=> 0.0216962524654832,
@@ -104,7 +106,7 @@ ${Lingua::Identify::languages{prefixes3}{it}} = {
   'far'	=> 0.00788954635108481,
 };
 
-${Lingua::Identify::languages{prefixes4}{it}} = {
+${Lingua::Identify::languages{'prefixes4'}{'it'}} = {
   'dell'	=> 0.019047619047619,
   'coll'	=> 0.0166666666666667,
   'anda'	=> 0.0142857142857143,
@@ -127,7 +129,7 @@ ${Lingua::Identify::languages{prefixes4}{it}} = {
   'vogl'	=> 0.00714285714285714,
 };
 
-${Lingua::Identify::languages{suffixes1}{it}} = {
+${Lingua::Identify::languages{'suffixes1'}{'it'}} = {
   'a'	=> 0.273170731707317,
   'e'	=> 0.192682926829268,
   'o'	=> 0.184146341463415,
@@ -150,7 +152,7 @@ ${Lingua::Identify::languages{suffixes1}{it}} = {
   ''	=> 0,
 };
 
-${Lingua::Identify::languages{suffixes2}{it}} = {
+${Lingua::Identify::languages{'suffixes2'}{'it'}} = {
   'to'	=> 0.0555555555555556,
   'la'	=> 0.0524691358024691,
   're'	=> 0.0524691358024691,
@@ -173,7 +175,7 @@ ${Lingua::Identify::languages{suffixes2}{it}} = {
   'te'	=> 0.0200617283950617,
 };
 
-${Lingua::Identify::languages{suffixes3}{it}} = {
+${Lingua::Identify::languages{'suffixes3'}{'it'}} = {
   'lla'	=> 0.0552268244575937,
   'ava'	=> 0.029585798816568,
   'ano'	=> 0.0276134122287968,
@@ -196,7 +198,7 @@ ${Lingua::Identify::languages{suffixes3}{it}} = {
   'nto'	=> 0.00986193293885602,
 };
 
-${Lingua::Identify::languages{suffixes4}{it}} = {
+${Lingua::Identify::languages{'suffixes4'}{'it'}} = {
   'ella'	=> 0.030952380952381,
   'vano'	=> 0.019047619047619,
   'ando'	=> 0.0166666666666667,
@@ -219,30 +221,30 @@ ${Lingua::Identify::languages{suffixes4}{it}} = {
   'utto'	=> 0.00714285714285714,
 };
 
-${Lingua::Identify::languages{smallwords}{it}} = {
-  'e'	=> 0.0310701956271577,
-  'il'	=> 0.0287686996547756,
-  'che'	=> 0.0253164556962025,
-  'di'	=> 0.0253164556962025,
-  'la'	=> 0.0195627157652474,
-  'a'	=> 0.0172612197928654,
-  'in'	=> 0.0161104718066743,
-  'per'	=> 0.0161104718066743,
-  'si'	=> 0.0149597238204833,
-  'un'	=> 0.0149597238204833,
-  'gli'	=> 0.0138089758342923,
-  'non'	=> 0.0138089758342923,
-  'casa'	=> 0.0115074798619102,
-  'del'	=> 0.0103567318757192,
-  'come'	=> 0.0103567318757192,
-  'se'	=> 0.00920598388952819,
-  'della'	=> 0.00920598388952819,
-  'le'	=> 0.00920598388952819,
-  'i'	=> 0.00920598388952819,
-  'una'	=> 0.00805523590333717,
+${Lingua::Identify::languages{'smallwords'}{'it'}} = {
+  'e'	=> 0.0310344827586207,
+  'il'	=> 0.028735632183908,
+  'di'	=> 0.0252873563218391,
+  'che'	=> 0.0252873563218391,
+  'la'	=> 0.0195402298850575,
+  'a'	=> 0.0172413793103448,
+  'per'	=> 0.0160919540229885,
+  'in'	=> 0.0160919540229885,
+  'un'	=> 0.0149425287356322,
+  'si'	=> 0.0149425287356322,
+  'gli'	=> 0.0137931034482759,
+  'non'	=> 0.0137931034482759,
+  'casa'	=> 0.0114942528735632,
+  'come'	=> 0.0103448275862069,
+  'del'	=> 0.0103448275862069,
+  'se'	=> 0.00919540229885057,
+  'le'	=> 0.00919540229885057,
+  'della'	=> 0.00919540229885057,
+  'i'	=> 0.00919540229885057,
+  'era'	=> 0.00804597701149425,
 };
 
-${Lingua::Identify::languages{ngrams1}{it}} = {
+${Lingua::Identify::languages{'ngrams1'}{'it'}} = {
   ' ' => 0.312020905923345,
   'a' => 0.0956445993031359,
   'e' => 0.0717770034843206,
@@ -265,7 +267,7 @@ ${Lingua::Identify::languages{ngrams1}{it}} = {
   'f' => 0.00714285714285714,
 };
 
-${Lingua::Identify::languages{ngrams2}{it}} = {
+${Lingua::Identify::languages{'ngrams2'}{'it'}} = {
   'a ' => 0.0495662949194548,
   'e ' => 0.0382073523337464,
   'o ' => 0.0311854605534903,
@@ -288,7 +290,7 @@ ${Lingua::Identify::languages{ngrams2}{it}} = {
   're' => 0.0105328376703841,
 };
 
-${Lingua::Identify::languages{ngrams3}{it}} = {
+${Lingua::Identify::languages{'ngrams3'}{'it'}} = {
   'la ' => 0.0129179331306991,
   ' di' => 0.0106382978723404,
   ' co' => 0.00962512664640324,
@@ -311,7 +313,7 @@ ${Lingua::Identify::languages{ngrams3}{it}} = {
   'ell' => 0.0060790273556231,
 };
 
-${Lingua::Identify::languages{ngrams4}{it}} = {
+${Lingua::Identify::languages{'ngrams4'}{'it'}} = {
   'lla ' => 0.0091683038637852,
   ' il ' => 0.00818598559266536,
   'che ' => 0.00753110674525213,

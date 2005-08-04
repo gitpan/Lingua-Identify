@@ -1,21 +1,23 @@
 use strict;
 
-${Lingua::Identify::languages{_versions}{sq}} = '0.01';
+${Lingua::Identify::languages{'_versions'}{'sq'}} = '0.01';
 
-${Lingua::Identify::languages{_names}{sq}} = 'albanian';
+${Lingua::Identify::languages{'_names'}{'sq'}} = 'albanian';
+
 
 =head1 NAME
 
-Lingua::Identify::SQ - Meta-information on Albanian.
+Lingua::Identify::SQ - Meta-information on Albanian
 
 =head1 SYNOPSIS
 
-Nothing here is meant for public comsuption. This module is to be loaded by
-Lingua::Identify.
+Nothing here is meant for public consumption. This module is to be
+loaded by Lingua::Identify.
 
 =head1 DESCRIPTION
 
-Automatically generated. Do not change this module yourself (yet).
+Automatically generated. Do not change this module yourself unless
+you know what you're doing.
 
 =head1 SEE ALSO
 
@@ -23,7 +25,7 @@ Lingua::Identify(3).
 
 =head1 AUTHOR
 
-Jose Alves de Castro, E<lt>cog@cpan.orgE<gt>
+Jose Castro, C<< <cog@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
@@ -35,7 +37,7 @@ at your option, any later version of Perl 5 you may have available.
 
 =cut
 
-${Lingua::Identify::languages{prefixes1}{sq}} = {
+${Lingua::Identify::languages{'prefixes1'}{'sq'}} = {
   'n'	=> 0.100680272108844,
   's'	=> 0.091156462585034,
   'm'	=> 0.0802721088435374,
@@ -58,7 +60,7 @@ ${Lingua::Identify::languages{prefixes1}{sq}} = {
   'j'	=> 0.0108843537414966,
 };
 
-${Lingua::Identify::languages{prefixes2}{sq}} = {
+${Lingua::Identify::languages{'prefixes2'}{'sq'}} = {
   'sh'	=> 0.0459183673469388,
   'pa'	=> 0.032312925170068,
   'nd'	=> 0.0306122448979592,
@@ -81,7 +83,7 @@ ${Lingua::Identify::languages{prefixes2}{sq}} = {
   'te'	=> 0.0119047619047619,
 };
 
-${Lingua::Identify::languages{prefixes3}{sq}} = {
+${Lingua::Identify::languages{'prefixes3'}{'sq'}} = {
   'kis'	=> 0.0339805825242718,
   'ish'	=> 0.029126213592233,
   'Sil'	=> 0.0242718446601942,
@@ -104,7 +106,7 @@ ${Lingua::Identify::languages{prefixes3}{sq}} = {
   'lid'	=> 0.00970873786407767,
 };
 
-${Lingua::Identify::languages{prefixes4}{sq}} = {
+${Lingua::Identify::languages{'prefixes4'}{'sq'}} = {
   'kish'	=> 0.0477815699658703,
   'isht'	=> 0.037542662116041,
   'Silv'	=> 0.0273037542662116,
@@ -127,7 +129,7 @@ ${Lingua::Identify::languages{prefixes4}{sq}} = {
   'kalo'	=> 0.0068259385665529,
 };
 
-${Lingua::Identify::languages{suffixes1}{sq}} = {
+${Lingua::Identify::languages{'suffixes1'}{'sq'}} = {
   'e'	=> 0.183673469387755,
   't'	=> 0.129251700680272,
   'a'	=> 0.11156462585034,
@@ -150,7 +152,7 @@ ${Lingua::Identify::languages{suffixes1}{sq}} = {
   'g'	=> 0.0054421768707483,
 };
 
-${Lingua::Identify::languages{suffixes2}{sq}} = {
+${Lingua::Identify::languages{'suffixes2'}{'sq'}} = {
   'te'	=> 0.086734693877551,
   'et'	=> 0.0459183673469388,
   'in'	=> 0.0442176870748299,
@@ -173,7 +175,7 @@ ${Lingua::Identify::languages{suffixes2}{sq}} = {
   'va'	=> 0.0136054421768707,
 };
 
-${Lingua::Identify::languages{suffixes3}{sq}} = {
+${Lingua::Identify::languages{'suffixes3'}{'sq'}} = {
   'hte'	=> 0.0631067961165049,
   'hej'	=> 0.029126213592233,
   'nte'	=> 0.0266990291262136,
@@ -196,7 +198,7 @@ ${Lingua::Identify::languages{suffixes3}{sq}} = {
   'rse'	=> 0.00970873786407767,
 };
 
-${Lingua::Identify::languages{suffixes4}{sq}} = {
+${Lingua::Identify::languages{'suffixes4'}{'sq'}} = {
   'shte'	=> 0.0853242320819113,
   'ohej'	=> 0.0307167235494881,
   'ilva'	=> 0.0273037542662116,
@@ -219,30 +221,30 @@ ${Lingua::Identify::languages{suffixes4}{sq}} = {
   'donj'	=> 0.0068259385665529,
 };
 
-${Lingua::Identify::languages{smallwords}{sq}} = {
-  'të'	=> 0.0688124306326304,
-  'e'	=> 0.0543840177580466,
-  'në'	=> 0.02330743618202,
-  'me'	=> 0.0199778024417314,
-  'i'	=> 0.0188679245283019,
-  'që'	=> 0.0155382907880133,
-  'një'	=> 0.0133185349611543,
-  'dhe'	=> 0.0133185349611543,
-  'për'	=> 0.0122086570477248,
-  'ishte'	=> 0.0122086570477248,
-  'kishte'	=> 0.0110987791342952,
-  'më'	=> 0.0110987791342952,
-  'nga'	=> 0.00998890122086571,
-  'se'	=> 0.00998890122086571,
-  'silva'	=> 0.00887902330743618,
-  'tha'	=> 0.00887902330743618,
-  'nuk'	=> 0.00887902330743618,
-  'ai'	=> 0.00776914539400666,
-  'këtë'	=> 0.00776914539400666,
-  'tani'	=> 0.00665926748057714,
+${Lingua::Identify::languages{'smallwords'}{'sq'}} = {
+  'të'	=> 0.0696902654867257,
+  'e'	=> 0.0542035398230089,
+  'në'	=> 0.0232300884955752,
+  'me'	=> 0.0199115044247788,
+  'i'	=> 0.0188053097345133,
+  'që'	=> 0.0154867256637168,
+  'dhe'	=> 0.0132743362831858,
+  'një'	=> 0.0132743362831858,
+  'ishte'	=> 0.0121681415929204,
+  'për'	=> 0.0121681415929204,
+  'më'	=> 0.0110619469026549,
+  'kishte'	=> 0.0110619469026549,
+  'nga'	=> 0.00995575221238938,
+  'se'	=> 0.00995575221238938,
+  'tha'	=> 0.00884955752212389,
+  'silva'	=> 0.00884955752212389,
+  'nuk'	=> 0.00884955752212389,
+  'u'	=> 0.00884955752212389,
+  'ai'	=> 0.00774336283185841,
+  'këtë'	=> 0.00774336283185841,
 };
 
-${Lingua::Identify::languages{ngrams1}{sq}} = {
+${Lingua::Identify::languages{'ngrams1'}{'sq'}} = {
   ' ' => 0.381461363238129,
   'e' => 0.066234448922376,
   't' => 0.0623795339057298,
@@ -265,7 +267,7 @@ ${Lingua::Identify::languages{ngrams1}{sq}} = {
   'q' => 0.00718415980374978,
 };
 
-${Lingua::Identify::languages{ngrams2}{sq}} = {
+${Lingua::Identify::languages{'ngrams2'}{'sq'}} = {
   'e ' => 0.0398527182152913,
   't ' => 0.037037037037037,
   ' t' => 0.0275070392029456,
@@ -288,7 +290,7 @@ ${Lingua::Identify::languages{ngrams2}{sq}} = {
   'ri' => 0.0101797704136885,
 };
 
-${Lingua::Identify::languages{ngrams3}{sq}} = {
+${Lingua::Identify::languages{'ngrams3'}{'sq'}} = {
   ' t ' => 0.0212524794559365,
   'te ' => 0.0153017852082743,
   'sht' => 0.0147350524227827,
@@ -311,7 +313,7 @@ ${Lingua::Identify::languages{ngrams3}{sq}} = {
   ' pa' => 0.00566732785491641,
 };
 
-${Lingua::Identify::languages{ngrams4}{sq}} = {
+${Lingua::Identify::languages{'ngrams4'}{'sq'}} = {
   'isht' => 0.0131040131040131,
   'shte' => 0.0122850122850123,
   'hte ' => 0.0106470106470106,

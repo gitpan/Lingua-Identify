@@ -1,5 +1,14 @@
 Revision history for Lingua-Identify
 
+0.16  Thu Aug 03 00:53:00 2005
+	+ changes on Lingua::Identify
+	- minor changes in the documentation
+
+	+ changes on make-lingua-identify-language
+	- added verbose mode (-V switch)
+
+	- fixed another bug in the POD for Somali
+
 0.15  Wed Aug 02 14:11:00 2005
 	- er... I don't want to talk about it O:-)
 

@@ -1,21 +1,23 @@
 use strict;
 
-${Lingua::Identify::languages{_versions}{la}} = '0.01';
+${Lingua::Identify::languages{'_versions'}{'la'}} = '0.01';
 
-${Lingua::Identify::languages{_names}{la}} = 'latin';
+${Lingua::Identify::languages{'_names'}{'la'}} = 'latin';
+
 
 =head1 NAME
 
-Lingua::Identify::LA - Meta-information on Latin.
+Lingua::Identify::LA - Meta-information on Latin
 
 =head1 SYNOPSIS
 
-Nothing here is meant for public comsuption. This module is to be loaded by
-Lingua::Identify.
+Nothing here is meant for public consumption. This module is to be
+loaded by Lingua::Identify.
 
 =head1 DESCRIPTION
 
-Automatically generated. Do not change this module yourself (yet).
+Automatically generated. Do not change this module yourself unless
+you know what you're doing.
 
 =head1 SEE ALSO
 
@@ -23,7 +25,7 @@ Lingua::Identify(3).
 
 =head1 AUTHOR
 
-Jose Alves de Castro, E<lt>cog@cpan.orgE<gt>
+Jose Castro, C<< <cog@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
@@ -35,7 +37,7 @@ at your option, any later version of Perl 5 you may have available.
 
 =cut
 
-${Lingua::Identify::languages{prefixes1}{la}} = {
+${Lingua::Identify::languages{'prefixes1'}{'la'}} = {
   'a'	=> 0.0804438280166436,
   's'	=> 0.0776699029126214,
   'i'	=> 0.0748959778085992,
@@ -58,7 +60,7 @@ ${Lingua::Identify::languages{prefixes1}{la}} = {
   'T'	=> 0.0166435506241331,
 };
 
-${Lingua::Identify::languages{prefixes2}{la}} = {
+${Lingua::Identify::languages{'prefixes2'}{'la'}} = {
   'in'	=> 0.0302571860816944,
   'qu'	=> 0.027231467473525,
   're'	=> 0.0226928895612708,
@@ -81,7 +83,7 @@ ${Lingua::Identify::languages{prefixes2}{la}} = {
   'sa'	=> 0.0151285930408472,
 };
 
-${Lingua::Identify::languages{prefixes3}{la}} = {
+${Lingua::Identify::languages{'prefixes3'}{'la'}} = {
   'pro'	=> 0.0201680672268908,
   'fer'	=> 0.0151260504201681,
   'imp'	=> 0.0134453781512605,
@@ -104,7 +106,7 @@ ${Lingua::Identify::languages{prefixes3}{la}} = {
   'cae'	=> 0.00672268907563025,
 };
 
-${Lingua::Identify::languages{prefixes4}{la}} = {
+${Lingua::Identify::languages{'prefixes4'}{'la'}} = {
   'magn'	=> 0.0099403578528827,
   'supe'	=> 0.0099403578528827,
   'ferr'	=> 0.00795228628230616,
@@ -127,7 +129,7 @@ ${Lingua::Identify::languages{prefixes4}{la}} = {
   'tant'	=> 0.00596421471172962,
 };
 
-${Lingua::Identify::languages{suffixes1}{la}} = {
+${Lingua::Identify::languages{'suffixes1'}{'la'}} = {
   's'	=> 0.223300970873786,
   'e'	=> 0.171983356449376,
   't'	=> 0.13869625520111,
@@ -150,7 +152,7 @@ ${Lingua::Identify::languages{suffixes1}{la}} = {
   ''	=> 0,
 };
 
-${Lingua::Identify::languages{suffixes2}{la}} = {
+${Lingua::Identify::languages{'suffixes2'}{'la'}} = {
   'is'	=> 0.0847201210287443,
   'um'	=> 0.0726172465960666,
   'ue'	=> 0.0680786686838124,
@@ -173,7 +175,7 @@ ${Lingua::Identify::languages{suffixes2}{la}} = {
   'ta'	=> 0.0166414523449319,
 };
 
-${Lingua::Identify::languages{suffixes3}{la}} = {
+${Lingua::Identify::languages{'suffixes3'}{'la'}} = {
   'que'	=> 0.0756302521008403,
   'ere'	=> 0.0252100840336134,
   'tis'	=> 0.0201680672268908,
@@ -196,7 +198,7 @@ ${Lingua::Identify::languages{suffixes3}{la}} = {
   'tus'	=> 0.0100840336134454,
 };
 
-${Lingua::Identify::languages{suffixes4}{la}} = {
+${Lingua::Identify::languages{'suffixes4'}{'la'}} = {
   'sque'	=> 0.0278330019880716,
   'ibus'	=> 0.0159045725646123,
   'ntem'	=> 0.0139165009940358,
@@ -219,30 +221,30 @@ ${Lingua::Identify::languages{suffixes4}{la}} = {
   'ctis'	=> 0.00596421471172962,
 };
 
-${Lingua::Identify::languages{smallwords}{la}} = {
+${Lingua::Identify::languages{'smallwords'}{'la'}} = {
   'et'	=> 0.0401662049861496,
   'hic'	=> 0.0110803324099723,
   'non'	=> 0.00969529085872576,
-  'in'	=> 0.00831024930747922,
   'te'	=> 0.00831024930747922,
+  'in'	=> 0.00831024930747922,
+  'per'	=> 0.00692520775623269,
   'si'	=> 0.00692520775623269,
   'iam'	=> 0.00692520775623269,
-  'per'	=> 0.00692520775623269,
-  'quis'	=> 0.00554016620498615,
-  'ferro'	=> 0.00554016620498615,
+  'est'	=> 0.00554016620498615,
   'aut'	=> 0.00554016620498615,
   'quo'	=> 0.00554016620498615,
+  'ferro'	=> 0.00554016620498615,
   'muros'	=> 0.00554016620498615,
+  'quis'	=> 0.00554016620498615,
   'atque'	=> 0.00554016620498615,
-  'est'	=> 0.00554016620498615,
-  'hanc'	=> 0.00415512465373961,
   'quod'	=> 0.00415512465373961,
   'cum'	=> 0.00415512465373961,
-  'quem'	=> 0.00415512465373961,
+  'hanc'	=> 0.00415512465373961,
   'telis'	=> 0.00415512465373961,
+  'quem'	=> 0.00415512465373961,
 };
 
-${Lingua::Identify::languages{ngrams1}{la}} = {
+${Lingua::Identify::languages{'ngrams1'}{'la'}} = {
   ' ' => 0.260345448002879,
   'e' => 0.0851025548758546,
   'i' => 0.0786254048218784,
@@ -265,7 +267,7 @@ ${Lingua::Identify::languages{ngrams1}{la}} = {
   'g' => 0.00755667506297229,
 };
 
-${Lingua::Identify::languages{ngrams2}{la}} = {
+${Lingua::Identify::languages{'ngrams2'}{'la'}} = {
   's ' => 0.0333195364238411,
   'e ' => 0.0256622516556291,
   't ' => 0.0206953642384106,
@@ -288,7 +290,7 @@ ${Lingua::Identify::languages{ngrams2}{la}} = {
   'us' => 0.0111754966887417,
 };
 
-${Lingua::Identify::languages{ngrams3}{la}} = {
+${Lingua::Identify::languages{'ngrams3'}{'la'}} = {
   'is ' => 0.013625304136253,
   'que' => 0.0119221411192214,
   'um ' => 0.0116788321167883,
@@ -311,7 +313,7 @@ ${Lingua::Identify::languages{ngrams3}{la}} = {
   'nt ' => 0.00413625304136253,
 };
 
-${Lingua::Identify::languages{ngrams4}{la}} = {
+${Lingua::Identify::languages{'ngrams4'}{'la'}} = {
   'que ' => 0.0132821723730815,
   ' et ' => 0.00855962219598583,
   'ere ' => 0.00442739079102716,

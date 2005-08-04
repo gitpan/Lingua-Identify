@@ -1,21 +1,23 @@
 use strict;
 
-${Lingua::Identify::languages{_versions}{hr}} = '0.01';
+${Lingua::Identify::languages{'_versions'}{'hr'}} = '0.01';
 
-${Lingua::Identify::languages{_names}{hr}} = 'croatian';
+${Lingua::Identify::languages{'_names'}{'hr'}} = 'croatian';
+
 
 =head1 NAME
 
-Lingua::Identify::HR - Meta-information on Croatian.
+Lingua::Identify::HR - Meta-information on Croatian
 
 =head1 SYNOPSIS
 
-Nothing here is meant for public comsuption. This module is to be loaded by
-Lingua::Identify.
+Nothing here is meant for public consumption. This module is to be
+loaded by Lingua::Identify.
 
 =head1 DESCRIPTION
 
-Automatically generated. Do not change this module yourself (yet).
+Automatically generated. Do not change this module yourself unless
+you know what you're doing.
 
 =head1 SEE ALSO
 
@@ -23,7 +25,7 @@ Lingua::Identify(3).
 
 =head1 AUTHOR
 
-Jose Alves de Castro, E<lt>cog@cpan.orgE<gt>
+Jose Castro, C<< <cog@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
@@ -35,7 +37,7 @@ at your option, any later version of Perl 5 you may have available.
 
 =cut
 
-${Lingua::Identify::languages{prefixes1}{hr}} = {
+${Lingua::Identify::languages{'prefixes1'}{'hr'}} = {
   's'	=> 0.119113573407202,
   'n'	=> 0.0941828254847645,
   'j'	=> 0.0831024930747922,
@@ -58,7 +60,7 @@ ${Lingua::Identify::languages{prefixes1}{hr}} = {
   'a'	=> 0.0110803324099723,
 };
 
-${Lingua::Identify::languages{prefixes2}{hr}} = {
+${Lingua::Identify::languages{'prefixes2'}{'hr'}} = {
   'pr'	=> 0.0486486486486487,
   'ne'	=> 0.0468468468468468,
   'ka'	=> 0.0324324324324324,
@@ -81,7 +83,7 @@ ${Lingua::Identify::languages{prefixes2}{hr}} = {
   'dr'	=> 0.0126126126126126,
 };
 
-${Lingua::Identify::languages{prefixes3}{hr}} = {
+${Lingua::Identify::languages{'prefixes3'}{'hr'}} = {
   'koj'	=> 0.0211538461538462,
   'Win'	=> 0.0192307692307692,
   'pri'	=> 0.0192307692307692,
@@ -104,7 +106,7 @@ ${Lingua::Identify::languages{prefixes3}{hr}} = {
   'sva'	=> 0.00769230769230769,
 };
 
-${Lingua::Identify::languages{prefixes4}{hr}} = {
+${Lingua::Identify::languages{'prefixes4'}{'hr'}} = {
   'Wins'	=> 0.0239808153477218,
   'prij'	=> 0.0143884892086331,
   'stra'	=> 0.00959232613908873,
@@ -127,7 +129,7 @@ ${Lingua::Identify::languages{prefixes4}{hr}} = {
   'cyov'	=> 0.00719424460431655,
 };
 
-${Lingua::Identify::languages{suffixes1}{hr}} = {
+${Lingua::Identify::languages{'suffixes1'}{'hr'}} = {
   'e'	=> 0.214681440443213,
   'o'	=> 0.199445983379501,
   'a'	=> 0.198060941828255,
@@ -150,7 +152,7 @@ ${Lingua::Identify::languages{suffixes1}{hr}} = {
   ''	=> 0,
 };
 
-${Lingua::Identify::languages{suffixes2}{hr}} = {
+${Lingua::Identify::languages{'suffixes2'}{'hr'}} = {
   'je'	=> 0.0540540540540541,
   'ko'	=> 0.0432432432432432,
   'ao'	=> 0.0414414414414414,
@@ -173,7 +175,7 @@ ${Lingua::Identify::languages{suffixes2}{hr}} = {
   'ta'	=> 0.0162162162162162,
 };
 
-${Lingua::Identify::languages{suffixes3}{hr}} = {
+${Lingua::Identify::languages{'suffixes3'}{'hr'}} = {
   'ije'	=> 0.0288461538461538,
   'ako'	=> 0.0211538461538462,
   'ilo'	=> 0.0173076923076923,
@@ -196,7 +198,7 @@ ${Lingua::Identify::languages{suffixes3}{hr}} = {
   'ego'	=> 0.00769230769230769,
 };
 
-${Lingua::Identify::languages{suffixes4}{hr}} = {
+${Lingua::Identify::languages{'suffixes4'}{'hr'}} = {
   'ston'	=> 0.0215827338129496,
   'kako'	=> 0.0119904076738609,
   'syto'	=> 0.0119904076738609,
@@ -219,7 +221,7 @@ ${Lingua::Identify::languages{suffixes4}{hr}} = {
   'vima'	=> 0.00479616306954436,
 };
 
-${Lingua::Identify::languages{smallwords}{hr}} = {
+${Lingua::Identify::languages{'smallwords'}{'hr'}} = {
   'je'	=> 0.0678617157490397,
   'da'	=> 0.029449423815621,
   'i'	=> 0.028169014084507,
@@ -242,7 +244,7 @@ ${Lingua::Identify::languages{smallwords}{hr}} = {
   'ne'	=> 0.00512163892445583,
 };
 
-${Lingua::Identify::languages{ngrams1}{hr}} = {
+${Lingua::Identify::languages{'ngrams1'}{'hr'}} = {
   ' ' => 0.280150753768844,
   'o' => 0.0762742282842785,
   'a' => 0.0748384781048098,
@@ -265,7 +267,7 @@ ${Lingua::Identify::languages{ngrams1}{hr}} = {
   'g' => 0.0131012203876525,
 };
 
-${Lingua::Identify::languages{ngrams2}{hr}} = {
+${Lingua::Identify::languages{'ngrams2'}{'hr'}} = {
   'e ' => 0.0323523272803173,
   'je' => 0.031726153203924,
   'a ' => 0.0313087038196619,
@@ -288,7 +290,7 @@ ${Lingua::Identify::languages{ngrams2}{hr}} = {
   'to' => 0.00855771237737424,
 };
 
-${Lingua::Identify::languages{ngrams3}{hr}} = {
+${Lingua::Identify::languages{'ngrams3'}{'hr'}} = {
   'je ' => 0.0206982543640898,
   ' je' => 0.014214463840399,
   ' ne' => 0.00798004987531172,
@@ -311,7 +313,7 @@ ${Lingua::Identify::languages{ngrams3}{hr}} = {
   ' se' => 0.00448877805486284,
 };
 
-${Lingua::Identify::languages{ngrams4}{hr}} = {
+${Lingua::Identify::languages{'ngrams4'}{'hr'}} = {
   ' je ' => 0.0164137503871168,
   ' da ' => 0.00712294828120161,
   ' se ' => 0.00495509445648808,

@@ -38,7 +38,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(
 );
 
-our $VERSION = '0.15';
+our $VERSION = '0.16';
 
 # DEFAULT VALUES #
 
@@ -55,13 +55,14 @@ Lingua::Identify - Language identification
   use Lingua::Identify qw(:language_identification);
   $a = langof($textstring); # gives the most probable language
 
+or the complete way:
+
   @a = langof($textstring); # gives pairs of languages / probabilities
                             # sorted from most to least probable
 
   %a = langof($textstring); # gives a hash of language / probability
 
-  # or the hard (expert) way (see section OPTIONS, under HOW TO PERFORM
-  # IDENTIFICATION)
+or the expert way (see section OPTIONS, under HOW TO PERFORM IDENTIFICATION)
 
   $a = langof( { method => [qw/smallwords prefix2 suffix2/] }, $text);
 
@@ -121,11 +122,11 @@ METHODS OF LANGUAGE IDENTIFICATION for more details on this one);
 (be it CGI, TK, whatever) around it;
 
 =item * it comes with I<langident>, which means you don't actually need to
-write your own application;
+write your own application around it;
 
 =item * it's flexible (at the moment, you can actually choose the
 methods to use and their relevance, the max size of input to analyze
-each time, which part(s) of the input to analyze)
+each time and which part(s) of the input to analyze)
 
 =item * it supports big inputs (through the 'max-size' and
 'extract_from' options)
@@ -904,10 +905,6 @@ happen to know it's either Portuguese or English:
 =head1 TO DO
 
 =over 6
-
-=item * Add more examples in the documentation;
-
-=item * Add examples of the values returned;
 
 =item * WordNgrams based methods;
 
