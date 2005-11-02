@@ -10,8 +10,8 @@ our @ISA = qw(Exporter);
 
 our %EXPORT_TAGS = (
 	'all' => [ qw(
-			langof			confidence
-			get_all_methods
+			langof			langof_file
+			confidence		get_all_methods
 			activate_all_languages	deactivate_all_languages
 			get_all_languages	get_active_languages
 			get_inactive_languages	is_active
@@ -20,8 +20,8 @@ our %EXPORT_TAGS = (
 			name_of
 		) ],
 	'language_identification' => [ qw(
-			langof			confidence
-			get_all_methods
+			langof			langof_file
+			confidence		get_all_methods
 		) ],
 	'language_manipulation' => [ qw(
 			activate_all_languages	deactivate_all_languages
@@ -38,7 +38,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(
 );
 
-our $VERSION = '0.16';
+our $VERSION = '0.17';
 
 # DEFAULT VALUES #
 
@@ -280,6 +280,9 @@ returns a bunch of information, including the list of the active
 languages, the selected methods, etc. It also returns the text meant
 to be analised.
 
+Do be warned that, with I<langof_file>, the dummy mode still reads the
+files, it simply doesn't calculate language.
+
   langof( { 'mode' => 'dummy' }, $text);
 
 This returns something like this:
@@ -288,7 +291,7 @@ This returns something like this:
                               'prefixes2'  => '1',
                           },
     'config'           => {   'mode' => 'dummy' },
-    'maxsize'          => 1000000,
+    'max-size'         => 1000000,
     'active-languages' => [ 'es', 'pt' ],
     'text'             => $text,
     'mode'             => 'dummy',
@@ -341,7 +344,7 @@ This returns something like this:
   if ($config{'mode'} eq 'dummy') {
     return {
       'method'           => \%methods,
-      'maxsize'          => $maxsize,
+      'max-size'         => $maxsize,
       'config'           => \%config,
       'active-languages' => [ sort (get_active_languages()) ],
       'text'             => $text,
@@ -400,6 +403,68 @@ sub _make_hash {
     }
   }
   %hash;
+}
+
+=head2 langof_file
+
+I<langof_file> works just like I<langof>, with the exception that it
+reveives filenames instead of text. It reads these texts (if existing
+and readable, of course) and parses its content.
+
+Currently, I<langof_file> assumes the files are regular text. This may
+change in the future and the files might be scanned to check their
+filetype and then parsed to extract only their textual content (which
+should be pretty useful so that you can perform language
+identification, say, in HTML files, or PDFs).
+
+To identify the language a file is written in:
+
+  $language = langof_file($path);
+
+To get the most probable language and also the percentage of its probability,
+do:
+
+  ($language, $probability) = langof_file($path);
+
+If you want a hash where each active language is mapped into its percentage,
+use this:
+
+  %languages = langof_file($path);
+
+If you pass more than one file to I<langof_file>, they will all be
+read and their content merged and then parsed for language
+identification.
+
+=cut
+
+sub langof_file {
+  my %config = ();
+  if (ref($_[0]) eq 'HASH') {%config = (%config, %{+shift})}
+
+=head3 OPTIONS
+
+I<langof_file> accepts all the options I<langof> does, so refer to
+those first (up in this document).
+
+  $language = langof_file(\%config, $path);
+
+I<langof_file> currently only reads the first 10,000 bytes of each
+file.
+
+=cut
+
+  my @files = @_;
+  my $text  = '';
+
+  for my $file (@files) {
+    #-r and -e or next;
+    open(FILE, $file) or next;
+    local $/ = \1_000_000;
+    $text .= <FILE>;
+    close(FILE);
+  }
+
+  return langof(\%config,$text);
 }
 
 =head2 confidence
@@ -908,7 +973,7 @@ happen to know it's either Portuguese or English:
 
 =item * WordNgrams based methods;
 
-=item * More languages;
+=item * More languages (always);
 
 =item * File recognition and treatment;
 

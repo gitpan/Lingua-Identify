@@ -1,5 +1,12 @@
 Revision history for Lingua-Identify
 
+0.17  Wed Nov 02 11:57:00 2005
+	+ changes on Lingua::Identify
+	- added tests to see if every function is loaded
+	- added method langof_file, to work with files
+	- added tests for langof_file
+	- added more tests to increase test coverage
+
 0.16  Thu Aug 03 00:53:00 2005
 	+ changes on Lingua::Identify
 	- minor changes in the documentation
@@ -10,7 +17,7 @@ Revision history for Lingua-Identify
 	- fixed another bug in the POD for Somali
 
 0.15  Wed Aug 02 14:11:00 2005
-	- er... I don't want to talk about it O:-)
+	- more POD changes
 
 0.14  Wed Aug 02 11:48:00 2005
 	+ changes on make-lingua-identify-language

@@ -2,10 +2,22 @@ Changes
 Makefile.PL
 MANIFEST
 README
+t/00-everything_loads.t
 t/01-language_manipulation.t
 t/02-language_identification.t
+t/03-compile-langident.t
+t/04-compile-make-lingua-identify-language.t
+t/05-dummy-mode.t
+t/06-file_identification.t
+t/files/de
+t/files/en
+t/files/pt
+t/files/pt_big
+t/07-method_manipulation.t
 t/pod.t
 t/pod-coverage.t
+langident
+make-lingua-identify-language
 lib/Lingua/Identify.pm
 lib/Lingua/Identify/AF.pm
 lib/Lingua/Identify/BG.pm
@@ -41,7 +53,3 @@ lib/Lingua/Identify/RO.pm
 lib/Lingua/Identify/MS.pm
 lib/Lingua/Identify/ID.pm
 META.yml                                 Module meta-data (added by MakeMaker)
-langident
-t/03-compile-langident.t
-t/04-compile-make-lingua-identify-language.t
-make-lingua-identify-language

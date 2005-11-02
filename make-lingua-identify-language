@@ -120,17 +120,49 @@ sub make_module {
 
     # read all files in its directory
     my $text;
+
+    my $meta = {
+                 'language_name' => $name,
+                 'sets'          => [],
+               };
+    $tag =~ /^..$/  and $meta->{'two_letter_code'}   = $tag;
+    $tag =~ /^...$/ and $meta->{'three_letter_code'} = $tag;
+
     for (@files) {
         open( STDIN, $_ ) || die;
-        $text .= join "\n", <>;
+        if ($_ eq 'META.yml') {
+          verbose("\tfound META.yml");
+          while (<>) { # META.yml is processed here
+                       if (/^(\w+):\s*(\w+)$/) {
+                         $meta->{$1} = $2;
+                         verbose("\tassigned $1 to $2");
+                       }
+                       elsif (/^(\w+):\s*$/) {
+                         my $id = $1;
+                         while (<>) {
+                           last if /^\s*$/;
+                           if (/^\s*(\w*)\s*$/) {
+                             push @{$meta->{$id}}, $1;
+                             verbose("\tpushed $1 into $id");
+                           }
+                         }
+                       }
+                     }
+        }
+        else {
+          $text .= join "\n", <>;
+        }
         close(STDIN);
     }
 
     # write some headers
     open( STDOUT, ">" . ( uc $tag ) . ".pm" ) || die;
+    my $sets = join ", ", map { "'$_'" } @{$meta->{'sets'}};
+    verbose("\t$sets");
     print "use strict;\n",
       "\n\${Lingua::Identify::languages{'_versions'}{'$tag'}} = '$version';\n",
-      "\n\${Lingua::Identify::languages{'_names'}{'$tag'}} = '$name';\n";
+      "\n\${Lingua::Identify::languages{'_names'}{'$tag'}} = '$name';\n",
+      "\n\${Lingua::Identify::languages{'_sets'}{'$tag'}} = '$sets';\n";
 
     # write POD
 
@@ -337,6 +369,24 @@ Show version and exit.
 
 Verbose mode.
 
+=head1 META.yml
+
+C<META.yml> files are not parsed as other files, they are ignored.
+
+In directory mode (C<-d> switch), C<META.yml> files are checked for
+info on languages codes and sets.
+
+Here's a simple C<META.yml> for you to put in your directories:
+
+  two_letter_code:   pt
+  three_letter_code: por
+  sets:
+    spoken_in_portugal
+
+With that, the language will be identified with the two letter code
+"pt" or the three letter code "por"; it will also be in the set
+":spoken_in_portugal".
+
 =head1 CONTRIBUTING WITH NEW LANGUAGES
 
 Please do not contribute with modules you made yourself. It's easier
@@ -366,7 +416,7 @@ Jose Alves de Castro, E<lt>cog@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2004 by Jose Alves de Castro
+Copyright 2004-2005 by Jose Alves de Castro
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself. 

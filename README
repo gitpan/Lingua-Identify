@@ -1,4 +1,4 @@
-Lingua::Identify version 0.16
+Lingua::Identify version 0.17
 =============================
 
 =head1 NAME
@@ -208,6 +208,9 @@ returns a bunch of information, including the list of the active
 languages, the selected methods, etc. It also returns the text meant
 to be analised.
 
+Do be warned that, with I<langof_file>, the dummy mode still reads the
+files, it simply doesn't calculate language.
+
   langof( { 'mode' => 'dummy' }, $text);
 
 This returns something like this:
@@ -216,13 +219,53 @@ This returns something like this:
                               'prefixes2'  => '1',
                           },
     'config'           => {   'mode' => 'dummy' },
-    'maxsize'          => 1000000,
+    'max-size'         => 1000000,
     'active-languages' => [ 'es', 'pt' ],
     'text'             => $text,
     'mode'             => 'dummy',
   }
 
 =back
+
+=head2 langof_file
+
+I<langof_file> works just like I<langof>, with the exception that it
+reveives filenames instead of text. It reads these texts (if existing
+and readable, of course) and parses its content.
+
+Currently, I<langof_file> assumes the files are regular text. This may
+change in the future and the files might be scanned to check their
+filetype and then parsed to extract only their textual content (which
+should be pretty useful so that you can perform language
+identification, say, in HTML files, or PDFs).
+
+To identify the language a file is written in:
+
+  $language = langof_file($path);
+
+To get the most probable language and also the percentage of its probability,
+do:
+
+  ($language, $probability) = langof_file($path);
+
+If you want a hash where each active language is mapped into its percentage,
+use this:
+
+  %languages = langof_file($path);
+
+If you pass more than one file to I<langof_file>, they will all be
+read and their content merged and then parsed for language
+identification.
+
+=head3 OPTIONS
+
+I<langof_file> accepts all the options I<langof> does, so refer to
+those first (up in this document).
+
+  $language = langof_file(\%config, $path);
+
+I<langof_file> currently only reads the first 10,000 bytes of each
+file.
 
 =head2 confidence
 
@@ -551,7 +594,7 @@ happen to know it's either Portuguese or English:
 
 =item * WordNgrams based methods;
 
-=item * More languages;
+=item * More languages (always);
 
 =item * File recognition and treatment;
 
