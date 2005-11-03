@@ -14,6 +14,7 @@ t/files/en
 t/files/pt
 t/files/pt_big
 t/07-method_manipulation.t
+t/08-corner-cases.t
 t/pod.t
 t/pod-coverage.t
 langident
@@ -52,4 +53,5 @@ lib/Lingua/Identify/RU.pm
 lib/Lingua/Identify/RO.pm
 lib/Lingua/Identify/MS.pm
 lib/Lingua/Identify/ID.pm
+lib/Lingua/Identify/Nothing.pm
 META.yml                                 Module meta-data (added by MakeMaker)

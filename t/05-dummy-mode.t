@@ -1,4 +1,4 @@
-use Test::More tests => 6;
+use Test::More tests => 10;
 BEGIN { use_ok('Lingua::Identify', qw/:language_manipulation :language_identification/) };
 
 my $text = '
@@ -157,9 +157,75 @@ is_deeply( $t1 ,
            'mode' => 'dummy',
            });
 
+$t1 = langof( { method => { smallwords => 1, prefixes2 => 2 }, 'mode' => 'dummy' }, $text);
+
+is_deeply( $t1 ,
+           {
+           'method' => {
+                         'smallwords' => '1',
+                         'prefixes2'  => '2',
+                       },
+           'config' => {
+                         'mode' => 'dummy',
+                         'method' => {
+                                       'smallwords' => '1',
+                                       'prefixes2'  => '2',
+                                     },
+                       },
+           'max-size' => 1000000,
+           'active-languages' => [ sort (get_all_languages()) ],
+           'text' => $text,
+           'mode' => 'dummy',
+           });
+
+$t1 = langof( { method => [ qw/smallwords prefixes2/ ], 'mode' => 'dummy' }, $text);
+
+is_deeply( $t1 ,
+           {
+           'method' => {
+                         'smallwords' => '1',
+                         'prefixes2'  => '1',
+                       },
+           'config' => {
+                         'mode' => 'dummy',
+                         'method' => [
+                                       'smallwords' ,
+                                       'prefixes2'  ,
+                                     ],
+                       },
+           'max-size' => 1000000,
+           'active-languages' => [ sort (get_all_languages()) ],
+           'text' => $text,
+           'mode' => 'dummy',
+           });
+
+$t1 = langof( { method => 'smallwords', 'mode' => 'dummy' }, $text);
+
+is_deeply( $t1 ,
+           {
+           'method' => {
+                         'smallwords' => '1',
+                       },
+           'config' => {
+                         'mode' => 'dummy',
+                         'method' => 'smallwords',
+                       },
+           'max-size' => 1000000,
+           'active-languages' => [ sort (get_all_languages()) ],
+           'text' => $text,
+           'mode' => 'dummy',
+           });
+
+
+
+
 is_deeply( [ set_active_languages( qw/pt es af/ ) ] , [ qw/pt es af/ ] );
 
 is_deeply( [ get_active_languages(              ) ] , [ qw/pt es af/ ] );
+
+
+
+
 
 my $t2 = langof( { 'method' => 'smallwords', 'mode' => 'dummy' }, $text);
 
@@ -199,3 +265,24 @@ is_deeply( $t3 ,
            'text' => $text,
            'mode' => 'dummy',
            });
+
+$t3 = langof( { 'max-size' => 0, 'method' => 'smallwords', 'mode' => 'dummy' }, $text);
+
+is_deeply( $t3 ,
+           {
+           'method' => {
+                          'smallwords' => '1',
+                        },
+           'config'  => {
+                          'mode'       => 'dummy',
+                          'method'     => 'smallwords',
+                          'max-size'   => 0,
+                        },
+           'max-size'         => 0,
+           'active-languages' => [
+				   'af', 'es', 'pt',
+                                 ],
+           'text' => $text,
+           'mode' => 'dummy',
+           });
+

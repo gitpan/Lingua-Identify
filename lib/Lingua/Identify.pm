@@ -38,7 +38,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(
 );
 
-our $VERSION = '0.17';
+our $VERSION = '0.18';
 
 # DEFAULT VALUES #
 
@@ -453,13 +453,17 @@ file.
 
 =cut
 
+  # select max-size
+  my $maxsize = defined $config{'max-size'} ? $config{'max-size'}
+                                            : $default_maxsize;
+
   my @files = @_;
   my $text  = '';
 
   for my $file (@files) {
     #-r and -e or next;
     open(FILE, $file) or next;
-    local $/ = \1_000_000;
+    local $/ = \$maxsize;
     $text .= <FILE>;
     close(FILE);
   }
@@ -856,7 +860,7 @@ __END__
 
 =head1 KNOWN LANGUAGES
 
-Currently, C<Lingua::Identify> knows the following languages (26 total):
+Currently, C<Lingua::Identify> knows the following languages (33 total):
 
 =over 6
 

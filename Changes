@@ -1,5 +1,11 @@
 Revision history for Lingua-Identify
 
+0.18  Thu Nov 03 08:32:00 2005
+	+ changes on Lingua::Identify
+	- minor changes in the documentation
+	- added tests for some corner cases (empty inputs, etc)
+	- added tests to increase test coverage
+
 0.17  Wed Nov 02 11:57:00 2005
 	+ changes on Lingua::Identify
 	- added tests to see if every function is loaded

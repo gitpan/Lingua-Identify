@@ -1,4 +1,4 @@
-Lingua::Identify version 0.17
+Lingua::Identify version 0.18
 =============================
 
 =head1 NAME
@@ -477,7 +477,7 @@ Given the two letter tag of a language, returns its name
 
 =head1 KNOWN LANGUAGES
 
-Currently, C<Lingua::Identify> knows the following languages (26 total):
+Currently, C<Lingua::Identify> knows the following languages (33 total):
 
 =over 6
 
