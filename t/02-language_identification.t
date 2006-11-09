@@ -10,7 +10,7 @@ auch deine ehrbare Ergoetzung haben.
 EOT
 
 is($de[0],'de');
-cmp_ok($de[1],'>','0.15');
+cmp_ok($de[1],'>','0.14');
 cmp_ok(confidence(@de),'>','0.60');
 
 my @pt = langof(<<EOT);
@@ -20,7 +20,7 @@ Por mares nunca de antes navegados
 EOT
 
 is($pt[0],'pt');
-cmp_ok($pt[1],'>','0.19');
+cmp_ok($pt[1],'>','0.18');
 cmp_ok(confidence(@pt),'>','0.55');
 
 my @en = langof(<<EOT);
@@ -29,7 +29,7 @@ for a Gaelic text, this time! That is not the purpose for this line.
 EOT
 
 is($en[0],'en');
-cmp_ok($en[1],'>','0.25');
+cmp_ok($en[1],'>','0.23');
 cmp_ok(confidence(@en),'>','0.74');
 
 @pt = langof(<<EOT);
@@ -184,5 +184,5 @@ De África as terras e do Oriente os mares.
 EOT
 
 is($pt[0],'pt');
-cmp_ok($pt[1],'>','0.14');
+cmp_ok($pt[1],'>','0.13');
 cmp_ok(confidence(@pt),'>','0.50');

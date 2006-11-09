@@ -1,14 +1,17 @@
-# http://module-build.sourceforge.net/META-spec.html
-#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
-name:         Lingua-Identify
-version:      0.18
-version_from: lib/Lingua/Identify.pm
-installdirs:  site
-requires:
+--- #YAML:1.0
+name:                Lingua-Identify
+version:             0.19
+abstract:            Language identification
+license:             ~
+generated_by:        ExtUtils::MakeMaker version 6.31
+distribution_type:   module
+requires:     
     Class::Factory::Util:          1.6
     Text::Affixes:                 0.04
     Text::ExtractWords:            0.08
     Text::Ngram:                   0.03
-
-distribution_type: module
-generated_by: ExtUtils::MakeMaker version 6.17
+meta-spec:
+    url:     http://module-build.sourceforge.net/META-spec-v1.2.html
+    version: 1.2
+author:
+    - Jose Alves de Castro <cog@cpan.org>

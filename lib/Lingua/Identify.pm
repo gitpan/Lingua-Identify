@@ -38,7 +38,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(
 );
 
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 
 # DEFAULT VALUES #
 
@@ -113,7 +113,7 @@ Here's a list of Lingua::Identify's strong points:
 =item * it's portable (it's Perl, which means it will work in lots of different
 platforms);
 
-=item * 33 languages and growing;
+=item * 36 languages and growing;
 
 =item * 4 different methods of language identification and growing (see
 METHODS OF LANGUAGE IDENTIFICATION for more details on this one);
@@ -860,7 +860,7 @@ __END__
 
 =head1 KNOWN LANGUAGES
 
-Currently, C<Lingua::Identify> knows the following languages (33 total):
+Currently, C<Lingua::Identify> knows the following languages (36 total):
 
 =over 6
 
@@ -884,6 +884,10 @@ Currently, C<Lingua::Identify> knows the following languages (33 total):
 
 =item ES - Spanish
 
+=item ET - Estonian
+
+=item EU - Basque
+
 =item FI - Finnish
 
 =item FR - French
@@ -903,6 +907,8 @@ Currently, C<Lingua::Identify> knows the following languages (33 total):
 =item IT - Italian
 
 =item LA - Latin
+
+=item LV - Latvian
 
 =item MS - Malay
 

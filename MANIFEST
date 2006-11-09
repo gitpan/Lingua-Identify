@@ -55,3 +55,7 @@ lib/Lingua/Identify/MS.pm
 lib/Lingua/Identify/ID.pm
 lib/Lingua/Identify/Nothing.pm
 META.yml                                 Module meta-data (added by MakeMaker)
+examples/lingua_identify.cgi
+lib/Lingua/Identify/LV.pm
+lib/Lingua/Identify/EU.pm
+lib/Lingua/Identify/ET.pm
