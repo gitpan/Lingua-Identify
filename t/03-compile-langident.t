@@ -1,4 +1,4 @@
-# $Id: 03-compile-langident.t,v 1.1 2004/12/20 12:18:29 jac Exp $
+# $Id: 03-compile-langident.t 1692 2004-12-20 12:18:29Z jac $
 
 use Test::More tests => 1;
 

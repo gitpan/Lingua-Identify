@@ -1,9 +1,7 @@
 Revision history for Lingua-Identify
 
-0.19  Wed Nov 08 12:34:00 2006
-	+ changes on Lingua::Identify
-	- added 3 more languages (EU, ET, LV)
-	- added an example CGI
+0.19  Thu Oct 16 18:02:00 2008
+   - changed maintainership information.
 
 0.18  Thu Nov 03 08:32:00 2005
 	+ changes on Lingua::Identify

@@ -18,7 +18,7 @@ is_deeply(confidence(@pt), 1 );
 @pt = langof_file( { 'max-size' => 0 }, 't/files/pt');
 
 is($pt[0],'pt');
-cmp_ok($pt[1],'>','0.18');
+cmp_ok($pt[1],'>','0.19');
 cmp_ok(confidence(@pt),'>','0.55');
 
 

@@ -1,9 +1,10 @@
 --- #YAML:1.0
 name:                Lingua-Identify
 version:             0.19
-abstract:            Language identification
+abstract:            ~
 license:             ~
-generated_by:        ExtUtils::MakeMaker version 6.31
+author:              ~
+generated_by:        ExtUtils::MakeMaker version 6.44
 distribution_type:   module
 requires:     
     Class::Factory::Util:          1.6
@@ -11,7 +12,5 @@ requires:
     Text::ExtractWords:            0.08
     Text::Ngram:                   0.03
 meta-spec:
-    url:     http://module-build.sourceforge.net/META-spec-v1.2.html
-    version: 1.2
-author:
-    - Jose Alves de Castro <cog@cpan.org>
+    url:     http://module-build.sourceforge.net/META-spec-v1.3.html
+    version: 1.3

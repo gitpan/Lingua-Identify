@@ -12,7 +12,4 @@ WriteMakefile(
 	'Text::ExtractWords'   => 0.08,
     },                                           # e.g., Module::Name => 1.1
     'EXE_FILES'         => ['langident', 'make-lingua-identify-language'],
-    ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
-      (ABSTRACT_FROM  => 'lib/Lingua/Identify.pm', # retrieve abstract from module
-       AUTHOR         => 'Jose Alves de Castro <cog@cpan.org>') : ()),
 );

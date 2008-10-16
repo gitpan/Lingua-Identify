@@ -113,7 +113,7 @@ Here's a list of Lingua::Identify's strong points:
 =item * it's portable (it's Perl, which means it will work in lots of different
 platforms);
 
-=item * 36 languages and growing;
+=item * 33 languages and growing;
 
 =item * 4 different methods of language identification and growing (see
 METHODS OF LANGUAGE IDENTIFICATION for more details on this one);
@@ -314,6 +314,8 @@ This returns something like this:
 
   # this is the support for big files; if the input is bigger than the $maxsize, we act
   if ($maxsize < length $text) {
+
+    print STDERR "1.1\n";
 
     # select extract_from
     my %extractfrom = defined $config{'extract_from'} ? _make_hash($config{'extract_from'})
@@ -860,7 +862,7 @@ __END__
 
 =head1 KNOWN LANGUAGES
 
-Currently, C<Lingua::Identify> knows the following languages (36 total):
+Currently, C<Lingua::Identify> knows the following languages (33 total):
 
 =over 6
 
@@ -884,10 +886,6 @@ Currently, C<Lingua::Identify> knows the following languages (36 total):
 
 =item ES - Spanish
 
-=item ET - Estonian
-
-=item EU - Basque
-
 =item FI - Finnish
 
 =item FR - French
@@ -907,8 +905,6 @@ Currently, C<Lingua::Identify> knows the following languages (36 total):
 =item IT - Italian
 
 =item LA - Latin
-
-=item LV - Latvian
 
 =item MS - Malay
 
@@ -1003,19 +999,17 @@ directly);
 
 langident(1), Text::ExtractWords(3), Text::Ngram(3), Text::Affixes(3).
 
-A linguist and/or a shrink.
-
-The latest CVS version of C<Lingua::Identify> can be attained at
-http://natura.di.uminho.pt/natura/viewcvs.cgi/Lingua/Identify/
-
 ISO 639 Language Codes, at http://www.w3.org/WAI/ER/IG/ert/iso639.htm
 
 =head1 AUTHOR
+
+Alberto Simoes, C<< <ambs@cpan.org> >>
 
 Jose Castro, C<< <cog@cpan.org> >>
 
 =head1 COPYRIGHT & LICENSE
 
+Copyright 2008 Alberto Simoes, All Rights Reserved.
 Copyright 2004 Jose Castro, All Rights Reserved.
 
 This program is free software; you can redistribute it and/or modify it
