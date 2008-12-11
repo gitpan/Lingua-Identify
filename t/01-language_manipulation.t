@@ -1,9 +1,9 @@
-use Test::More tests => 57;
+use Test::More tests => 60;
 BEGIN { use_ok('Lingua::Identify', ':language_manipulation') };
 
 my @languages = qw/af bg br bs cy da de en eo es fi fr fy ga hr hu
                    id is it la ms nl no pl pt ro ru sl so sq sv sw
-                   tr/;
+                   tr et eu lv/;
 
 for (get_all_languages()) {
   is(is_valid_language($_), 1);
