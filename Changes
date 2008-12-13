@@ -1,5 +1,9 @@
 Revision history for Lingua-Identify
 
+0.21  Sat Dec 13 11:52:00 2008
+    - Fixed tests that were using installed languages.
+      (still needing fixes)
+
 0.20  Thu Dec 11 19:39:00 2008
     - Fixed tests to use $^X instead of 'perl'.
 
