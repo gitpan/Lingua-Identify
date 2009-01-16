@@ -38,7 +38,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(
 );
 
-our $VERSION = '0.21';
+our $VERSION = '0.22';
 
 # DEFAULT VALUES #
 
@@ -313,9 +313,7 @@ This returns something like this:
   my $text = join "\n", @_;
 
   # this is the support for big files; if the input is bigger than the $maxsize, we act
-  if ($maxsize < length $text) {
-
-    print STDERR "1.1\n";
+  if ($maxsize < length $text && $maxsize != 0) {
 
     # select extract_from
     my %extractfrom = defined $config{'extract_from'} ? _make_hash($config{'extract_from'})
@@ -337,8 +335,9 @@ This returns something like this:
     $extractfrom{'head'} ||= 0;
     $extractfrom{'tail'} ||= 0;
 
-    substr( $text, int $maxsize * $extractfrom{'head'}, int $maxsize * $extractfrom{'tail'} ) = '';
-
+		my $head = int $maxsize * $extractfrom{'head'};
+		my $tail = length($text) - $head - int $maxsize * $extractfrom{'tail'};
+    substr( $text, $head, $tail, '');
   }
 
   # dummy mode exits here

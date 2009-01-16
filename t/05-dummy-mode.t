@@ -262,7 +262,7 @@ is_deeply( $t3 ,
            'active-languages' => [
 				   'af', 'es', 'pt',
                                  ],
-           'text' => $text,
+           'text' => substr($text,0,100),
            'mode' => 'dummy',
            });
 
