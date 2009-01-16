@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Lingua-Identify
-version:            0.22
+version:            0.23
 abstract:           ~
 author:  []
 license:            unknown
@@ -10,7 +10,6 @@ configure_requires:
 requires:
     Class::Factory::Util:  1.6
     Text::Affixes:        0.04
-    Text::ExtractWords:   0.08
     Text::Ngram:          0.03
 no_index:
     directory:

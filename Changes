@@ -1,5 +1,10 @@
 Revision history for Lingua-Identify
 
+0.23  Fri Jan 16 21:55:00 2009
+	- Drop Text::ExtractWords dependency.
+	  (it was giving segmentation fault, and it is
+	   no maintained)
+
 0.22  Fri Jan 16 21:30:00 2009
 	- fixed the extract_from option.
 	  (Text::ExtractWords doesn't handle big files)

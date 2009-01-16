@@ -38,7 +38,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(
 );
 
-our $VERSION = '0.22';
+our $VERSION = '0.23';
 
 # DEFAULT VALUES #
 
@@ -314,7 +314,6 @@ This returns something like this:
 
   # this is the support for big files; if the input is bigger than the $maxsize, we act
   if ($maxsize < length $text && $maxsize != 0) {
-
     # select extract_from
     my %extractfrom = defined $config{'extract_from'} ? _make_hash($config{'extract_from'})
                                                       : %default_extractfrom;
@@ -600,13 +599,18 @@ few languages active.
 =cut
 
 sub _langof_by_word_method {
-  use Text::ExtractWords qw(words_count);
-
   my ($method, $text) = (shift, shift);
 
-  my %words;
-  words_count(\%words, $text);
+	sub _words_count {
+		my $words = shift;
+		my $text = shift;
+		for my $word (split /\s+/, $text) {
+			$words->{$word}++
+		}
+	}
 
+  my %words;
+  _words_count(\%words, $text);
   return _langof_by_method($method, \%words, $text);
 }
 
