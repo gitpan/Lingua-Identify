@@ -1,35 +1,51 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -s
 use strict;
+use POSIX;
+
 use Text::Ngram qw(ngram_counts);
 use Text::ExtractWords qw(words_count words_list);
 use Text::Affixes;
 
-use Getopt::Std qw(getopts);
+my $version = '0.02';
 
-my $version = '0.01';
+our ($v,$h,$d,$u,$verbose,$locale);
 
-our %opts = get_options();
+if ($locale) {
+    if ($u && $locale !~ /utf/i) {
+        verbose("setting locale: $locale.UTF-8");
+        POSIX::setlocale( &POSIX::LC_CTYPE, "$locale.UTF-8" );
+    } else {
+        verbose("setting locale: $locale");
+        POSIX::setlocale( &POSIX::LC_CTYPE, $locale );
+    }
+    use locale;
+}
 
-show_help()        if $opts{h};
-show_version()     if $opts{v};
+
+our $utf8 = undef;
+$utf8 = 1 if $u;
+
+show_help()        if $h;
+show_version()     if $v;
 
 unless (-d || @ARGV) {
-  $opts{d} = 1;
+    $d = 1;
 }
 
-if ($opts{d}) {
-  my @languages = @ARGV || <*-*>;
-  for (@languages) {
-    /(.+)-(.+)/ ||
-      die "Can't figure out the language tag and name out of '$_'\n";
-    make_module($1, $2, <$_/*>);
-  }
+if ($d) {
+    my @languages = @ARGV || <*-*>;
+    for (@languages) {
+        /(.+)-(.+)/ ||
+          die "Can't figure out the language tag and name out of '$_'\n";
+        make_module($1, $2, <$_/*>);
+    }
 }
 else {
-  my $tag = shift || die "You must provide a language tag.\n";
-  my $language = shift || die "You must provide a language name.\n";
-  @ARGV || die "You must provide at least one file.\n";
-  make_module($tag, $language, @ARGV);
+    my $tag      = shift || die "You must provide a language tag.\n";
+    my $language = shift || die "You must provide a language name.\n";
+    @ARGV                || die "You must provide at least one file.\n";
+    verbose("Creating module for $tag for $language language");
+    make_module(lc($tag), lc($language), @ARGV);
 }
 
 ###############
@@ -37,57 +53,13 @@ else {
 ###############
 
 sub verbose {
-  print STDERR $_[0], "\n" if $opts{V};
+    print STDERR $_[0], "\n" if $verbose;
 }
 
 ###
 
-sub get_options {
-        my %opts;
-        getopts('dDhvV', \%opts );
-
-        foreach my $key ( keys %opts )
-                {
-                $opts{$key} = 1 unless defined $opts{$key}
-                }
-
-        debug_options( %opts ) if $opts{D};
-
-        %opts;
-        }
-
-###
-
-# Hello... you wouldn't have seen a lost comment around here, would you? :-|
-# He's my soon, you know? :-| I've been looking for him for some time now...
-# He's small, just about two lines long... :-| If you see him, could you please
-# tell me? Thank you :-|
-
-###
-
-sub debug_options {
-        my %opts = @_;
-
-        no warnings;
-                {
-                print STDERR <<"HERE";
--------------------------------------------------------------------------
-Command line options
--------------------------------------------------------------------------
-d   $opts{d}
-D   $opts{D}
-h   $opts{h}
-v   $opts{v}
-V   $opts{V}
--------------------------------------------------------------------------
-HERE
-                }
-        }
-
-###
-
 sub show_help {
-  die "Usage: make-lingua-identify-language tag language file1 file2
+    die "Usage: make-lingua-identify-language tag language file1 file2
  or:   make-lingua-identify-language -d directory1 directory2
 make-lingua-identify-language: creates Lingua::Identify language modules
 
@@ -98,68 +70,81 @@ Examples:
 
 Options:
   -d         directory mode
-  -D         debug mode
   -h         displays this messages and exit
   -v         show version and exit
-  -V         verbose mode
+  -verbose   verbose mode
+  -u         unicode
 "
 }
 
 ###
-  
+
 sub show_version { 
-  die "make-lingua-identify-language version $version\n";
+    die "make-lingua-identify-language version $version\n";
 }
 
 ###
 
 sub make_module {
-  my ($tag, $name, @files) = @_;
+    my ($tag, $name, @files) = @_;
 
-  verbose("Studying $name ($tag)");
+    verbose("Studying $name ($tag)");
 
     # read all files in its directory
     my $text;
 
     my $meta = {
-                 'language_name' => $name,
-                 'sets'          => [],
+                'language_name' => $name,
+                'sets'          => [],
                };
     $tag =~ /^..$/  and $meta->{'two_letter_code'}   = $tag;
     $tag =~ /^...$/ and $meta->{'three_letter_code'} = $tag;
 
     for (@files) {
-        open( STDIN, $_ ) || die;
+        if ($utf8) {
+            open( STDINO, '<:utf8', $_ ) || die $!;
+        } else {
+            open( STDINO, $_ ) || die $!;
+        }
         if ($_ eq 'META.yml') {
-          verbose("\tfound META.yml");
-          while (<>) { # META.yml is processed here
-                       if (/^(\w+):\s*(\w+)$/) {
-                         $meta->{$1} = $2;
-                         verbose("\tassigned $1 to $2");
-                       }
-                       elsif (/^(\w+):\s*$/) {
-                         my $id = $1;
-                         while (<>) {
-                           last if /^\s*$/;
-                           if (/^\s*(\w*)\s*$/) {
-                             push @{$meta->{$id}}, $1;
-                             verbose("\tpushed $1 into $id");
-                           }
-                         }
-                       }
-                     }
+            verbose("\tfound META.yml");
+            while (<STDINO>) { # META.yml is processed here
+                if (/^(\w+):\s*(\w+)$/) {
+                    $meta->{$1} = $2;
+                    verbose("\tassigned $1 to $2");
+                }
+                elsif (/^(\w+):\s*$/) {
+                    my $id = $1;
+                    while (<STDINO>) {
+                        last if /^\s*$/;
+                        if (/^\s*(\w*)\s*$/) {
+                            push @{$meta->{$id}}, $1;
+                            verbose("\tpushed $1 into $id");
+                        }
+                    }
+                }
+            }
         }
         else {
-          $text .= join "\n", <>;
+            if ($locale) {
+                $text .= join "\n", map { lc } <STDINO>;
+            } else {
+                $text .= join "\n", <STDINO>;
+            }
         }
-        close(STDIN);
+        close STDINO;
     }
 
     # write some headers
-    open( STDOUT, ">" . ( uc $tag ) . ".pm" ) || die;
+    if ($utf8) {
+        open( STDOUTO, ">:utf8" , ( uc $tag ) . ".pm" ) || die;
+    } else {
+        open( STDOUTO, ">" . ( uc $tag ) . ".pm" ) || die;
+    }
     my $sets = join ", ", map { "'$_'" } @{$meta->{'sets'}};
     verbose("\t$sets");
-    print "use strict;\n",
+    print STDOUTO "use utf8;\n" if $utf8;
+    print STDOUTO "use strict;\n",
       "\n\${Lingua::Identify::languages{'_versions'}{'$tag'}} = '$version';\n",
       "\n\${Lingua::Identify::languages{'_names'}{'$tag'}} = '$name';\n",
       "\n\${Lingua::Identify::languages{'_sets'}{'$tag'}} = '$sets';\n";
@@ -169,7 +154,7 @@ sub make_module {
     my $module_name = uc $tag;
     my $podname = ucfirst $name;
 
-    print pod_unindent("
+    print STDOUTO pod_unindent("
 
     =head1 NAME
 
@@ -195,7 +180,7 @@ sub make_module {
 
     =head1 COPYRIGHT AND LICENSE
 
-    Copyright (C) 2004 by Jose Alves de Castro
+    Copyright (C) 2010 by Alberto Simoes
 
     This library is free software; you can redistribute it and/or modify
     it under the same terms as Perl itself, either Perl version 5.8.4 or,
@@ -208,19 +193,21 @@ sub make_module {
     verbose("\tstudying prefixes");
 
     my $prefixes = get_prefixes( { min => 1, max => 4 }, $text );
+
     for my $i ( 1 .. 4 ) {
+        select STDOUTO;
         print "\n\${Lingua::Identify::languages{'prefixes$i'}{'$tag'}} = {\n";
         my $total;
         for ( values %{ $$prefixes{$i} } ) { $total += $_; }
         for (
-            (
-                sort { $$prefixes{$i}{$b} <=> $$prefixes{$i}{$a} }
-                keys %{ $$prefixes{$i} }
-            )[ 0 .. 19 ]
-          )
-        {
-            print "  '$_'\t=> ", $$prefixes{$i}{$_} / $total, ",\n";
-        }
+             (
+              sort { $$prefixes{$i}{$b} <=> $$prefixes{$i}{$a} }
+              keys %{ $$prefixes{$i} }
+             )[ 0 .. 19 ]
+            )
+          {
+              print "  '$_'\t=> ", $$prefixes{$i}{$_} / $total, ",\n";
+          }
         print "};\n";
     }
 
@@ -229,40 +216,46 @@ sub make_module {
 
     my $suffixes = get_suffixes( { min => 1, max => 4 }, $text );
     for my $i ( 1 .. 4 ) {
+        select STDOUTO;
         print "\n\${Lingua::Identify::languages{'suffixes$i'}{'$tag'}} = {\n";
         my $total;
         for ( values %{ $$suffixes{$i} } ) { $total += $_; }
         for (
-            (
-                sort { $$suffixes{$i}{$b} <=> $$suffixes{$i}{$a} }
-                keys %{ $$suffixes{$i} }
-            )[ 0 .. 19 ]
-          )
-        {
-            print "  '$_'\t=> ", $$suffixes{$i}{$_} / $total, ",\n";
-        }
+             (
+              sort { $$suffixes{$i}{$b} <=> $$suffixes{$i}{$a} }
+              keys %{ $$suffixes{$i} }
+             )[ 0 .. 19 ]
+            )
+          {
+              print "  '$_'\t=> ", $$suffixes{$i}{$_} / $total, ",\n";
+          }
         print "};\n";
     }
 
     # write words information
     verbose("\tstudying words");
 
-    my %hash_w;
-    words_count( \%hash_w, $text );
-    my $total;
-    for ( values %hash_w ) { $total += $_; }
-    print "\n\${Lingua::Identify::languages{'smallwords'}{'$tag'}} = {\n";
-    for (
-        ( sort { $hash_w{$b} <=> $hash_w{$a} } grep { !/^\d+$/ } keys %hash_w )
-        [ 0 .. 19 ] )
-    {
-        print "  '$_'\t=> ", $hash_w{$_} / $total, ",\n";
+    my $hash_w;
+    if ($utf8) {
+        $hash_w = my_words_count($text);
+    } else {
+        my %hash;
+        words_count(\%hash, $text);
+        $hash_w = \%hash;
     }
+    my $total;
+    for ( values %$hash_w ) { $total += $_; }
+    print "\n\${Lingua::Identify::languages{'smallwords'}{'$tag'}} = {\n";
+    for (( sort { $hash_w->{$b} <=> $hash_w->{$a} }
+           grep { !/(?:[_'",;:.«»0-9\(\)\[\]\{\}\/\\\!\?%]|^-|-$)/ } keys %$hash_w )
+         [ 0 .. 19 ] )
+      {
+          print "  '$_'\t=> ", $hash_w->{$_} / $total, ",\n";
+      }
     print "};\n";
 
     # write ngrams information
-    my $f = sub { ngram_counts( $_[0], $_[1]) };
-
+    my $f = sub { ngram_counts( {spaces => 0}, $_[0], $_[1]) };
     get_ngrams($tag, 'ngrams', 1, 4, $f, $text );
 
     # close the file
@@ -273,36 +266,44 @@ sub make_module {
 ###############################
 
 sub get_ngrams {
-  my ($tag, $what, $min, $max, $function, $text) = @_;
+    my ($tag, $what, $min, $max, $function, $text) = @_;
 
-  verbose("\tstudying $what");
+    for my $gram ( $min .. $max ) {
 
-  for my $gram ( $min .. $max ) {
+        verbose("\tstudying $what $gram");
 
-    #my $hash_r = ngram_counts( $text, $gram );
-    my $hash = &{$function}($text, $gram);
+        #my $hash_r = ngram_counts( $text, $gram );
+        my $hash = &{$function}($text, $gram);
 
-    my $total;
-    for ( values %$hash ) { $total += $_; }
+        my $total;
+        for ( values %$hash ) {
+            $total += $_;
+        }
 
-    print "\n\${Lingua::Identify::languages{'$what$gram'}{'$tag'}} = {\n";
+        print "\n\${Lingua::Identify::languages{'$what$gram'}{'$tag'}} = {\n";
 
-    for (
-        ( sort { $$hash{$b} <=> $$hash{$a} } keys %$hash )[ 0 .. 19 ]
-      )
-    {
-        print "  '$_' => ", $$hash{$_} / $total, ",\n";
+        for ((sort { $$hash{$b} <=> $$hash{$a} } keys %$hash )[ 0 .. 19 ]) {
+            print "  '$_' => ", $$hash{$_} / $total, ",\n";
+        }
+
+        print "};\n";
+
     }
-
-    print "};\n";
-
-  }
 
 }
 
 ###
 
 sub pod_unindent { ( local $_ = shift ) =~ s/^ +//mg; $_ }
+
+sub my_words_count {
+    my $text = shift;
+    my $count;
+    for my $word (split /[\n\s]+/, $text) {
+        $count->{$word}++;
+    }
+    return $count;
+}
 
 __END__
 
@@ -365,9 +366,13 @@ Display help and exit.
 
 Show version and exit.
 
-=head2 -V
+=head2 -verbose
 
 Verbose mode.
+
+=head2 -locale=C<< <locale> >>
+
+Set a specific locale. This way your text will be all lowercased before analysed.
 
 =head1 META.yml
 

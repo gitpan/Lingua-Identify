@@ -1,35 +1,28 @@
-use Test::More tests => 19;
-BEGIN { use_ok('Lingua::Identify', qw/:language_identification/) };
+#!/usr/bin/perl
 
-my @de = langof_file('t/files/de');
+use Test::More tests => 10 + 3 * 21;
+BEGIN { use_ok('Lingua::Identify', qw/:language_identification :language_manipulation/) };
 
-is($de[0],'de');
-cmp_ok($de[1],'>','0.14');
-cmp_ok(confidence(@de),'>','0.60');
+for my $language (get_all_languages()) {
+    die "**** Text file for $language language not available" unless -f "t/files/$language";
 
-my @pt = langof_file('t/files/pt');
+    my @lang = langof_file("t/files/$language");
+    is($lang[0], $language, "Checking identified language is $language.");
+    cmp_ok($lang[1],'>','0.16', "Checking probability for $language");
+    cmp_ok(confidence(@lang),'>','0.51', "Checking confidence for $language");
+}
 
-is($pt[0],'pt');
-cmp_ok($pt[1],'>','0.18');
-cmp_ok(confidence(@pt),'>','0.55');
-
-my @en = langof_file('t/files/en');
-
-is($en[0],'en');
-cmp_ok($en[1],'>','0.23');
-cmp_ok(confidence(@en),'>','0.74');
+# Some extra tests
 
 @pt = langof_file({method=>'smallwords'},'t/files/pt_big');
-
 is($pt[0],'pt');
 cmp_ok($pt[1],'>','0.14');
 cmp_ok(confidence(@pt),'>','0.50');
 
 @pt = langof_file('t/files/pt_big');
-
 is($pt[0],'pt');
-cmp_ok($pt[1],'>','0.14');
-cmp_ok(confidence(@pt),'>','0.50');
+cmp_ok($pt[1],'>','0.18');
+cmp_ok(confidence(@pt),'>','0.51');
 
 @pt = langof_file('t/files/en', 't/files/pt_big');
 is($pt[0],'pt');

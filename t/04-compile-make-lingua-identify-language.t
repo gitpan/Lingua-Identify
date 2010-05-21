@@ -1,4 +1,5 @@
-# $Id: 04-compile-make-lingua-identify-language.t 6657 2008-12-11 19:40:15Z ambs $
+#!/usr/bin/perl
+
 
 use Test::More tests => 1;
 

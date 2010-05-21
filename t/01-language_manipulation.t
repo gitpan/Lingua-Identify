@@ -1,16 +1,15 @@
-use Test::More tests => 57;
-BEGIN { use_ok('Lingua::Identify', ':language_manipulation') };
+#!/usr/bin/perl
 
-my @languages = qw/af bg br bs cy da de en eo es fi fr fy ga hr hu
-                   id is it la ms nl no pl pt ro ru sl so sq sv sw
-                   tr/;
+use Test::More tests => 45;
+BEGIN {
+    use_ok('Lingua::Identify', ':language_manipulation')
+};
 
-for (get_all_languages()) {
-  is(is_valid_language($_), 1);
-}
+my @languages = qw/pt en de bg da es it fr fi hr nl ro ru pl
+                   la sq sv tr sl hu id/;
 
 for (qw/zbr xx zz/, '') {
-  is(is_valid_language($_), 0);
+    is(is_valid_language($_), 0);
 }
 
 is_deeply(	[ get_all_languages()                      ],
@@ -22,16 +21,16 @@ is_deeply(	[ sort ( get_all_languages() )             ],
 is_deeply(	[ sort ( get_all_languages() )             ],
 		[ sort @languages                          ]);
 
-is_deeply(	[ sort ( deactivate_language('fr') )       ],
-		[ sort grep {! /^fr$/ } @languages         ]);
+is_deeply(	[ sort ( deactivate_language('pt') )       ],
+		[ sort grep {! /^pt$/ } @languages         ]);
 
 is_deeply(	[ sort ( get_active_languages() )          ],
-		[ sort grep {! /^fr$/ } @languages         ]);
+		[ sort grep {! /^pt$/ } @languages         ]);
 
 is_deeply(	[ get_inactive_languages()                 ],
-		[ qw/fr/                                   ]);
+		[ qw/pt/                                   ]);
 
-is(is_active('fr'), 0);
+is(is_active('pt'), 0);
 
 is_deeply(	[ deactivate_all_languages()               ],
 		[                                          ]);
@@ -44,11 +43,11 @@ is_deeply(	[ activate_language('pt')                  ],
 
 is(is_active('pt'), 1);
 
-is_deeply(	[ sort ( set_active_languages(qw/it fr/) ) ],
-		[ qw/fr it/                                ]);
+is_deeply(	[ sort ( set_active_languages(qw/pt ru/) ) ],
+		[ qw/pt ru/                                ]);
 
 is_deeply(	[ sort ( get_active_languages() )          ],
-		[ qw/fr it/                                ]);
+		[ qw/pt ru/                                ]);
 
 is_deeply(	[ activate_all_languages()                 ],
 		[ get_all_languages()                      ]);
@@ -68,3 +67,7 @@ is_deeply(	[ sort ( get_all_languages() )             ],
 
 is_deeply(	[ sort ( get_active_languages() )          ],
 		[ sort @languages                          ]);
+
+for (get_all_languages()) {
+    is(is_valid_language($_), 1);
+}

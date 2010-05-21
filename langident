@@ -26,17 +26,18 @@ $opts{s} ||= "\n";
 # identify the language...
 
 if (@ARGV) { # ...of files
-  my @files = @ARGV;
-  for (sort @files) {
-    -f && -r && -s || next;
-    open (FILE, $_) || do {print STDERR "Could not open $_ ($!)\n" ; next};
-    local $/ = $opts{s};
-    print $_, ":", (join $", ident(<FILE>)), "\n";
-    close (FILE);
-  }
+    my @files = @ARGV;
+    for (sort @files) {
+        -f && -r && -s || next;
+        open (FILE,"<:utf8" ,$_) || do {print STDERR "Could not open $_ ($!)\n" ; next};
+        local $/ = $opts{s};
+        print $_, ":", (join $", ident(<FILE>)), "\n";
+        close (FILE);
+    }
 }
 else {       # ...of STDIN
-  print ((join $", ident(<>)), "\n");
+    binmode(STDIN, ":utf8");
+    print ((join $", ident(<>)), "\n");
 }
 
 #

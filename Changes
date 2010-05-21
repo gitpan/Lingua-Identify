@@ -1,5 +1,12 @@
 Revision history for Lingua-Identify
 
+0.25  Fri May 21 17:22:03 WEST 2010
+        - Really dropped Text::ExtractWords dependency;
+        - Some code rewrite for UTF-8 support (now is the default);
+        - Dropped some knew languages given lack of training corpora;
+        - Added some new languages;
+        - Added at least two tests per language (t/02 and t/06);
+
 0.23  Fri Jan 16 21:55:00 2009
 	- Drop Text::ExtractWords dependency.
 	  (it was giving segmentation fault, and it is

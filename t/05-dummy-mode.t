@@ -1,153 +1,150 @@
+#!/usr/bin/perl
+use utf8;
 use Test::More tests => 10;
 BEGIN { use_ok('Lingua::Identify', qw/:language_manipulation :language_identification/) };
 
 my $text = '
-As armas e os barões assinalados 
+As armas e os barÃµes assinalados 
 Que, da Ocidental praia Lusitana, 
 Por mares nunca de antes navegados 
-Passaram ainda além da Taprobana 
-E em perigos e guerras esforçados 
-Mais do que prometia a força humana, 
+Passaram ainda alÃ©m da Taprobana 
+E em perigos e guerras esforÃ§ados 
+Mais do que prometia a forÃ§a humana, 
 E entre gente remota edificaram 
 Novo Reino, que tanto sublimaram; 
 
-E também as memórias gloriosas 
+E tambÃ©m as memÃ³rias gloriosas 
 Daqueles Reis que foram dilatando 
-A Fé, o Império, e as terras viciosas 
-De África e de Ásia andaram devastando, 
+A FÃ©, o ImpÃ©rio, e as terras viciosas 
+De Ãfrica e de Ãsia andaram devastando, 
 E aqueles que por obras valerosas 
-Se vão da lei da Morte libertando: 
+Se vÃ£o da lei da Morte libertando: 
 Cantando espalharei por toda parte, 
 Se a tanto me ajudar o engenho e arte. 
 
-Cessem do sábio Grego e do Troiano 
-As navegações grandes que fizeram; 
+Cessem do sÃ¡bio Grego e do Troiano 
+As navegaÃ§Ãµes grandes que fizeram; 
 Cale-se de Alexandro e de Trajano 
-A fama das vitórias que tiveram; 
+A fama das vitÃ³rias que tiveram; 
 Que eu canto o peito ilustre Lusitano, 
 A quem Neptuno e Marte obedeceram. 
 Cesse tudo o que a Musa antiga canta, 
 Que outro valor mais alto se alevanta. 
 
-E vós, Tágides minhas, pois criado 
+E vÃ³s, TÃ¡gides minhas, pois criado 
 Tendes em mi um novo engenho ardente 
 Se sempre, em verso humilde, celebrado 
 Foi de mi vosso rio alegremente, 
 Dai-me agora um som alto e sublimado, 
-Um estilo grandíloco e corrente, 
-Por que de vossas águas Febo ordene 
-Que não tenham enveja às de Hipocrene. 
+Um estilo grandÃ­loco e corrente, 
+Por que de vossas Ã¡guas Febo ordene 
+Que nÃ£o tenham enveja Ã s de Hipocrene. 
 
-Dai-me húa fúria grande e sonorosa, 
-E não de agreste avena ou frauta ruda, 
+Dai-me hÃºa fÃºria grande e sonorosa, 
+E nÃ£o de agreste avena ou frauta ruda, 
 Mas de tuba canora e belicosa, 
 Que o peito acende e a cor ao gesto muda; 
 Dai-me igual canto aos feitos da famosa 
 Gente vossa, que a Marte tanto ajuda; 
 Que se espalhe e se cante no Universo, 
-Se tão sublime preço cabe em verso. 
+Se tÃ£o sublime preÃ§o cabe em verso. 
 
-E vós, ó bem nascida segurança 
+E vÃ³s, Ã³ bem nascida seguranÃ§a 
 Da Lusitana antiga liberdade, 
-E não menos certíssima esperança 
+E nÃ£o menos certÃ­ssima esperanÃ§a 
 De aumento da pequena Cristandade; 
-Vós, ó novo temor da Maura lança, 
+VÃ³s, Ã³ novo temor da Maura lanÃ§a, 
 Maravilha fatal da nossa idade, 
 Dada ao mundo por Deus (que todo o mande, 
 Pera do mundo a Deus dar parte grande); 
 
-Vós, tenro e novo ramo florecente, 
-De húa árvore, de Cristo mais amada 
-Que nenhúa nascida no Ocidente, 
-Cesárea ou Cristianíssima chamada, 
+VÃ³s, tenro e novo ramo florecente, 
+De hÃºa Ã¡rvore, de Cristo mais amada 
+Que nenhÃºa nascida no Ocidente, 
+CesÃ¡rea ou CristianÃ­ssima chamada, 
 (Vede-o no vosso escudo, que presente
-Vos amostra a vitória já passada, 
+Vos amostra a vitÃ³ria jÃ¡ passada, 
 Na qual vos deu por armas e deixou
 As que Ele pera Si na Cruz tomou); 
 
-Vós, poderoso Rei, cujo alto Império 
-O Sol, logo em nascendo, vê primeiro;
-Vê-o também no meio do Hemisfério, 
+VÃ³s, poderoso Rei, cujo alto ImpÃ©rio 
+O Sol, logo em nascendo, vÃª primeiro;
+VÃª-o tambÃ©m no meio do HemisfÃ©rio, 
 E, quando dece, o deixa derradeiro;
-Vós, que esperamos jugo e vitupério 
+VÃ³s, que esperamos jugo e vitupÃ©rio 
 Do torpe lsmaelita cavaleiro, 
 Do Turco Oriental e do Gentio 
 Que inda bebe o licor do santo Rio: 
 
 Inclinai por um pouco a majestade, 
 Que nesse tenro gesto vos contemplo,
-Que já se mostra qual na inteira idade,
+Que jÃ¡ se mostra qual na inteira idade,
 Quando subindo ireis ao eterno Templo;
 Os olhos da real benignidade 
-Ponde no chão: vereis um novo exemplo
-De amor dos pátrios feitos valerosos, 
+Ponde no chÃ£o: vereis um novo exemplo
+De amor dos pÃ¡trios feitos valerosos, 
 Em versos devulgado numerosos. 
 
-Vereis amor da pátria, não movido 
-De prêmio vil, mas alto e quase eterno;
-Que não é prêmio vil ser conhecido 
-Por um pregão do ninho meu paterno. 
+Vereis amor da pÃ¡tria, nÃ£o movido 
+De prÃªmio vil, mas alto e quase eterno;
+Que nÃ£o Ã© prÃªmio vil ser conhecido 
+Por um pregÃ£o do ninho meu paterno. 
 Ouvi: vereis o nome engrandecido 
 Daqueles de quem sois senhor superno, 
-E julgareis qual é mais excelente, 
+E julgareis qual Ã© mais excelente, 
 Se ser do mundo Rei, se de tal gente. 
 
-Ouvi: que não vereis com vãs façanhas,
-Fantásticas, fingidas, mentirosas,
+Ouvi: que nÃ£o vereis com vÃ£s faÃ§anhas,
+FantÃ¡sticas, fingidas, mentirosas,
 Louvar os vossos, como nas estranhas Musas,
 de engrandecer-se desejosas: 
-As verdadeiras vossas são tamanhas, 
+As verdadeiras vossas sÃ£o tamanhas, 
 Que excedem as sonhadas, fabulosas, 
-Que excedem Rodamonte e o vão Rugeiro,
+Que excedem Rodamonte e o vÃ£o Rugeiro,
 E Orlando, inda que fora verdadeiro. 
 
 Por estes vos darei um Nuno fero, 
-Que fez ao Rei e ao Reino tal serviço, 
+Que fez ao Rei e ao Reino tal serviÃ§o, 
 Um Egas e um Dom Fuas, que de Homero
-A cítara para eles só cobiço; 
+A cÃ­tara para eles sÃ³ cobiÃ§o; 
 Pois polos Doze Pares dar-vos quero 
-Os Doze de Inglaterra e o seu Magriço;
-Dou-vos também aquele ilustre Gama,
+Os Doze de Inglaterra e o seu MagriÃ§o;
+Dou-vos tambÃ©m aquele ilustre Gama,
 Que para si de Eneias toma a fama. 
 
-Pois, se a troco de Carlos, Rei de França,
-Ou de César, quereis igual memória,
-Vede o primeiro Afonso, cuja lança
-Escura faz qualquer estranha glória; 
-E aquele que a seu Reino a segurança
-Deixou, co a grande e próspera vitória;
+Pois, se a troco de Carlos, Rei de FranÃ§a,
+Ou de CÃ©sar, quereis igual memÃ³ria,
+Vede o primeiro Afonso, cuja lanÃ§a
+Escura faz qualquer estranha glÃ³ria; 
+E aquele que a seu Reino a seguranÃ§a
+Deixou, co a grande e prÃ³spera vitÃ³ria;
 Outro Joanne, invicto cavaleiro; 
 O quarto e quinto Afonsos e o terceiro. 
 
-Nem deixarão meus versos esquecidos
-Aqueles que, nos Reinos lá da Aurora, 
-Se fizeram por armas tão subidos, 
+Nem deixarÃ£o meus versos esquecidos
+Aqueles que, nos Reinos lÃ¡ da Aurora, 
+Se fizeram por armas tÃ£o subidos, 
 Vossa bandeira sempre vencedora: 
-Um Pacheeo fortíssimo e os temidos
+Um Pacheeo fortÃ­ssimo e os temidos
 Almeidas, por quem sempre o Tejo chora,
 Albuquerque terribil, Castro forte, 
-E outros em quem poder não teve a morte. 
+E outros em quem poder nÃ£o teve a morte. 
 
-E, enquanto eu estes canto, e a vós não posso,
-Sublime Rei, que não me atrevo a tanto,
-Tomai as rédeas vós do Reino vosso: 
-Dareis matéria a nunca ouvido canto.
+E, enquanto eu estes canto, e a vÃ³s nÃ£o posso,
+Sublime Rei, que nÃ£o me atrevo a tanto,
+Tomai as rÃ©deas vÃ³s do Reino vosso: 
+Dareis matÃ©ria a nunca ouvido canto.
 Comecem a sentir o peso grosso 
-(Que polo mundo todo faça espanto) 
-De exércitos e feitos singulares 
-De África as terras e do Oriente os mares.
+(Que polo mundo todo faÃ§a espanto) 
+De exÃ©rcitos e feitos singulares 
+De Ãfrica as terras e do Oriente os mares.
 ';
 
 my $t1 = langof( { 'mode' => 'dummy' }, $text);
 
 is_deeply( $t1 ,
            {
-           'method' => {
-                         'smallwords' => '0.5',
-                         'prefixes2' => '1',
-                         'suffixes3' => '1',
-                         'ngrams3' => '1.3',
-                       },
+           'method' => { %Lingua::Identify::default_methods },
            'config' => {
                          'mode' => 'dummy',
                        },
@@ -219,10 +216,10 @@ is_deeply( $t1 ,
 
 
 
-is_deeply( [ set_active_languages( qw/pt es af/ ) ] , [ qw/pt es af/ ] );
 
-is_deeply( [ get_active_languages(              ) ] , [ qw/pt es af/ ] );
+is_deeply( [ sort (set_active_languages( qw/pt es fr/ )) ] , [ sort qw/pt es fr/ ] );
 
+is_deeply( [ sort (get_active_languages(              )) ] , [ sort qw/pt es fr/ ] );
 
 
 
@@ -240,11 +237,12 @@ is_deeply( $t2 ,
                         },
            'max-size'          => 1000000,
            'active-languages' => [
-				   'af', 'es', 'pt',
+				   'es', 'fr', 'pt',
                                  ],
            'text' => $text,
            'mode' => 'dummy',
            });
+
 
 my $t3 = langof( { 'max-size' => 100, 'method' => 'smallwords', 'mode' => 'dummy' }, $text);
 
@@ -260,7 +258,7 @@ is_deeply( $t3 ,
                         },
            'max-size'         => 100,
            'active-languages' => [
-				   'af', 'es', 'pt',
+				   'es', 'fr', 'pt',
                                  ],
            'text' => substr($text,0,100),
            'mode' => 'dummy',
@@ -280,7 +278,7 @@ is_deeply( $t3 ,
                         },
            'max-size'         => 0,
            'active-languages' => [
-				   'af', 'es', 'pt',
+				   'es', 'fr', 'pt',
                                  ],
            'text' => $text,
            'mode' => 'dummy',

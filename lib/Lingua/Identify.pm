@@ -4,47 +4,63 @@ use 5.006;
 use strict;
 use warnings;
 
-require Exporter;
+use utf8;
+use base 'Exporter';
 
-our @ISA = qw(Exporter);
+our %EXPORT_TAGS =
+  (
+   all => [ qw(
+                  langof			
+                  langof_file
+                  confidence
+                  get_all_methods
+                  activate_all_languages
+                  deactivate_all_languages
+                  get_all_languages
+                  get_active_languages
+                  get_inactive_languages
+                  is_active
+                  is_valid_language
+                  activate_language
+                  deactivate_language
+                  set_active_languages
+                  name_of
+             )
+          ],
+   language_identification => [ qw(
+                                      langof
+                                      langof_file
+                                      confidence		
+                                      get_all_methods
+                                 )
+                              ],
 
-our %EXPORT_TAGS = (
-	'all' => [ qw(
-			langof			langof_file
-			confidence		get_all_methods
-			activate_all_languages	deactivate_all_languages
-			get_all_languages	get_active_languages
-			get_inactive_languages	is_active
-			is_valid_language	activate_language
-			deactivate_language	set_active_languages
-			name_of
-		) ],
-	'language_identification' => [ qw(
-			langof			langof_file
-			confidence		get_all_methods
-		) ],
-	'language_manipulation' => [ qw(
-			activate_all_languages	deactivate_all_languages
-			get_all_languages	get_active_languages
-			get_inactive_languages	is_active
-			is_valid_language	activate_language
-			deactivate_language	set_active_languages
-			name_of
-		) ],
-);
+   language_manipulation => [ qw(
+                                    activate_all_languages
+                                    deactivate_all_languages
+                                    get_all_languages	
+                                    get_active_languages
+                                    get_inactive_languages	
+                                    is_active
+                                    is_valid_language	
+                                    activate_language
+                                    deactivate_language
+                                    set_active_languages
+                                    name_of
+                               )
+                            ],
+  );
 
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
+our @EXPORT = qw();
 
-our @EXPORT = qw(
-);
+our $VERSION = '0.25';
 
-our $VERSION = '0.23';
 
 # DEFAULT VALUES #
-
-  my %default_methods     = qw/smallwords 0.5 prefixes2 1 suffixes3 1 ngrams3 1.3/;
-  my $default_maxsize     = 1_000_000;
-  my %default_extractfrom = qw/head 1/;
+our %default_methods    = qw/smallwords 1.3 prefixes2 1.5 suffixes3 1.5 ngrams3 1.2/;
+my $default_maxsize     = 1_000_000;
+my %default_extractfrom = qw/head 1/;
  
 =head1 NAME
 
@@ -71,6 +87,8 @@ or the expert way (see section OPTIONS, under HOW TO PERFORM IDENTIFICATION)
   $a = langof( { 'extract_from' => ( 'head' => 1, 'tail' => 2)}, $text);
 
 =head1 DESCRIPTION
+
+B<STARTING WITH VERSION 0.25, Lingua::Identify IS UNICODE BY DEFAULT!>
 
 C<Lingua::Identify> identifies the language a given string or file is
 written in.
@@ -113,7 +131,7 @@ Here's a list of Lingua::Identify's strong points:
 =item * it's portable (it's Perl, which means it will work in lots of different
 platforms);
 
-=item * 33 languages and growing;
+=item * unicode support;
 
 =item * 4 different methods of language identification and growing (see
 METHODS OF LANGUAGE IDENTIFICATION for more details on this one);
@@ -146,17 +164,17 @@ your times and accuracy);
 our (@all_languages,@active_languages,%languages,%regexen,@methods);
 BEGIN {
 
-  use Class::Factory::Util;
-  for ( Lingua::Identify->subclasses() ) {
-    /^[A-Z][A-Z]$/ || next;
-    eval "require Lingua::Identify::$_ ;";
-    $languages{_versions}{lc $_} >= 0.01 ||
-      die "Required version of language $_ not found.\n";
-  } 
+    use Class::Factory::Util;
+    for ( Lingua::Identify->subclasses() ) {
+        /^[A-Z][A-Z]$/ || next;
+        eval "require Lingua::Identify::$_ ;";
+        $languages{_versions}{lc $_} >= 0.01 ||
+          die "Required version of language $_ not found.\n";
+    }
 
-  @all_languages = @active_languages = keys %{$languages{_names}};
+    @all_languages = @active_languages = keys %{$languages{_names}};
 
-  @methods = qw/smallwords/;
+    @methods = qw/smallwords/;
 
 }
 
@@ -182,8 +200,8 @@ use this:
 =cut
 
 sub langof {
-  my %config = ();
-  if (ref($_[0]) eq 'HASH') {%config = (%config, %{+shift})}
+    my %config = ();
+    %config = (%config, %{+shift}) if ref($_[0]) eq 'HASH';
 
 =head3 OPTIONS
 
@@ -301,108 +319,108 @@ This returns something like this:
 
 =cut
 
-  # select the methods
-  my %methods = defined $config{'method'}   ? _make_hash($config{'method'})
-                                            : %default_methods;
+    # select the methods
+    my %methods = defined $config{'method'}   ? _make_hash($config{'method'})
+                                              : %default_methods;
 
-  # select max-size
-  my $maxsize = defined $config{'max-size'} ? $config{'max-size'}
-                                            : $default_maxsize;
+    # select max-size
+    my $maxsize = defined $config{'max-size'} ? $config{'max-size'}
+                                              : $default_maxsize;
 
-  # get the text
-  my $text = join "\n", @_;
+    # get the text
+    my $text = join "\n", @_;
 
-  # this is the support for big files; if the input is bigger than the $maxsize, we act
-  if ($maxsize < length $text && $maxsize != 0) {
-    # select extract_from
-    my %extractfrom = defined $config{'extract_from'} ? _make_hash($config{'extract_from'})
-                                                      : %default_extractfrom;
-    my $total_weight = 0;
-    for (keys %extractfrom) {
-      if ($_ eq 'head' or $_ eq 'tail') {
-        $total_weight += $extractfrom{$_};
-        next;
-      }
-      else {
-        delete $extractfrom{$_};
-      }
-    }
-    for (keys %extractfrom) {
-      $extractfrom{$_} = $extractfrom{$_} / $total_weight;
-    }
+    # this is the support for big files; if the input is bigger than the $maxsize, we act
+    if ($maxsize < length $text && $maxsize != 0) {
+        # select extract_from
+        my %extractfrom = defined $config{'extract_from'} ? _make_hash($config{'extract_from'})
+                                                          : %default_extractfrom;
+        my $total_weight = 0;
+        for (keys %extractfrom) {
+            if ($_ eq 'head' or $_ eq 'tail') {
+                $total_weight += $extractfrom{$_};
+                next;
+            }
+            else {
+                delete $extractfrom{$_};
+            }
+        }
+        for (keys %extractfrom) {
+            $extractfrom{$_} = $extractfrom{$_} / $total_weight;
+        }
 
-    $extractfrom{'head'} ||= 0;
-    $extractfrom{'tail'} ||= 0;
+        $extractfrom{'head'} ||= 0;
+        $extractfrom{'tail'} ||= 0;
 
-		my $head = int $maxsize * $extractfrom{'head'};
-		my $tail = length($text) - $head - int $maxsize * $extractfrom{'tail'};
-    substr( $text, $head, $tail, '');
-  }
-
-  # dummy mode exits here
-  $config{'mode'} ||= 'normal';
-  if ($config{'mode'} eq 'dummy') {
-    return {
-      'method'           => \%methods,
-      'max-size'         => $maxsize,
-      'config'           => \%config,
-      'active-languages' => [ sort (get_active_languages()) ],
-      'text'             => $text,
-      'mode'             => $config{'mode'},
-    };
-  }
-
-  # use the methods
-  my (%result,$total);
-  for (keys %methods) {
-    my %temp_result;
-
-    if (/^smallwords$/) {
-      %temp_result = _langof_by_word_method('smallwords', $text);
-    }
-    elsif (/^(prefixes[1-4])$/) {
-      %temp_result = _langof_by_prefix_method($1, $text);
-    }
-    elsif (/^(suffixes[1-4])$/) {
-      %temp_result = _langof_by_suffix_method($1, $text);
-    }
-    elsif (/^(ngrams[1-4])$/) {
-      %temp_result = _langof_by_ngram_method($1, $text);
+        my $head = int $maxsize * $extractfrom{'head'};
+        my $tail = length($text) - $head - int $maxsize * $extractfrom{'tail'};
+        substr( $text, $head, $tail, '');
     }
 
-    for my $l (keys %temp_result) {
-      my $temp = $temp_result{$l} * $methods{$_};
-      $result{$l} += $temp;
-      $total += $temp;
+    # dummy mode exits here
+    $config{'mode'} ||= 'normal';
+    if ($config{'mode'} eq 'dummy') {
+        return {
+                'method'           => \%methods,
+                'max-size'         => $maxsize,
+                'config'           => \%config,
+                'active-languages' => [ sort (get_active_languages()) ],
+                'text'             => $text,
+                'mode'             => $config{'mode'},
+               };
     }
-  }
 
-  # report the results
-  my @result = (
-    map { ( $_, ($total ? $result{$_} / $total : 0)) }
-      sort { $result{$b} <=> $result{$a} } keys %result
-  );
+    # use the methods
+    my (%result, $total);
+    for (keys %methods) {
+        my %temp_result;
 
-  return wantarray ? @result : $result[0];
+        if (/^smallwords$/) {
+            %temp_result = _langof_by_word_method('smallwords', $text);
+        }
+        elsif (/^(prefixes[1-4])$/) {
+            %temp_result = _langof_by_prefix_method($1, $text);
+        }
+        elsif (/^(suffixes[1-4])$/) {
+            %temp_result = _langof_by_suffix_method($1, $text);
+        }
+        elsif (/^(ngrams[1-4])$/) {
+            %temp_result = _langof_by_ngram_method($1, $text);
+        }
+
+        for my $l (keys %temp_result) {
+            my $temp = $temp_result{$l} * $methods{$_};
+            $result{$l} += $temp;
+            $total += $temp;
+        }
+    }
+
+    # report the results
+    my @result = (
+                  map  { ( $_, ($total ? $result{$_} / $total : 0)) }
+                  sort { $result{$b} <=> $result{$a} } keys %result
+                 );
+
+    return wantarray ? @result : $result[0];
 }
 
 sub _make_hash {
-  my %hash;
-  my $temp = shift;
-  for (ref($temp)) {
-    if (/^HASH$/) {
-      %hash = %{$temp};
+    my %hash;
+    my $temp = shift;
+    for (ref($temp)) {
+        if (/^HASH$/) {
+            %hash = %{$temp};
+        }
+        elsif (/^ARRAY$/) {
+            for (@{$temp}) {
+                $hash{$_}++;
+            }
+        }
+        else {
+            $hash{$temp} = 1;
+        }
     }
-    elsif (/^ARRAY$/) {
-      for (@{$temp}) {
-        $hash{$_}++;
-      }
-    }
-    else {
-      $hash{$temp} = 1;
-    }
-  }
-  %hash;
+    %hash;
 }
 
 =head2 langof_file
@@ -462,7 +480,7 @@ file.
 
   for my $file (@files) {
     #-r and -e or next;
-    open(FILE, $file) or next;
+    open(FILE, "<:utf8", $file) or next;
     local $/ = \$maxsize;
     $text .= <FILE>;
     close(FILE);
@@ -521,9 +539,9 @@ number of languages in play.
 =cut
 
 sub confidence {
-  defined $_[1] and $_[1] or return 0;
-  defined $_[3] and $_[3] or return 1;
-  $_[1] / ($_[1] + $_[3]);
+    defined $_[1] and $_[1] or return 0;
+    defined $_[3] and $_[3] or return 1;
+    $_[1] / ($_[1] + $_[3]);
 }
 
 =head2 get_all_methods
@@ -534,8 +552,10 @@ identification.
 =cut
 
 sub get_all_methods {
-  qw/smallwords prefixes1 prefixes2 prefixes3 prefixes4 suffixes1 suffixes2
-     suffixes3 suffixes4 ngrams1 ngrams2 ngrams3 ngrams4/
+  qw/smallwords
+     prefixes1 prefixes2 prefixes3 prefixes4
+     suffixes1 suffixes2 suffixes3 suffixes4
+     ngrams1 ngrams2 ngrams3 ngrams4/
 }
 
 =head1 LANGUAGE IDENTIFICATION IN GENERAL
@@ -554,26 +574,26 @@ the one of that text.
 =cut
 
 sub _langof_by_method {
-  my ($method, $elements, $text) = @_;
-  my (%result, $total);
+    my ($method, $elements, $text) = @_;
+    my (%result, $total);
 
-  for my $language (get_active_languages()) {
-    for (keys %{$languages{$method}{$language}}) {
-      if (exists $$elements{$_}) {
-        $result{$language} +=
-          $$elements{$_} * ${languages{$method}{$language}{$_}};
-        $total +=
-          $$elements{$_} * ${languages{$method}{$language}{$_}};
-      }
+    for my $language (get_active_languages()) {
+        for (keys %{$languages{$method}{$language}}) {
+            if (exists $$elements{$_}) {
+                $result{$language} +=
+                  $$elements{$_} * ${languages{$method}{$language}{$_}};
+                $total +=
+                  $$elements{$_} * ${languages{$method}{$language}{$_}};
+            }
+        }
     }
-  }
 
-  my @result = (
-    map { ( $_, ($total ? $result{$_} / $total : 0)) }
-      sort { $result{$b} <=> $result{$a} } keys %result
-  );
+    my @result = (
+                  map  { ( $_, ($total ? $result{$_} / $total : 0)) }
+                  sort { $result{$b} <=> $result{$a} } keys %result
+                 );
 
-  return wantarray ? @result : $result[0];
+    return wantarray ? @result : $result[0];
 }
 
 =head1 METHODS OF LANGUAGE IDENTIFICATION
@@ -599,19 +619,18 @@ few languages active.
 =cut
 
 sub _langof_by_word_method {
-  my ($method, $text) = (shift, shift);
+    my ($method, $text) = @_;
 
-	sub _words_count {
-		my $words = shift;
-		my $text = shift;
-		for my $word (split /\s+/, $text) {
-			$words->{$word}++
-		}
-	}
+    sub _words_count {
+        my ($words, $text) = @_;
+        for my $word (split /[\s\n]+/, $text) {
+            $words->{$word}++
+        }
+    }
 
-  my %words;
-  _words_count(\%words, $text);
-  return _langof_by_method($method, \%words, $text);
+    my %words;
+    _words_count(\%words, $text);
+    return _langof_by_method($method, \%words, $text);
 }
 
 =head2 Prefix Analysis - B<prefixes1>, B<prefixes2>, B<prefixes3>, B<prefixes4>
@@ -623,14 +642,14 @@ The methods are, respectively, for prefixes of size 1, 2, 3 and 4.
 =cut
 
 sub _langof_by_prefix_method {
-  use Text::Affixes;
+    use Text::Affixes;
 
-  (my $method = shift) =~ /^prefixes(\d)$/;
-  my $text = shift;
+    (my $method = shift) =~ /^prefixes(\d)$/;
+    my $text = shift;
 
-  my $prefixes = get_prefixes({min => $1, max => $1}, $text);
+    my $prefixes = get_prefixes( {min => $1, max => $1}, $text);
 
-  return _langof_by_method($method, $$prefixes{$1}, $text);
+    return _langof_by_method($method, $$prefixes{$1}, $text);
 }
 
 =head2 Suffix Analysis - B<suffixes1>, B<suffixes2>, B<suffixes3>, B<suffixes4>
@@ -683,7 +702,7 @@ sub _langof_by_ngram_method {
   (my $method = shift) =~ /^ngrams([1-4])$/;
   my $text = shift;
 
-  my $ngrams = ngram_counts($text, $1);
+  my $ngrams = ngram_counts( {spaces => 0}, $text, $1);
 
   return _langof_by_method($method, $ngrams, $text);
 }
@@ -998,6 +1017,14 @@ directly);
 
 =back
 
+=head1 ACKNOWLEDGMENTS
+
+The following people and/or projects helped during this tool
+development:
+
+   * EuroParl v5 corpus was used to train Dutch, German, English,
+     Spanish, Finish, French, Italian, Portuguese, Danish and Swedish.
+
 =head1 SEE ALSO
 
 langident(1), Text::ExtractWords(3), Text::Ngram(3), Text::Affixes(3).
@@ -1012,8 +1039,8 @@ Jose Castro, C<< <cog@cpan.org> >>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2008 Alberto Simoes, All Rights Reserved.
-Copyright 2004 Jose Castro, All Rights Reserved.
+Copyright 2008-2010 Alberto Simoes, All Rights Reserved.
+Copyright 2004-2008 Jose Castro, All Rights Reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

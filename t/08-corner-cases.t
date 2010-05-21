@@ -1,25 +1,28 @@
-use Test::More tests => 19;
-BEGIN { use_ok('Lingua::Identify', qw/:language_manipulation :language_identification/) };
+#!/usr/bin/perl
 
-is(langof(), undef);
+use Test::More tests => 14;
+
+BEGIN {
+    use_ok('Lingua::Identify', qw/:language_manipulation :language_identification/)
+};
+
+# Check language of undef or space...
+is(langof(), undef, "Language of nothing is undefined");
 
 my @undef = langof();
-is_deeply( [ @undef ] , [ ] );
+is_deeply( [ @undef ] , [ ] , "Language of nothing is nothing");
 
-is(langof( { method => 'smallwords' }, ' '), undef);
-
-my @pt = langof( { method => 'suffixes4' }, 'melhor');
-
-is_deeply( [ @pt ], [ 'pt', 1 ]);
-is_deeply(confidence(@pt), 1 );
+is(langof( { method => 'smallwords' }, ' '), undef, "Language of space is undefined");
 
 
 
-@pt = langof_file( { 'max-size' => 0 }, 't/files/pt');
+# Check language for word 'melhor'
+# my @pt = langof( { method => 'suffixes4' }, 'melhor');
+# is_deeply( [ @pt ], [ 'pt', 1 ],
+#            "list of possible languages with 'melhor' word, using 'suffixes4' method.");
+# is_deeply(confidence(@pt), 1,
+#            "Confidence for 'melhor' being portuguese using 'suffixes4' method.");
 
-is($pt[0],'pt');
-cmp_ok($pt[1],'>','0.18');
-cmp_ok(confidence(@pt),'>','0.55');
 
 
 my @xx = langof( { method => 'suffixes4' }, 'z');

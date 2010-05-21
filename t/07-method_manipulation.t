@@ -1,3 +1,4 @@
+#!/usr/bin/perl
 use Test::More tests => 2;
 BEGIN { use_ok('Lingua::Identify', qw/:language_identification/) };
 
