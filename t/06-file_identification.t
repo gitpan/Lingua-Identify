@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-use Test::More tests => 10 + 3 * 21;
+use Test::More tests => 13 + 3 * 21;
 BEGIN { use_ok('Lingua::Identify', qw/:language_identification :language_manipulation/) };
 
 for my $language (get_all_languages()) {
@@ -28,3 +28,10 @@ cmp_ok(confidence(@pt),'>','0.51');
 is($pt[0],'pt');
 cmp_ok($pt[1],'>','0.13');
 cmp_ok(confidence(@pt),'>','0.50');
+
+# Encoding
+
+@pt = langof_file({encoding=>'ISO-8859-1'},'t/files/pt_lt1');
+is($pt[0],'pt');
+cmp_ok($pt[1],'>','0.16');
+cmp_ok(confidence(@pt),'>','0.51');

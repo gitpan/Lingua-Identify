@@ -29,7 +29,12 @@ if (@ARGV) { # ...of files
     my @files = @ARGV;
     for (sort @files) {
         -f && -r && -s || next;
-        open (FILE,"<:utf8" ,$_) || do {print STDERR "Could not open $_ ($!)\n" ; next};
+        if ($opts{E}) {
+            open (FILE,"<:encoding($opts{E})" ,$_) || 
+              do {print STDERR "Could not open $_ ($!)\n" ; next};
+        } else {
+            open (FILE,"<:utf8" ,$_) || do {print STDERR "Could not open $_ ($!)\n" ; next};
+        }
         local $/ = $opts{s};
         print $_, ":", (join $", ident(<FILE>)), "\n";
         close (FILE);
@@ -47,18 +52,18 @@ else {       # ...of STDIN
 ###
 
 sub get_options {
-        my %opts;
-        getopts('acde:hlo:ps:vm:', \%opts );
+    my %opts;
+    getopts('acde:hlo:ps:vm:E:', \%opts );
 
-        foreach my $key ( keys %opts )
-                {
-                $opts{$key} = 1 unless defined $opts{$key}
-                }
+    foreach my $key ( keys %opts )
+      {
+          $opts{$key} = 1 unless defined $opts{$key}
+      }
 
-        debug_options( %opts ) if $opts{d};
+    debug_options( %opts ) if $opts{d};
 
-        return %opts;
-        }
+    return %opts;
+}
 
 ###
 
@@ -208,6 +213,13 @@ right after the most probable language).
 =head2 -d
 
 Debug (development only).
+
+=head2 -E ENCODING
+
+Select an input encoding. Defaults to UTF-8.
+
+  # use ISO-8859-1 (latin1)
+  langident -E ISO-8859-1 file
 
 =head2 -e METHODS
 

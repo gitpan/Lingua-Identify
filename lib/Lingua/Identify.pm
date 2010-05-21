@@ -54,7 +54,7 @@ our %EXPORT_TAGS =
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw();
 
-our $VERSION = '0.25';
+our $VERSION = '0.26';
 
 
 # DEFAULT VALUES #
@@ -469,6 +469,9 @@ those first (up in this document).
 I<langof_file> currently only reads the first 10,000 bytes of each
 file.
 
+You can force an input encoding with C<< { encoding => 'ISO-8859-1' } >> 
+in the configuration hash.
+
 =cut
 
   # select max-size
@@ -479,11 +482,15 @@ file.
   my $text  = '';
 
   for my $file (@files) {
-    #-r and -e or next;
-    open(FILE, "<:utf8", $file) or next;
-    local $/ = \$maxsize;
-    $text .= <FILE>;
-    close(FILE);
+      #-r and -e or next;
+      if (exists($config{encoding})) {
+          open(FILE, "<:encoding($config{encoding})", $file) or next;
+      } else {
+          open(FILE, "<:utf8", $file) or next;
+      }
+      local $/ = \$maxsize;
+      $text .= <FILE>;
+      close(FILE);
   }
 
   return langof(\%config,$text);

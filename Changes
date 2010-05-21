@@ -1,5 +1,10 @@
 Revision history for Lingua-Identify
 
+0.26  Fri May 21 18:01:32 WEST 2010
+        - Added input encoding choice on langof_file;
+        - Added input encoding choice on langident;
+        - Added latin1 test;
+
 0.25  Fri May 21 17:22:03 WEST 2010
         - Really dropped Text::ExtractWords dependency;
         - Some code rewrite for UTF-8 support (now is the default);

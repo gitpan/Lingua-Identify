@@ -71,3 +71,4 @@ lib/Lingua/Identify/SL.pm
 lib/Lingua/Identify/SQ.pm
 lib/Lingua/Identify/SV.pm
 lib/Lingua/Identify/TR.pm
+t/files/pt_lt1
