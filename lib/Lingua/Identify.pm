@@ -54,14 +54,14 @@ our %EXPORT_TAGS =
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw();
 
-our $VERSION = '0.26';
+our $VERSION = '0.27';
 
 
 # DEFAULT VALUES #
 our %default_methods    = qw/smallwords 1.3 prefixes2 1.5 suffixes3 1.5 ngrams3 1.2/;
 my $default_maxsize     = 1_000_000;
 my %default_extractfrom = qw/head 1/;
- 
+
 =head1 NAME
 
 Lingua::Identify - Language identification
@@ -168,8 +168,11 @@ BEGIN {
     for ( Lingua::Identify->subclasses() ) {
         /^[A-Z][A-Z]$/ || next;
         eval "require Lingua::Identify::$_ ;";
-        $languages{_versions}{lc $_} >= 0.01 ||
-          die "Required version of language $_ not found.\n";
+        if ($languages{_versions}{lc $_} < 0.02) {
+            for my $k (keys %languages) {
+                delete($languages{$k}{lc $_}) if exists $languages{$k}{lc $_};
+            }
+        }
     }
 
     @all_languages = @active_languages = keys %{$languages{_names}};

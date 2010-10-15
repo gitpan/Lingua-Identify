@@ -1,5 +1,8 @@
 Revision history for Lingua-Identify
 
+0.27  Fri Oct 15 21:59:18 WEST 2010
+        - ignore older language modules;
+
 0.26  Fri May 21 18:01:32 WEST 2010
         - Added input encoding choice on langof_file;
         - Added input encoding choice on langident;
