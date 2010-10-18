@@ -54,7 +54,7 @@ our %EXPORT_TAGS =
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw();
 
-our $VERSION = '0.27';
+our $VERSION = '0.28';
 
 
 # DEFAULT VALUES #
@@ -332,6 +332,7 @@ This returns something like this:
 
     # get the text
     my $text = join "\n", @_;
+    return wantarray ? () : undef unless $text;
 
     # this is the support for big files; if the input is bigger than the $maxsize, we act
     if ($maxsize < length $text && $maxsize != 0) {

@@ -1,5 +1,8 @@
 Revision history for Lingua-Identify
 
+0.28  Mon Oct 18 11:15:36 WEST 2010
+        - betterned langof for the empty string on dev-perl. 
+
 0.27  Fri Oct 15 21:59:18 WEST 2010
         - ignore older language modules;
 
