@@ -1,5 +1,8 @@
 Revision history for Lingua-Identify
 
+0.29  Tue Nov 23 15:40:17 WET 2010
+        - added Greek. Thanks to Nikos Mastropavlos.
+
 0.28  Mon Oct 18 11:15:36 WEST 2010
         - betterned langof for the empty string on dev-perl. 
 

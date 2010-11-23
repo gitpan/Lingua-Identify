@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-use Test::More tests => 13 + 3 * 21;
+use Test::More tests => 13 + 3 * 22;
 BEGIN { use_ok('Lingua::Identify', qw/:language_identification :language_manipulation/) };
 
 for my $language (get_all_languages()) {

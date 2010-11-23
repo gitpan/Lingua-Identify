@@ -17,6 +17,7 @@ t/files/es
 t/files/pt
 t/files/la
 t/files/bg
+t/files/el
 t/files/tr
 t/files/it
 t/files/hr
@@ -72,3 +73,4 @@ lib/Lingua/Identify/SQ.pm
 lib/Lingua/Identify/SV.pm
 lib/Lingua/Identify/TR.pm
 t/files/pt_lt1
+lib/Lingua/Identify/EL.pm

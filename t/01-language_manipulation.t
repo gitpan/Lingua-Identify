@@ -1,11 +1,11 @@
 #!/usr/bin/perl
 
-use Test::More tests => 45;
+use Test::More tests => 46;
 BEGIN {
     use_ok('Lingua::Identify', ':language_manipulation')
 };
 
-my @languages = qw/pt en de bg da es it fr fi hr nl ro ru pl
+my @languages = qw/pt en de bg da es it fr fi hr nl ro ru pl el
                    la sq sv tr sl hu id/;
 
 for (qw/zbr xx zz/, '') {
