@@ -74,3 +74,4 @@ lib/Lingua/Identify/SV.pm
 lib/Lingua/Identify/TR.pm
 t/files/pt_lt1
 lib/Lingua/Identify/EL.pm
+META.json                                Module JSON meta-data (added by MakeMaker)
