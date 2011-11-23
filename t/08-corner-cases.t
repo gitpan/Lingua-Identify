@@ -37,7 +37,7 @@ is_deeply(	[ deactivate_all_languages()               ],
 is_deeply(	[ get_active_languages()                   ],
 		[                                          ]);
 
-@pt = langof( { method => 'suffixes4' }, 'melhor');
+my @pt = langof( { method => 'suffixes4' }, 'melhor');
 
 is_deeply( [ @pt ], [  ]);
 is_deeply(confidence(@pt), 0 );

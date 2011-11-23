@@ -14,7 +14,7 @@ for my $language (get_all_languages()) {
 
 # Some extra tests
 
-@pt = langof_file({method=>'smallwords'},'t/files/pt_big');
+my @pt = langof_file({method=>'smallwords'},'t/files/pt_big');
 is($pt[0],'pt');
 cmp_ok($pt[1],'>','0.14');
 cmp_ok(confidence(@pt),'>','0.50');

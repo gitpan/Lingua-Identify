@@ -50,7 +50,7 @@ for my $lang (get_all_languages()) {
 
 
 
-@pt = langof(<<EOT);
+my @pt = langof(<<EOT);
 
 as armas e os barões assinalados que, da ocidental praia lusitana, por
 mares nunca de antes navegados, passaram ainda além da taprobana e em
