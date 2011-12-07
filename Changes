@@ -1,5 +1,8 @@
 Revision history for Lingua-Identify
 
+0.50  Wed Dec  7 15:43:48 WET 2011
+        - update requirements, trying to solve some cpan testers issues
+
 0.31  Wed Nov 23 22:22:03 WET 2011
         - some cpantesters complain about non declared variabled in test. Fix it;
 

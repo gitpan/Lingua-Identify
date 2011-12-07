@@ -1,4 +1,4 @@
-use 5.006;
+use 5.0005;
 use ExtUtils::MakeMaker;
 
 WriteMakefile
@@ -9,8 +9,8 @@ WriteMakefile
    PREREQ_PM         =>
    {
     'Class::Factory::Util' => 1.6,
-    'Text::Affixes'        => 0.04,
-    'Text::Ngram'          => 0.03,
+    'Text::Affixes'        => 0.07,
+    'Text::Ngram'          => 0.13,
    },
    'EXE_FILES'       => ['langident', 'make-lingua-identify-language'],
 );
