@@ -1,12 +1,12 @@
 #!/usr/bin/perl
 
-use Test::More tests => 46;
-BEGIN {
-    use_ok('Lingua::Identify', ':language_manipulation')
-};
+use Lingua::Identify ':language_manipulation';
+use Test::More;
 
 my @languages = qw/pt en de bg da es it fr fi hr nl ro ru pl el
-                   la sq sv tr sl hu id/;
+                   la sq sv tr sl hu id uk/;
+
+plan tests => 23 + scalar(@languages);
 
 for (qw/zbr xx zz/, '') {
     is(is_valid_language($_), 0);

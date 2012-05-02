@@ -1,9 +1,10 @@
 #!/usr/bin/perl
 use utf8;
-use Test::More tests => 4 + 3 * 22;
+use Test::More tests => 4 + 3 * 23;
 BEGIN { use_ok('Lingua::Identify', qw/:language_manipulation :language_identification/) };
 
 my %texts = (
+             uk => "Блокування роботи Верховної Ради тривало — депутати від опозиції і надалі вимагали негайно заслухати Генпрокурора та керівника Державної пенітенціарної служби щодо начебто засто ... ",
              el => "Μέτρα, το ύψος των οποίων ξεπερνά τα 13 δισ. ευρώ και δεν έχουν ακόμη προσδιοριστεί αν και περιλαμβάνονται από τον περασμένο Μάιο στο Μνημόνιο, θα ενσωματώνει το «μεσοπρόθεσμο δημοσιονομικό στρατηγικό πλαίσιο 2012-2014. Το κείμενο, που θα συνταχθεί από κοινού με την τρόικα, θα γίνει νόμος του κράτους στο τέλος Απριλίου του 2011. Το χρονοδιάγραμμα για την αποκάλυψη των κρυφών μέτρων του μνημονίου ανακοίνωσε ο Γιώργος Παπακωνσταντίνου, ενώ σχετική αναφορά έκαναν και οι εκπρόσωποι της τρόικας οι οποίοι μίλησαν για λήψη μέτρων που θα αντιστοιχούν στο 5% του ΑΕΠ. ",
              'tr' => "Ölüm bu işin kaderinde var' diyordu 1 gün önce Başbakan.. Haklı çıktı.. Hepsi öldü. Aileler isyan etti böyle kadere.. Ama 23 madencinin durumu, isyan edilmeyecek gibi değildi. Türkİye 3 gündür yerin 540 metre dibinde mahsur kalmış 30 madenci için dua ediyordu. Dün sabah patlamanın olduğu kuyudan ocağa inen ekipler, acı gerçekle yüzleşti. Hiç biri kurtulamamıştı. Cesetler yeryüzüne çıkarıldıkça feryatlar göğe yükseldi.",
              ms => 'Ahli Parlimen Jerai, Mohd Firdaus Jaafar ketika mengulas isu itu berkata Umno sepatutnya bangun untuk menentang kemungkaran yang berlaku setelah dengan jelas melibatkan perjudian yang sememangnya diharamkan oleh agama Islam. Apakah pemimpin Umno ini tidak berasa malu apabila DAP sanggup menentang pemberian lesen judi tersebut sedangkan pemimpin-pemimpin Umno hanya mendiamkan diri. Kita juga ingin bertanya kemanakah perginya suara-suara yang sebelum ini melaung-laungkan perjuangan untuk agama sepertimana yang mereka uar-uarkan, katanya.',

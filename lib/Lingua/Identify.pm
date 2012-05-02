@@ -54,7 +54,7 @@ our %EXPORT_TAGS =
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw();
 
-our $VERSION = '0.50';
+our $VERSION = '0.51';
 
 
 # DEFAULT VALUES #

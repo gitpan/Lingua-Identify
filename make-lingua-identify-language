@@ -333,7 +333,7 @@ Please note that this script is still at an early stage. Please do not even
 look at the code...
 
 Without parameters, make-lingua-identify-language assumes mode -d and goes
-through all the directories in the current one. This is usefull to be used in a
+through all the directories in the current one. This is useful to be used in a
 directory where you something like this:
 
   .

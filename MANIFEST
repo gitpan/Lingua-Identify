@@ -40,6 +40,7 @@ t/files/sv
 t/files/eo
 t/files/pl
 t/files/sq
+t/files/uk
 t/files/sl
 t/files/id
 t/files/ru
@@ -74,4 +75,5 @@ lib/Lingua/Identify/SV.pm
 lib/Lingua/Identify/TR.pm
 t/files/pt_lt1
 lib/Lingua/Identify/EL.pm
+lib/Lingua/Identify/UK.pm
 META.json                                Module JSON meta-data (added by MakeMaker)
