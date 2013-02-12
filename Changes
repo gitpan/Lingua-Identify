@@ -1,5 +1,8 @@
 Revision history for Lingua-Identify
 
+0.52  Tue Feb 12 21:03:20 WET 2013
+        - Added Hindi (Thanks to Prashant Mathur)
+
 0.51  Wed May  2 14:51:06 WEST 2012
         - Added Ukranian and corrected Russian and Bulgarian tranining corpora.
           (Thanks to André Santos)

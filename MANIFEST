@@ -12,38 +12,73 @@ t/06-file_identification.t
 t/07-method_manipulation.t
 t/08-corner-cases.t
 t/files/de
+lib/Lingua/Identify/DE.pm
 t/files/en
+lib/Lingua/Identify/EN.pm
 t/files/es
+lib/Lingua/Identify/ES.pm
 t/files/pt
+lib/Lingua/Identify/PT.pm
 t/files/la
+lib/Lingua/Identify/LA.pm
 t/files/bg
+lib/Lingua/Identify/BG.pm
 t/files/el
+lib/Lingua/Identify/EL.pm
 t/files/tr
+lib/Lingua/Identify/TR.pm
 t/files/it
+lib/Lingua/Identify/IT.pm
 t/files/hr
+lib/Lingua/Identify/HR.pm
 t/files/fr
+lib/Lingua/Identify/FR.pm
 t/files/no
+# missing NO.pm
 t/files/ro
+lib/Lingua/Identify/RO.pm
 t/files/da
+lib/Lingua/Identify/DA.pm
 t/files/hu
+lib/Lingua/Identify/HU.pm
 t/files/bs
+# lib/Lingua/Identify/BS.pm
 t/files/ms
+# missing MS.pm
 t/files/fy
+# missing FY.pm
 t/files/br
+# missing BR.pm
 t/files/nl
+lib/Lingua/Identify/NL.pm
 t/files/af
+# missing AF.pm
 t/files/cy
+# missing CY.pm
 t/files/is
+# missing IS.pm
 t/files/fi
+lib/Lingua/Identify/FI.pm
 t/files/ga
+# missing GA.pm
 t/files/sv
+lib/Lingua/Identify/SV.pm
 t/files/eo
+# missing EO.pm
 t/files/pl
+lib/Lingua/Identify/PL.pm
 t/files/sq
+lib/Lingua/Identify/SQ.pm
 t/files/uk
+lib/Lingua/Identify/UK.pm
 t/files/sl
+lib/Lingua/Identify/SL.pm
 t/files/id
+lib/Lingua/Identify/ID.pm
 t/files/ru
+lib/Lingua/Identify/RU.pm
+t/files/hi
+lib/Lingua/Identify/HI.pm
 t/files/pt_big
 t/pod.t
 t/pod-coverage.t
@@ -52,28 +87,8 @@ make-lingua-identify-language
 lib/Lingua/Identify.pm
 lib/Lingua/Identify/Nothing.pm
 META.yml                                 Module meta-data (added by MakeMaker)
-lib/Lingua/Identify/BG.pm
-lib/Lingua/Identify/DA.pm
-lib/Lingua/Identify/DE.pm
-lib/Lingua/Identify/EN.pm
-lib/Lingua/Identify/ES.pm
-lib/Lingua/Identify/FI.pm
-lib/Lingua/Identify/FR.pm
-lib/Lingua/Identify/HR.pm
-lib/Lingua/Identify/HU.pm
-lib/Lingua/Identify/ID.pm
-lib/Lingua/Identify/IT.pm
-lib/Lingua/Identify/LA.pm
-lib/Lingua/Identify/NL.pm
-lib/Lingua/Identify/PL.pm
-lib/Lingua/Identify/PT.pm
-lib/Lingua/Identify/RO.pm
-lib/Lingua/Identify/RU.pm
-lib/Lingua/Identify/SL.pm
-lib/Lingua/Identify/SQ.pm
-lib/Lingua/Identify/SV.pm
-lib/Lingua/Identify/TR.pm
 t/files/pt_lt1
-lib/Lingua/Identify/EL.pm
-lib/Lingua/Identify/UK.pm
+
+
+
 META.json                                Module JSON meta-data (added by MakeMaker)
