@@ -1,5 +1,7 @@
 use strict;
 
+1;
+
 =head1 NAME
 
 Lingua::Identify::Nothing - Module for tests

@@ -1,5 +1,8 @@
 Revision history for Lingua-Identify
 
+0.53  Sat May 25 15:29:48 WEST 2013
+        - Fix stupid failure in perl v5.18.
+
 0.52  Tue Feb 12 21:03:20 WET 2013
         - Added Hindi (Thanks to Prashant Mathur)
 
