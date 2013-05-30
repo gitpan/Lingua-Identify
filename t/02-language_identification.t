@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 use utf8;
-use Test::More tests => 4 + 3 * 24;
+use Test::More tests => 4 + 3 * 25;
 BEGIN { use_ok('Lingua::Identify', qw/:language_manipulation :language_identification/) };
 
 my %texts = (

@@ -21,4 +21,4 @@ requires:
   Class::Factory::Util: 1.6
   Text::Affixes: 0.07
   Text::Ngram: 0.13
-version: 0.53
+version: 0.54
