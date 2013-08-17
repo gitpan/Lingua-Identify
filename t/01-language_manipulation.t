@@ -4,7 +4,7 @@ use Lingua::Identify ':language_manipulation';
 use Test::More;
 
 my @languages = qw/pt en de bg da es it fr fi hr nl ro ru pl el
-                   la sq sv tr sl hu id uk hi cy/;
+                   la sq sv tr sl hu id uk hi cy cs/;
 
 plan tests => 23 + scalar(@languages);
 

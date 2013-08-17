@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-use Test::More tests => 13 + 3 * 25;
+use Test::More tests => 13 + 3 * 26;
 BEGIN { use_ok('Lingua::Identify', qw/:language_identification :language_manipulation/) };
 
 for my $language (get_all_languages()) {
@@ -8,7 +8,14 @@ for my $language (get_all_languages()) {
 
     my @lang = langof_file("t/files/$language");
     is($lang[0], $language, "Checking identified language is $language.");
-    cmp_ok($lang[1],'>','0.16', "Checking probability for $language");
+
+    if (grep { $language eq $_ } (qw"sl cs")) {
+        # Harder languages
+        cmp_ok($lang[1],'>','0.15', "Checking probability for $language");
+    } else {
+        cmp_ok($lang[1],'>','0.16', "Checking probability for $language");
+    }
+
     cmp_ok(confidence(@lang),'>','0.51', "Checking confidence for $language");
 }
 

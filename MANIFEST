@@ -54,7 +54,7 @@ lib/Lingua/Identify/NL.pm
 t/files/af
 # missing AF.pm
 t/files/cy
-# missing CY.pm
+lib/Lingua/Identify/CY.pm
 t/files/is
 # missing IS.pm
 t/files/fi
@@ -90,6 +90,6 @@ META.yml                                 Module meta-data (added by MakeMaker)
 t/files/pt_lt1
 
 
-
-lib/Lingua/Identify/CY.pm
+lib/Lingua/Identify/CS.pm
+t/files/cs
 META.json                                Module JSON meta-data (added by MakeMaker)
