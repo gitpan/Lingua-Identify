@@ -3,8 +3,8 @@
 use Lingua::Identify ':language_manipulation';
 use Test::More;
 
-my @languages = qw/pt en de bg da es it fr fi hr nl ro ru pl el
-                   la sq sv tr sl hu id uk hi cy cs/;
+my @languages = qw/pt en de bg da es it fr fi bs_hr nl ro ru pl el
+                   la sq sv tr sl hu id uk cy sk hi cs/;
 
 plan tests => 23 + scalar(@languages);
 

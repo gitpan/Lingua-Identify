@@ -6,7 +6,7 @@ use Text::Ngram qw(ngram_counts);
 use Text::ExtractWords qw(words_count words_list);
 use Text::Affixes;
 
-my $version = '0.02';
+my $version = '0.03';
 
 our ($v,$h,$d,$u,$verbose,$locale);
 
@@ -256,10 +256,36 @@ sub make_module {
 
     # write ngrams information
     my $f = sub { ngram_counts( {spaces => 0}, $_[0], $_[1]) };
-    get_ngrams($tag, 'ngrams', 1, 4, $f, $text );
+    get_ngrams($tag, 'ngrams', 2, 4, $f, $text );
+
+    get_letters($tag, 'letters', $f, $text);
 
     # close the file
     close(STDOUT);
+
+}
+
+###############################
+
+sub get_letters {
+    my ($tag, $what, $function, $text) = @_;
+
+    verbose("\tstudying $what");
+
+    my $hash = &{$function}($text, 1);
+
+    my $total;
+    for ( values %$hash ) {
+        $total += $_;
+    }
+
+    print "\n\${Lingua::Identify::languages{'$what'}{'$tag'}} = {\n";
+
+    for (sort { $$hash{$b} <=> $$hash{$a} } keys %$hash ) {
+        print "  '$_' => ", $$hash{$_} / $total, ",\n";
+    }
+
+    print "};\n";
 
 }
 
@@ -282,7 +308,7 @@ sub get_ngrams {
 
         print "\n\${Lingua::Identify::languages{'$what$gram'}{'$tag'}} = {\n";
 
-        for ((sort { $$hash{$b} <=> $$hash{$a} } keys %$hash )[ 0 .. 19 ]) {
+        for ((sort { $$hash{$b} <=> $$hash{$a} } keys %$hash )[ 0 .. 49 ]) {
             print "  '$_' => ", $$hash{$_} / $total, ",\n";
         }
 
@@ -306,6 +332,8 @@ sub my_words_count {
 }
 
 __END__
+
+=encoding UTF-8
 
 =head1 NAME
 
@@ -407,21 +435,17 @@ text rather than those modules.
 
 Lingua::Identify(3), langident(1)
 
-A linguist and/or a shrink.
-
-The latest CVS version of C<Lingua::Identify> (which includes
-I<make-lingua-identify>) can be attained at
-http://natura.di.uminho.pt/natura/viewcvs.cgi/Lingua/Identify/
-
-ISO 639 Language Codes, at http://www.w3.org/WAI/ER/IG/ert/iso639.htm
-
 =head1 AUTHOR
 
-Jose Alves de Castro, E<lt>cog@cpan.orgE<gt>
+Alberto Simões C<< <ambs@cpan.org> >>
+
+José Alves de Castro C<< <cog@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
 Copyright 2004-2005 by Jose Alves de Castro
+
+Copyright 2006-2013 by Alberto Simões
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself. 

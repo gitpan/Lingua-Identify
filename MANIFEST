@@ -29,8 +29,6 @@ t/files/tr
 lib/Lingua/Identify/TR.pm
 t/files/it
 lib/Lingua/Identify/IT.pm
-t/files/hr
-lib/Lingua/Identify/HR.pm
 t/files/fr
 lib/Lingua/Identify/FR.pm
 t/files/no
@@ -41,8 +39,8 @@ t/files/da
 lib/Lingua/Identify/DA.pm
 t/files/hu
 lib/Lingua/Identify/HU.pm
-t/files/bs
-# lib/Lingua/Identify/BS.pm
+t/files/bs_hr
+lib/Lingua/Identify/BS_HR.pm
 t/files/ms
 # missing MS.pm
 t/files/fy
@@ -92,4 +90,6 @@ t/files/pt_lt1
 
 lib/Lingua/Identify/CS.pm
 t/files/cs
+lib/Lingua/Identify/SK.pm
+t/files/sk
 META.json                                Module JSON meta-data (added by MakeMaker)

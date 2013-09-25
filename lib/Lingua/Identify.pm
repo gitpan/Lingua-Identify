@@ -10,7 +10,7 @@ use base 'Exporter';
 our %EXPORT_TAGS =
   (
    all => [ qw(
-                  langof			
+                  langof
                   langof_file
                   confidence
                   get_all_methods
@@ -30,7 +30,7 @@ our %EXPORT_TAGS =
    language_identification => [ qw(
                                       langof
                                       langof_file
-                                      confidence		
+                                      confidence
                                       get_all_methods
                                  )
                               ],
@@ -38,11 +38,11 @@ our %EXPORT_TAGS =
    language_manipulation => [ qw(
                                     activate_all_languages
                                     deactivate_all_languages
-                                    get_all_languages	
+                                    get_all_languages
                                     get_active_languages
-                                    get_inactive_languages	
+                                    get_inactive_languages
                                     is_active
-                                    is_valid_language	
+                                    is_valid_language
                                     activate_language
                                     deactivate_language
                                     set_active_languages
@@ -54,13 +54,15 @@ our %EXPORT_TAGS =
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw();
 
-our $VERSION = '0.56';
+our $VERSION = '0.57_1';
 
 
 # DEFAULT VALUES #
-our %default_methods    = qw/smallwords 1.3 prefixes2 1.5 suffixes3 1.5 ngrams3 1.2/;
+our %default_methods    = qw/smallwords 2 prefixes3 1 suffixes3 1 ngrams3 1 letters 0.5/;
 my $default_maxsize     = 1_000_000;
 my %default_extractfrom = qw/head 1/;
+
+=encoding utf8
 
 =head1 NAME
 
@@ -166,9 +168,9 @@ BEGIN {
 
     use Class::Factory::Util;
     for ( Lingua::Identify->subclasses() ) {
-        /^[A-Z][A-Z]$/ || next;
+        /^[A-Z]{2}(?:_[A-Z]{2})?$/ || next;
         eval "require Lingua::Identify::$_ ;";
-        if ($languages{_versions}{lc $_} < 0.02) {
+        if ($languages{_versions}{lc $_} <= 0.02) {
             for my $k (keys %languages) {
                 delete($languages{$k}{lc $_}) if exists $languages{$k}{lc $_};
             }
@@ -379,7 +381,10 @@ This returns something like this:
     for (keys %methods) {
         my %temp_result;
 
-        if (/^smallwords$/) {
+        if (/^letters$/) {
+            %temp_result = _langof_by_used_letters('letters', $text);
+        }
+        elsif (/^smallwords$/) {
             %temp_result = _langof_by_word_method('smallwords', $text);
         }
         elsif (/^(prefixes[1-4])$/) {
@@ -644,6 +649,39 @@ sub _langof_by_word_method {
     return _langof_by_method($method, \%words, $text);
 }
 
+=head2 Used Letters - B<letters>
+
+In this technique used letters are compared with the letters from each
+language.  This method is not meant to be used alone, but to help
+other methods to differentiate between dialects.
+
+=cut
+
+sub _langof_by_used_letters {
+    my ($method, $text) = @_;
+
+    my $letters = ngram_counts( { spaces => 0 }, $text, 1);
+
+    my ($total, %result);
+    for my $language (get_active_languages()) {
+        $result{$language} = 1;
+        for my $l (keys %$letters) {
+            if (not exists($languages{letters}{$language}{$l})) {
+                $result{$language} -= .1;
+            }
+        }
+        $result{$language} = 0 if $result{$language} < 0;
+        $total += $result{$language};
+    }
+    my @result = (
+                  map  { ( $_, ($total ? $result{$_} / $total : 0)) }
+                  sort { $result{$b} <=> $result{$a} } keys %result
+                 );
+
+    return wantarray ?  @result : $result[0];
+}
+
+
 =head2 Prefix Analysis - B<prefixes1>, B<prefixes2>, B<prefixes3>, B<prefixes4>
 
 This method analyses text for the common prefixes of each active language.
@@ -715,6 +753,7 @@ sub _langof_by_ngram_method {
 
   my $ngrams = ngram_counts( {spaces => 0}, $text, $1);
 
+  $ngrams = 'letters' if $ngrams eq "ngrams1";
   return _langof_by_method($method, $ngrams, $text);
 }
 
@@ -895,75 +934,76 @@ __END__
 
 =head1 KNOWN LANGUAGES
 
-Currently, C<Lingua::Identify> knows the following languages (33 total):
+=over 4
 
-=over 6
+=item Albanian
 
-=item AF - Afrikaans
+=item Bosnian-croatian
 
-=item BG - Bulgarian
+=item Bulgarian
 
-=item BR - Breton
+=item Czech
 
-=item BS - Bosnian
+=item Danish
 
-=item CY - Welsh
+=item Dutch
 
-=item DA - Danish
+=item English
 
-=item DE - German
+=item Finnish
 
-=item EN - English
+=item French
 
-=item EO - Esperanto
+=item German
 
-=item ES - Spanish
+=item Greek
 
-=item FI - Finnish
+=item Hindi
 
-=item FR - French
+=item Hungarian
 
-=item FY - Frisian
+=item Indonesian
 
-=item GA - Irish
+=item Italian
 
-=item HR - Croatian
+=item Latin
 
-=item HU - Hungarian
+=item Polish
 
-=item ID - Indonesian
+=item Portuguese
 
-=item IS - Icelandic
+=item Romanian
 
-=item IT - Italian
+=item Russian
 
-=item LA - Latin
+=item Slovak
 
-=item MS - Malay
+=item Slovene
 
-=item NL - Dutch
+=item Spanish
 
-=item NO - Norwegian
+=item Swedish
 
-=item PL - Polish
+=item Turkish
 
-=item PT - Portuguese
+=item Ukranian
 
-=item RO - Romanian
+=item Welsh
 
-=item RU - Russian
+=back
 
-=item SL - Slovene
+=head1 KNOWN PROBLEMS
 
-=item SO - Somali
+Currently, C<Lingua::Identify> is unable to differentiate between some
+pairs of languages:
 
-=item SQ - Albanian
+=over 4
 
-=item SV - Swedish
+=item Bosnian and Croatian
 
-=item SW - Swahili
-
-=item TR - Turkish
+When analysing texts in any of these two languages in Latin alphabet,
+the result will be 'BS-HR'. If you need to differentiate these two,
+please install C< Lingua::Identify::Blacklist >.
 
 =back
 
@@ -1008,7 +1048,7 @@ happen to know it's either Portuguese or English:
 
 =head1 TO DO
 
-=over 6
+=over 4
 
 =item * WordNgrams based methods;
 
@@ -1033,8 +1073,34 @@ directly);
 The following people and/or projects helped during this tool
 development:
 
-   * EuroParl v5 corpus was used to train Dutch, German, English,
-     Spanish, Finish, French, Italian, Portuguese, Danish and Swedish.
+=over 4 
+
+=item * 
+
+EuroParl v5 corpus was used to train Dutch, German, English, Spanish,
+Finish, French, Italian, Portuguese, Danish and Swedish.
+
+=item *
+
+Roger Thompson for Czech
+
+=item *
+
+Kevin Donnelly for Welsh
+
+=item *
+
+Prashant Mathur for Hindi
+
+=item *
+
+André Santos for Ukranian, Russian and Bulgarian fixes
+
+=item *
+
+Nikos Mastropavlos for Greek.
+
+=back
 
 =head1 SEE ALSO
 
@@ -1044,13 +1110,13 @@ ISO 639 Language Codes, at http://www.w3.org/WAI/ER/IG/ert/iso639.htm
 
 =head1 AUTHOR
 
-Alberto Simoes, C<< <ambs@cpan.org> >>
+Alberto Simões, C<< <ambs@cpan.org> >>
 
 Jose Castro, C<< <cog@cpan.org> >>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2008-2010 Alberto Simoes, All Rights Reserved.
+Copyright 2008-2013 Alberto Simoes, All Rights Reserved.
 Copyright 2004-2008 Jose Castro, All Rights Reserved.
 
 This program is free software; you can redistribute it and/or modify it

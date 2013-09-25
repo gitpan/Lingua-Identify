@@ -1,9 +1,14 @@
 #!/usr/bin/perl
 
-use Test::More tests => 13 + 3 * 26;
-BEGIN { use_ok('Lingua::Identify', qw/:language_identification :language_manipulation/) };
+use Test::More;
 
-for my $language (get_all_languages()) {
+use Lingua::Identify qw/:language_identification :language_manipulation/;
+
+my @langs = get_all_languages();
+
+plan tests => 12 + 3 * @langs;
+
+for my $language (@langs) {
     die "**** Text file for $language language not available" unless -f "t/files/$language";
 
     my @lang = langof_file("t/files/$language");
@@ -11,7 +16,7 @@ for my $language (get_all_languages()) {
 
     if (grep { $language eq $_ } (qw"sl cs")) {
         # Harder languages
-        cmp_ok($lang[1],'>','0.15', "Checking probability for $language");
+        cmp_ok($lang[1],'>','0.14', "Checking probability for $language");
     } else {
         cmp_ok($lang[1],'>','0.16', "Checking probability for $language");
     }
@@ -28,7 +33,7 @@ cmp_ok(confidence(@pt),'>','0.50');
 
 @pt = langof_file('t/files/pt_big');
 is($pt[0],'pt');
-cmp_ok($pt[1],'>','0.18');
+cmp_ok($pt[1],'>','0.165');
 cmp_ok(confidence(@pt),'>','0.51');
 
 @pt = langof_file('t/files/en', 't/files/pt_big');

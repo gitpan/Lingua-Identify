@@ -1,5 +1,9 @@
 Revision history for Lingua-Identify
 
+0.57_1 Wed Sep 25 18:34:18 WEST 2013
+        - Fix Czech with JRC-Acquis corpus.  
+        - Bosnian and Croatian were merged. See Identify.pm for details.
+
 0.56  Sat Aug 17 20:22:16 WEST 2013
         - Added Czech (thanks to Roger Thompson)
 
@@ -16,7 +20,7 @@ Revision history for Lingua-Identify
         - Added Hindi (Thanks to Prashant Mathur)
 
 0.51  Wed May  2 14:51:06 WEST 2012
-        - Added Ukranian and corrected Russian and Bulgarian tranining corpora.
+        - Added Ukranian and corrected Russian and Bulgarian training corpora.
           (Thanks to André Santos)
 
 0.50  Wed Dec  7 15:43:48 WET 2011
